@@ -7,10 +7,12 @@ import {RouterModule, Routes} from '@angular/router';
 import {RegisterComponent} from './register/register.component';
 import {NavigationComponent} from './navigation/navigation.component';
 import {FooterComponent} from './footer/footer.component';
+import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [
   {path: 'login-component', component: LoginComponent},
-  {path: 'register-component', component: RegisterComponent}
+  {path: 'register-component', component: RegisterComponent},
+  {path: 'home-component', component: HomeComponent}
 ];
 
 @NgModule({
@@ -19,7 +21,8 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     NavigationComponent,
-    FooterComponent
+    FooterComponent,
+    HomeComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
