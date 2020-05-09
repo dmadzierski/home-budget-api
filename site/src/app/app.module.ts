@@ -10,9 +10,10 @@ import {FooterComponent} from './footer/footer.component';
 import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [
-  {path: 'login-component', component: LoginComponent},
-  {path: 'register-component', component: RegisterComponent},
-  {path: 'home-component', component: HomeComponent}
+  // {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: 'home', component: HomeComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent}
 ];
 
 @NgModule({
