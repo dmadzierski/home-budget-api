@@ -9,6 +9,8 @@ import {NavigationComponent} from './navigation/navigation.component';
 import {FooterComponent} from './footer/footer.component';
 import {HomeComponent} from './home/home.component';
 import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {RegisterHttpService} from './register/register.http.service';
 
 const routes: Routes = [
   // {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -29,9 +31,10 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
+    HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [RegisterHttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
