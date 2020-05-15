@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-navigation',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService) {
+    auth.authenticate(undefined, undefined);
+  }
 
   ngOnInit(): void {
   }
 
+  authenticated() {
+    return this.auth.authenticated;
+  }
 }

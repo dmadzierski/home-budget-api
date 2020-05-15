@@ -8,7 +8,16 @@
 
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
       <li class="nav-item">
-        <a class="nav-link" routerLink="home">Home</a>
+        <a class="nav-link" routerLink="">Home</a>
+      </li>
+      <li class="nav-item dropdown" *ngIf="authenticated()">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+          Wallet
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" routerLink="/wallet">Wallet list</a>
+          <a class="dropdown-item" routerLink="/wallet/add">Add wallet</a>
+        </div>
       </li>
     </ul>
 
@@ -25,3 +34,4 @@
 
   </div>
 </nav>
+
