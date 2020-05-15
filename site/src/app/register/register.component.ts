@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from '../models/user.model';
 import {RegisterHttpService} from './register.http.service';
+import {Router} from '@angular/router';
+import {User} from '../models/user/user.model';
 
 @Component({
   selector: 'app-register',
@@ -8,14 +9,11 @@ import {RegisterHttpService} from './register.http.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  private registerHttpService: RegisterHttpService;
   user: User = new User();
-
   emailErrors: Array<string> = new Array<string>();
   passwordErrors: Array<string> = new Array<string>();
 
-  constructor(registerHttpService: RegisterHttpService) {
-    this.registerHttpService = registerHttpService;
+  constructor(private registerHttpService: RegisterHttpService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -24,8 +22,9 @@ export class RegisterComponent implements OnInit {
 
   registerUser() {
     this.registerHttpService.registerUser(this.user).subscribe(post => {
-      this.registerHttpService.getRouter().navigate(['/login']);
+      this.router.navigate(['/login']);
     }, error => {
+      console.log(error);
       this.emailErrors = error.error.errors.email;
       this.passwordErrors = error.error.errors.password;
     });
