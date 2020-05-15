@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md-6 offset-3">
+    <form (ngSubmit)="addWallet()">
+      <div class="form-group">
+        <label>Name</label>
+        <input [(ngModel)]="wallet.name" type="text" name="name" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Balance</label>
+        <input [(ngModel)]="wallet.balance" type="balance" name="password" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-block btn-outline-success">Submit</button>
+    </form>
+  </div>
+</div>
