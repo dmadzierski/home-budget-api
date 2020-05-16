@@ -25,12 +25,18 @@ const routes: Routes = [
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
-
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const xhr = req.clone({
+    if (sessionStorage.getItem('email') && sessionStorage.getItem('basicauth')) {
+      req = req.clone({
+        setHeaders: {
+          Authorization: sessionStorage.getItem('basicauth')
+        }
+      });
+    }
+    req = req.clone({
       headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
     });
-    return next.handle(xhr);
+    return next.handle(req);
   }
 }
 

@@ -1,37 +1,40 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ApiUri} from './api.uri';
-import {User} from './models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  authenticated = false;
-  private user: User;
+  private authenticated = false;
 
   constructor(private http: HttpClient) {
   }
 
-  public header(): any {
-    return this.user ? {
-      authorization: 'Basic ' + btoa(this.user.email + ':' + this.user.password)
-    } : {};
+  public isAuthenticated(): boolean {
+    return this.authenticated;
   }
 
   authenticate(user, callback): void {
-    this.user = user;
+    let authString: '';
+    if (sessionStorage.getItem('email') !== undefined && sessionStorage.getItem('basicauth') !== undefined && user === undefined) {
+      // authString = sessionStorage.getItem('basicauth');
+      this.authenticated = true;
+      return;
+    } else if (user !== undefined) {
+      authString = 'Basic ' + btoa(user.email + ':' + user.password);
+    }
     this.http.get(ApiUri.user, {
-      headers: this.header()
+      headers: {Authorization: authString},
     }).subscribe(response => {
-      console.log(response);
-      if (response['name']) {
-        this.authenticated = true;
-      } else {
-        this.authenticated = false;
+      if (user !== undefined) {
+        sessionStorage.setItem('email', user.email);
+        sessionStorage.setItem('basicauth', authString);
       }
+      this.authenticated = true;
       return callback && callback();
+    }, error => {
+      this.authenticated = false;
     });
-
   }
 }
