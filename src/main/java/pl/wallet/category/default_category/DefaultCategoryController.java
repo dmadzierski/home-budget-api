@@ -21,11 +21,14 @@ public class DefaultCategoryController {
 
   @EventListener(ApplicationReadyEvent.class)
   public void addDefaultCategoryToDb () {
-    defaultCategoryService.setDefaultCategories(
-      defaultCategoryService
-        .getDefaultCategoryFromEnum()
-        .stream()
-        .map(categoryService::saveCategory)
-        .collect(Collectors.toList()));
+    try {
+      defaultCategoryService.setDefaultCategories(
+        defaultCategoryService
+          .getDefaultCategoryFromEnum()
+          .stream()
+          .map(categoryService::saveCategory)
+          .collect(Collectors.toList()));
+    } catch (Exception ignored) {
+    }
   }
 }

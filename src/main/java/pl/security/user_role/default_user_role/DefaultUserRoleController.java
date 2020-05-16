@@ -22,11 +22,14 @@ public class DefaultUserRoleController {
 
   @EventListener(ApplicationReadyEvent.class)
   public void saveRolesAndSetDefaultRoles () {
+    try {
     defaultUserRoleService.setDefaultRoles(defaultUserRoleService
       .getDefaultUserRoleFromEnum()
       .stream().map(userRoleService::save)
       .filter(userRole -> DefaultUserRole.DEFAULT_USER_ROLES_TYPES
         .stream().anyMatch(defaultUserRoleType -> defaultUserRoleType.getRole().equals(userRole)))
       .collect(Collectors.toList()));
+    } catch (Exception ignored) {
+    }
   }
 }

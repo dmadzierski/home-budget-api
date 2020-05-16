@@ -12,10 +12,11 @@ export class NavigationComponent implements OnInit {
     auth.authenticate(undefined, undefined);
   }
 
+  isAuth() {
+    return this.auth.isAuthenticated();
+  }
+
   ngOnInit(): void {
   }
 
-  authenticated() {
-    return this.auth.authenticated;
-  }
 }

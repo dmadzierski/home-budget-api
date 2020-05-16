@@ -14,6 +14,10 @@ export class WalletHttpService {
   }
 
   addWallet(wallet: Wallet): Observable<any> {
-    return this.http.post(ApiUri.addWallet, wallet, {headers: this.auth.header()});
+    return this.http.post(ApiUri.addWallet, wallet);
+  }
+
+  getWallets(): Observable<any> {
+    return this.http.get(ApiUri.userWallets);
   }
 }
