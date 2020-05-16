@@ -16,7 +16,7 @@ export class AuthService {
   }
 
   authenticate(user, callback): void {
-    let authString: '';
+    let authString: string;
     if (sessionStorage.getItem('email') !== undefined && sessionStorage.getItem('basicauth') !== undefined && user === undefined) {
       // authString = sessionStorage.getItem('basicauth');
       this.authenticated = true;
