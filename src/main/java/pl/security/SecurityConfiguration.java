@@ -6,8 +6,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -23,20 +21,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
       .httpBasic()
       .and()
       .authorizeRequests()
-      .antMatchers("/index.html", "/register", "/login", "/","/user").permitAll()
+      .antMatchers("/index.html", "/register", "/login", "/", "/user").permitAll()
       .anyRequest().authenticated()
       .and()
       .formLogin().usernameParameter("email")
       .and()
       .cors()
       .and()
-      .csrf()
-      .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-      .ignoringAntMatchers("/register");
-  }
-
-  @Override
-  public void addCorsMappings (CorsRegistry registry) {
-    registry.addMapping("/**");
+      .csrf().disable()
+      .headers().frameOptions().disable();
   }
 }

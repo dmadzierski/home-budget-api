@@ -14,7 +14,8 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, path = "/wallet")
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/wallet")
+@CrossOrigin("http://localhost:4200")
 public class WalletResource {
   private WalletController walletController;
 
@@ -29,7 +30,7 @@ public class WalletResource {
     return ResponseEntity.status(HttpStatus.CREATED).body(walletController.addWallet(principal, walletDto));
   }
 
-  @GetMapping
+  @GetMapping("")
   public ResponseEntity<List<WalletDto>> getWallets (Principal principal) {
     return ResponseEntity.ok(walletController.getWallets(principal));
   }
