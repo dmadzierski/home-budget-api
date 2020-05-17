@@ -21,7 +21,15 @@
       </li>
     </ul>
 
-    <form class="form-inline">
+    <form class="form-inline" *ngIf="isAuth()">
+      <ul class="navbar-nav mr-auto" routerLinkActive="active">
+        <li class="nav-item">
+          <a class="nav-link" role="button" href="#" (click)="logout()" >Log out</a>
+        </li>
+      </ul>
+    </form>
+
+    <form class="form-inline" *ngIf="!isAuth()">
       <ul class="navbar-nav mr-auto" routerLinkActive="active">
         <li class="nav-item">
           <a class="nav-link" routerLink="login">Login</a>

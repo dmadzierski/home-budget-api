@@ -17,7 +17,7 @@ export class WalletCreatorComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  addWallet(){
+  addWallet() {
     this.walletHttpService.addWallet(this.wallet).subscribe(success => {
         console.log(success);
       },

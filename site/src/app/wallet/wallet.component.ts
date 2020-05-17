@@ -11,7 +11,6 @@ import {HttpClient} from '@angular/common/http';
 export class WalletComponent implements OnInit {
   wallets: Array<Wallet>;
 
-
   constructor(private http: HttpClient, private walletHttpService: WalletHttpService) {
     this.wallets = new Array<Wallet>();
     this.getWallets();
@@ -20,13 +19,13 @@ export class WalletComponent implements OnInit {
 
   getWallets(): void {
     this.walletHttpService.getWallets().subscribe(success => {
-      console.log(success);
       this.wallets = success;
-    }, error => console.log(error));
-    console.log(this.wallets.length);
+    }, error => {
+    });
   }
 
   ngOnInit(): void {
   }
+
 
 }

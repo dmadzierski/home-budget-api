@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ApiUri} from './api.uri';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import {ApiUri} from './api.uri';
 export class AuthService {
   private authenticated = false;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   public isAuthenticated(): boolean {
@@ -16,25 +17,44 @@ export class AuthService {
   }
 
   authenticate(user, callback): void {
-    let authString: string;
-    if (sessionStorage.getItem('email') !== undefined && sessionStorage.getItem('basicauth') !== undefined && user === undefined) {
-      // authString = sessionStorage.getItem('basicauth');
+    if (sessionStorage.getItem('email') !== undefined && sessionStorage.getItem('email') !== null
+      && sessionStorage.getItem('basicauth') !== undefined && sessionStorage.getItem('basiauth') !== null
+      && user === undefined) {
       this.authenticated = true;
       return;
-    } else if (user !== undefined) {
-      authString = 'Basic ' + btoa(user.email + ':' + user.password);
     }
+    const authString = user ? 'Basic ' + btoa(user.email + ':' + user.password) : '';
     this.http.get(ApiUri.user, {
-      headers: {Authorization: authString},
+      headers: {Authorization: authString}
     }).subscribe(response => {
-      if (user !== undefined) {
-        sessionStorage.setItem('email', user.email);
-        sessionStorage.setItem('basicauth', authString);
+      try {
+        response['name'];
+      } catch (e) {
+        return undefined;
       }
-      this.authenticated = true;
-      return callback && callback();
+      if (response['name'] !== null) {
+        if (user !== undefined) {
+          sessionStorage.setItem('email', user.email);
+          sessionStorage.setItem('basicauth', authString);
+        }
+        this.authenticated = true;
+        return callback && callback();
+      }
+      return undefined;
     }, error => {
       this.authenticated = false;
     });
+  }
+
+  logout(): void {
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('basicauth');
+    this.authenticated = false;
+  }
+
+  redirectUserWhenHeIsNotHasAccess(): void {
+    if (!this.isAuthenticated()) {
+      this.router.navigateByUrl('/');
+    }
   }
 }

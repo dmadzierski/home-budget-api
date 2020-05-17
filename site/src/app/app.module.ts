@@ -23,6 +23,7 @@ const routes: Routes = [
   {path: 'wallet/add', component: WalletCreatorComponent}
 ];
 
+
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
@@ -49,7 +50,7 @@ export class XhrInterceptor implements HttpInterceptor {
     FooterComponent,
     HomeComponent,
     WalletComponent,
-    WalletCreatorComponent
+    WalletCreatorComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -64,6 +65,5 @@ export class XhrInterceptor implements HttpInterceptor {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
 }
 

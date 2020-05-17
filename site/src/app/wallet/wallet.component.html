@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-8 offset-2">
-    <div *ngIf="wallets.length > 0">
+    <div *ngIf="wallets">
       <h3 class="text-center">Wallet list</h3>
       <table class="table border-success table-striped">
         <tr>
@@ -17,7 +17,7 @@
         </tr>
       </table>
     </div>
-    <div *ngIf="wallets.length == 0">
+    <div *ngIf="wallets">
       <h3 class="text-center">You do not have any wallet</h3>
     </div>
   </div>
