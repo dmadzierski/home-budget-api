@@ -1,6 +1,9 @@
 package pl.wallet;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.user.User;
 import pl.wallet.transaction.Transaction;
 

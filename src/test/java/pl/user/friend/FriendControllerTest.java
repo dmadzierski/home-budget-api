@@ -6,9 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import pl.exception.CanNotNotAddOldFriendException;
-import pl.user.RegisterResource;
-import pl.user.UserController;
 import pl.user.UserDto;
+import pl.user.UserResource;
 import pl.user.UserTool;
 import pl.wallet.WalletController;
 import pl.wallet.WalletDto;
@@ -28,21 +27,21 @@ class FriendControllerTest {
 
   private FriendController friendController;
   private WalletController walletController;
-  private RegisterResource registerResource;
+  private UserResource userResource;
 
   @Autowired
-  FriendControllerTest (FriendController friendController, WalletController walletController, RegisterResource registerResource) {
+  FriendControllerTest (FriendController friendController, WalletController walletController, UserResource userResource) {
     this.friendController = friendController;
     this.walletController = walletController;
-    this.registerResource = registerResource;
+    this.userResource = userResource;
   }
 
 
   @Test
   void should_add_new_friend () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
-    UserDto friend = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
+    UserDto friend = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     UserDto expectedUserDto = UserDto.builder()
       .email(userDto.getEmail())
@@ -62,8 +61,8 @@ class FriendControllerTest {
   @Test
   void should_not_add_old_friend () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
-    UserDto friend = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
+    UserDto friend = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     //when
     friendController.addFriend(principal, friend);
@@ -78,8 +77,8 @@ class FriendControllerTest {
   @Test
   void should_share_wallet_with_friends () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
-    UserDto friendDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
+    UserDto friendDto = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.saveRandomWallet(principal, this.walletController);
     WalletDto expectedWallet = WalletDto.builder()

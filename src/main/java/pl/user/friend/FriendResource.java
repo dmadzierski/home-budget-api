@@ -1,6 +1,6 @@
 package pl.user.friend;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +11,12 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/user/friend")
+@AllArgsConstructor
+
 public class FriendResource {
 
   private FriendController friendController;
 
-  @Autowired
-  public FriendResource (FriendController friendController) {
-    this.friendController = friendController;
-  }
 
   @PostMapping("/add")
   public ResponseEntity<UserDto> addFriend (Principal principal, @RequestBody UserDto userDto) {

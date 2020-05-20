@@ -1,6 +1,6 @@
 package pl.wallet.transaction;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import pl.user.User;
 import pl.user.UserService;
@@ -12,19 +12,13 @@ import pl.wallet.category.CategoryService;
 import java.security.Principal;
 
 @Controller
+@AllArgsConstructor
+
 public class TransactionController {
   private TransactionService transactionService;
   private UserService userService;
   private WalletService walletService;
   private CategoryService categoryService;
-
-  @Autowired
-  public TransactionController (TransactionService transactionService, UserService userService, WalletService walletService, CategoryService categoryService) {
-    this.transactionService = transactionService;
-    this.userService = userService;
-    this.walletService = walletService;
-    this.categoryService = categoryService;
-  }
 
 
   TransactionDto addTransaction (Principal principal, Long walletId, Long categoryId, TransactionDto transactionDto) {

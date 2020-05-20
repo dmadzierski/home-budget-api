@@ -38,6 +38,7 @@ public class CategoryTool {
   public static CategoryDto saveRandomCategory (Principal principal, CategoryResource categoryResource) {
     return categoryResource.addCategory(principal, getRandomCategory()).getBody();
   }
+
   public static CategoryDto saveCategory (Principal principal, CategoryDto categoryDto, CategoryController categoryController) {
     return categoryController.addCategory(principal, categoryDto);
   }

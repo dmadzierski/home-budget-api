@@ -23,7 +23,9 @@ public class WalletDto {
   @NotEmpty(message = "Wallet must have name")
   private String name;
 
+
   @NotNull(message = "Wallet must have balance")
+  @NotEmpty(message = "Wallet must have balance")
   private Long balance;
 
   private List<TransactionDto> transactions;

@@ -1,6 +1,6 @@
 package pl.wallet;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import pl.user.User;
 import pl.user.UserService;
@@ -12,18 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@AllArgsConstructor
 public class WalletController {
   private WalletService walletService;
   private UserService userService;
   private TransactionService transactionService;
-
-  @Autowired
-  public WalletController (WalletService walletService, UserService userService, TransactionService transactionService) {
-    this.walletService = walletService;
-    this.userService = userService;
-    this.transactionService = transactionService;
-  }
-
 
   WalletDto getWalletWithTransactions (Principal principal, Long walletId) {
     isUserWallet(principal, walletId);

@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import pl.user.RegisterResource;
 import pl.user.UserDto;
+import pl.user.UserResource;
 import pl.user.UserTool;
 
 import java.security.Principal;
@@ -23,18 +23,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CategoryResourceTest {
   private CategoryResource categoryResource;
-  private RegisterResource registerResource;
+  private UserResource userResource;
 
   @Autowired
-  public CategoryResourceTest (CategoryResource categoryResource, RegisterResource registerResource) {
+  public CategoryResourceTest (CategoryResource categoryResource, UserResource userResource) {
     this.categoryResource = categoryResource;
-    this.registerResource = registerResource;
+    this.userResource = userResource;
   }
 
   @Test
   void should_add_category () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     CategoryDto categoryDto = CategoryTool.getRandomCategory();
     Principal principal = userDto::getEmail;
     CategoryDto expectedBody = categoryDto;
@@ -51,7 +51,7 @@ public class CategoryResourceTest {
   @Test
   void should_remove_category () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     CategoryDto categoryDto = CategoryTool.getRandomCategory();
     Principal principal = userDto::getEmail;
     Long categoryId = categoryResource.addCategory(principal, categoryDto).getBody().getId();
@@ -67,7 +67,7 @@ public class CategoryResourceTest {
   void should_return_categories () {
     //given
     int number = 100;
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     CategoryDto categoryDto = CategoryTool.getRandomCategory();
     Principal principal = userDto::getEmail;
     List<CategoryDto> categoriesDto = addCategories(number, principal);

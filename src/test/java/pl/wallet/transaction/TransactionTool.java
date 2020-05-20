@@ -23,7 +23,7 @@ public class TransactionTool {
   }
 
   public static TransactionDto saveRandomTransaction (Principal principal, WalletDto walletDto, CategoryDto categoryDto, TransactionResource transactionResource) {
-    return transactionResource.addTransaction(principal,categoryDto.getId(), walletDto.getId(),  getRandomTransaction()).getBody();
+    return transactionResource.addTransaction(principal, categoryDto.getId(), walletDto.getId(), getRandomTransaction()).getBody();
   }
 
   private static Integer getRandomBalance () {

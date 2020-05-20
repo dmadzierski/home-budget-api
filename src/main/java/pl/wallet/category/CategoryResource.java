@@ -1,6 +1,6 @@
 package pl.wallet.category;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +13,11 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping(path = "/category", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@AllArgsConstructor
 public class CategoryResource {
 
   private CategoryController categoryController;
 
-  @Autowired
-  public CategoryResource (CategoryController categoryController) {
-    this.categoryController = categoryController;
-  }
 
   @PutMapping("/add")
   public ResponseEntity<CategoryDto> addCategory (Principal principal, @RequestBody CategoryDto categoryDto) {

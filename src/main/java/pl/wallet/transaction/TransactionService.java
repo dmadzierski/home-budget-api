@@ -1,19 +1,16 @@
 package pl.wallet.transaction;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
+
 public class TransactionService {
 
   private TransactionRepository transactionRepository;
-
-  @Autowired
-  public TransactionService (TransactionRepository transactionRepository) {
-    this.transactionRepository = transactionRepository;
-  }
 
   Transaction save (Transaction transaction) {
     return transactionRepository.save(transaction);

@@ -22,8 +22,9 @@ import pl.wallet.category.CategoryTool;
 import javax.validation.ConstraintViolationException;
 import java.security.Principal;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.http.HttpStatus.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("test")
@@ -35,7 +36,8 @@ class TransactionResourceTest {
   private CategoryController categoryController;
   private TransactionResource transactionResource;
   private WalletResource walletResource;
-@Autowired
+
+  @Autowired
   public TransactionResourceTest (WalletController walletController, UserController userController, CategoryController categoryController, TransactionResource transactionResource, WalletResource walletResource) {
     this.walletController = walletController;
     this.userController = userController;
@@ -59,7 +61,7 @@ class TransactionResourceTest {
     UserDto userDto = UserTool.registerRandomUser(userController);
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.saveRandomWallet(principal, walletController);
-    System.err.println(walletResource.getWallet(principal,walletDto.getId()));
+    System.err.println(walletResource.getWallet(principal, walletDto.getId()));
     CategoryDto categoryDto = CategoryTool.saveRandomCategory(principal, categoryController);
     TransactionDto transactionDto = TransactionTool.getTransactionBuilderWithNecessaryValue().id(RandomTool.id()).build();
     //when
@@ -67,7 +69,7 @@ class TransactionResourceTest {
     //then
     assertThatExceptionOfType(ConstraintViolationException.class).isThrownBy(
       () -> transactionResource.addTransaction(principal, categoryDto.getId(), walletDto.getId(), transactionDto));
-    System.err.println(walletResource.getWallet(principal,walletDto.getId()));
+    System.err.println(walletResource.getWallet(principal, walletDto.getId()));
   }
 
   @Test
@@ -102,7 +104,6 @@ class TransactionResourceTest {
       () -> transactionResource.addTransaction(principal, categoryDto.getId(), walletDto.getId(), transactionDto))
       .withMessageEndingWith(TransactionError.NAME_NOT_NULL.getMessage());
   }
-
 
 
 }

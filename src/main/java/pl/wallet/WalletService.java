@@ -1,6 +1,6 @@
 package pl.wallet;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.exception.EntityNotFoundException;
 import pl.exception.ThereIsNoYourPropertyException;
@@ -10,14 +10,10 @@ import pl.wallet.transaction.Transaction;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class WalletService {
 
   private WalletRepository walletRepository;
-
-  @Autowired
-  WalletService (WalletRepository walletRepository) {
-    this.walletRepository = walletRepository;
-  }
 
   Wallet saveWallet (Wallet wallet) {
     return walletRepository.save(wallet);

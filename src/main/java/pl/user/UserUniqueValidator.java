@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Component
-public class UserUniqueValidator implements ConstraintValidator<Unique, String> {
+public class UserUniqueValidator implements ConstraintValidator<UniqueUserEmail, String> {
 
   private UserService userService;
 
@@ -18,8 +18,8 @@ public class UserUniqueValidator implements ConstraintValidator<Unique, String> 
   }
 
   @Override
-  public void initialize (Unique unique) {
-    unique.message();
+  public void initialize (UniqueUserEmail uniqueUserEmail) {
+    uniqueUserEmail.message();
   }
 
   @Override

@@ -1,6 +1,6 @@
 package pl.wallet.category;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import pl.user.User;
 import pl.user.UserService;
@@ -10,15 +10,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@AllArgsConstructor
+
 public class CategoryController {
   private CategoryService categoryService;
   private UserService userService;
 
-  @Autowired
-  public CategoryController (CategoryService categoryService, UserService userService) {
-    this.categoryService = categoryService;
-    this.userService = userService;
-  }
 
   CategoryDto addCategory (Principal principal, CategoryDto categoryDto) {
     User user = userService.getUserByEmail(principal.getName());
