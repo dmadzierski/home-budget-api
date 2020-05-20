@@ -3,13 +3,19 @@
     <form (ngSubmit)="addWallet()">
       <div class="form-group">
         <label>Name</label>
-        <input [(ngModel)]="wallet.name" type="text" name="name" class="form-control">
+        <input [(ngModel)]="wallet.name" class="form-control" name="name" type="text">
       </div>
+      <ul *ngIf="nameErrors?.length ">
+        <li *ngFor=" let passwordError of nameErrors">{{passwordError}}</li>
+      </ul>
       <div class="form-group">
         <label>Balance</label>
-        <input [(ngModel)]="wallet.balance" type="balance" name="password" class="form-control">
+        <input [(ngModel)]="wallet.balance" class="form-control" name="password" type="balance">
       </div>
-      <button type="submit" class="btn btn-block btn-outline-success">Submit</button>
+      <ul *ngIf="balanceErrors?.length ">
+        <li *ngFor=" let passwordError of balanceErrors">{{passwordError}}</li>
+      </ul>
+      <button class="btn btn-block btn-outline-success" type="submit">Submit</button>
     </form>
   </div>
 </div>

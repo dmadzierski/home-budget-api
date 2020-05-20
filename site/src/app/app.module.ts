@@ -13,6 +13,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpR
 import {RegisterHttpService} from './register/register.http.service';
 import {WalletComponent} from './wallet/wallet.component';
 import {WalletCreatorComponent} from './wallet/wallet-creator/wallet-creator.component';
+import {WalletDetailsComponent} from './wallet/wallet-details/wallet-details.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'wallet', component: WalletComponent},
-  {path: 'wallet/add', component: WalletCreatorComponent}
+  {path: 'wallet/add', component: WalletCreatorComponent},
+  {path: 'wallet/details', component: WalletDetailsComponent}
 ];
 
 
@@ -51,6 +53,7 @@ export class XhrInterceptor implements HttpInterceptor {
     HomeComponent,
     WalletComponent,
     WalletCreatorComponent,
+    WalletDetailsComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

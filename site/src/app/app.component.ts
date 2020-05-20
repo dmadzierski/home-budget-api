@@ -9,15 +9,14 @@ import {AuthService} from './auth.service';
 })
 export class AppComponent {
 
-  constructor(private router: Router, private authService: AuthService, private activatedRoute: ActivatedRoute) {
-  }
-
   title = 'Home budget';
-
   private protectedRoutes: Array<string> = [
     '/wallet',
     '/wallet/add'
   ];
+
+  constructor(private router: Router, private authService: AuthService, private activatedRoute: ActivatedRoute) {
+  }
 
   userHasAccess() {
     const routerUrl = this.router.routerState.snapshot.url;

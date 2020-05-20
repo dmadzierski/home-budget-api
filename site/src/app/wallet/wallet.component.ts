@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Wallet} from '../models/wallet.model';
 import {WalletHttpService} from './wallet.http.service';
 import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-wallet-creator',
@@ -11,7 +12,7 @@ import {HttpClient} from '@angular/common/http';
 export class WalletComponent implements OnInit {
   wallets: Array<Wallet>;
 
-  constructor(private http: HttpClient, private walletHttpService: WalletHttpService) {
+  constructor(private http: HttpClient, private walletHttpService: WalletHttpService, private router: Router) {
     this.wallets = new Array<Wallet>();
     this.getWallets();
   }
@@ -27,5 +28,7 @@ export class WalletComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
+  showDetails(id: number) {
+    this.router.navigateByUrl('/wallet/details?id=' + id);
+  }
 }

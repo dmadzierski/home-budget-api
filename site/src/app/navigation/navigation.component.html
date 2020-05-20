@@ -1,35 +1,19 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-success">
 
-  <button class="navbar-toggler right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+  <button class="navbar-toggler right" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <!--  When user is not authenticated-->
+  <div *ngIf="!isAuth()" class="collapse navbar-collapse" id="navbarSupportedContent">
 
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
       <li class="nav-item">
         <a class="nav-link" routerLink="">Home</a>
       </li>
-      <li class="nav-item dropdown" *ngIf="isAuth()">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
-          Wallet
-        </a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" routerLink="/wallet">Wallet list</a>
-          <a class="dropdown-item" routerLink="/wallet/add">Add wallet</a>
-        </div>
-      </li>
     </ul>
 
-    <form class="form-inline" *ngIf="isAuth()">
-      <ul class="navbar-nav mr-auto" routerLinkActive="active">
-        <li class="nav-item">
-          <a class="nav-link" role="button" href="#" (click)="logout()" >Log out</a>
-        </li>
-      </ul>
-    </form>
-
-    <form class="form-inline" *ngIf="!isAuth()">
+    <form class="form-inline">
       <ul class="navbar-nav mr-auto" routerLinkActive="active">
         <li class="nav-item">
           <a class="nav-link" routerLink="login">Login</a>
@@ -39,6 +23,47 @@
         </li>
       </ul>
     </form>
+
+  </div>
+
+  <!--When user is authenticated-->
+  <div *ngIf="isAuth()" class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <ul class="navbar-nav mr-auto" routerLinkActive="active">
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="">Home</a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+          Wallet
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" routerLink="/wallet">Wallet list</a>
+          <a class="dropdown-item" routerLink="/wallet/add">Add wallet</a>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="">Friends</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="">Categories</a>
+      </li>
+
+    </ul>
+
+    <form class="form-inline">
+      <ul class="navbar-nav mr-auto" routerLinkActive="active">
+        <li class="nav-item">
+          <a (click)="logout()" class="nav-link" href="#" role="button">Logout</a>
+        </li>
+      </ul>
+
+    </form>
+
 
   </div>
 </nav>

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Wallet} from '../../models/wallet.model';
 import {WalletHttpService} from '../wallet.http.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-wallet-creator',
@@ -9,20 +10,24 @@ import {WalletHttpService} from '../wallet.http.service';
 })
 export class WalletCreatorComponent implements OnInit {
 
-  constructor(private walletHttpService: WalletHttpService) {
-  }
-
   wallet: Wallet = new Wallet();
+  balanceErrors: Array<string> = new Array<string>();
+  nameErrors: Array<string> = new Array<string>();
+
+  constructor(private router: Router, private walletHttpService: WalletHttpService) {
+  }
 
   ngOnInit(): void {
   }
 
   addWallet() {
     this.walletHttpService.addWallet(this.wallet).subscribe(success => {
-        console.log(success);
+        this.router.navigateByUrl('/wallet/details?id=' + success.id);
       },
       error => {
         console.log(error);
+        this.balanceErrors = error.error.errors.balance;
+        this.nameErrors = error.error.errors.name;
       }
     );
   }

@@ -20,4 +20,8 @@ export class WalletHttpService {
   getWallets(): Observable<any> {
     return this.http.get(ApiUri.userWallets);
   }
+
+  getWalletWithDetails(id: number): Observable<any> {
+    return this.http.get(ApiUri.wallet + '/' + id);
+  }
 }
