@@ -14,6 +14,7 @@ import {RegisterHttpService} from './register/register.http.service';
 import {WalletComponent} from './wallet/wallet.component';
 import {WalletCreatorComponent} from './wallet/wallet-creator/wallet-creator.component';
 import {WalletDetailsComponent} from './wallet/wallet-details/wallet-details.component';
+import { ErrorComponent } from './error/error.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -54,6 +55,7 @@ export class XhrInterceptor implements HttpInterceptor {
     WalletComponent,
     WalletCreatorComponent,
     WalletDetailsComponent,
+    ErrorComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

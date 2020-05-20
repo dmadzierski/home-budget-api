@@ -5,16 +5,12 @@
         <label>Name</label>
         <input [(ngModel)]="wallet.name" class="form-control" name="name" type="text">
       </div>
-      <ul *ngIf="nameErrors?.length ">
-        <li *ngFor=" let passwordError of nameErrors">{{passwordError}}</li>
-      </ul>
+      <error [errorsList]="error?.name"></error>
       <div class="form-group">
         <label>Balance</label>
         <input [(ngModel)]="wallet.balance" class="form-control" name="password" type="balance">
       </div>
-      <ul *ngIf="balanceErrors?.length ">
-        <li *ngFor=" let passwordError of balanceErrors">{{passwordError}}</li>
-      </ul>
+      <error [errorsList]="error?.balance"></error>
       <button class="btn btn-block btn-outline-success" type="submit">Submit</button>
     </form>
   </div>

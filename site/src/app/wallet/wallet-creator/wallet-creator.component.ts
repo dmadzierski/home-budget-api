@@ -11,8 +11,7 @@ import {Router} from '@angular/router';
 export class WalletCreatorComponent implements OnInit {
 
   wallet: Wallet = new Wallet();
-  balanceErrors: Array<string> = new Array<string>();
-  nameErrors: Array<string> = new Array<string>();
+  error: any;
 
   constructor(private router: Router, private walletHttpService: WalletHttpService) {
   }
@@ -25,9 +24,7 @@ export class WalletCreatorComponent implements OnInit {
         this.router.navigateByUrl('/wallet/details?id=' + success.id);
       },
       error => {
-        console.log(error);
-        this.balanceErrors = error.error.errors.balance;
-        this.nameErrors = error.error.errors.name;
+        this.error = error.error.errors;
       }
     );
   }

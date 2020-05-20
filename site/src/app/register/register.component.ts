@@ -10,8 +10,7 @@ import {User} from '../models/user.model';
 })
 export class RegisterComponent implements OnInit {
   user: User = new User();
-  emailErrors: Array<string> = new Array<string>();
-  passwordErrors: Array<string> = new Array<string>();
+  errors: any;
 
   constructor(private registerHttpService: RegisterHttpService, private router: Router) {
   }
@@ -24,9 +23,7 @@ export class RegisterComponent implements OnInit {
     this.registerHttpService.registerUser(this.user).subscribe(post => {
       this.router.navigate(['/login']);
     }, error => {
-      console.log(error);
-      this.emailErrors = error.error.errors.email;
-      this.passwordErrors = error.error.errors.password;
+      this.errors = error.error.errors;
     });
   }
 }
