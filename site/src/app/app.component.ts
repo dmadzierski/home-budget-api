@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'Home budget';
   private protectedRoutes: Array<string> = [
     '/wallet',
-    '/wallet/add'
+    '/category'
   ];
 
   constructor(private router: Router, private authService: AuthService, private activatedRoute: ActivatedRoute) {
@@ -28,6 +28,6 @@ export class AppComponent {
   }
 
   private isProtectedRouter(routerUrl: string): boolean {
-    return this.protectedRoutes.some(k => k === routerUrl);
+    return this.protectedRoutes.some(k => routerUrl.match(k));
   }
 }
