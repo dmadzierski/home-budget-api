@@ -8,13 +8,17 @@ import {RegisterComponent} from './register/register.component';
 import {NavigationComponent} from './navigation/navigation.component';
 import {FooterComponent} from './footer/footer.component';
 import {HomeComponent} from './home/home.component';
-import {FormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RegisterHttpService} from './register/register.http.service';
 import {WalletComponent} from './wallet/wallet.component';
 import {WalletCreatorComponent} from './wallet/wallet-creator/wallet-creator.component';
 import {WalletDetailsComponent} from './wallet/wallet-details/wallet-details.component';
-import { ErrorComponent } from './error/error.component';
+import {ErrorComponent} from './error/error.component';
+import {TransactionCreatorComponent} from './transaction/transaction-creator/transaction-creator.component';
+import {TransactionComponent} from './transaction/transaction.component';
+import {CategoryComponent} from './category/category.component';
+import {CategoryCreatorComponent} from './category/category-creator/category-creator.component';
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -23,7 +27,9 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'wallet', component: WalletComponent},
   {path: 'wallet/add', component: WalletCreatorComponent},
-  {path: 'wallet/details', component: WalletDetailsComponent}
+  {path: 'wallet/details', component: WalletDetailsComponent},
+  {path: 'category', component: CategoryComponent},
+  {path: 'category/add', component: CategoryCreatorComponent}
 ];
 
 
@@ -56,12 +62,17 @@ export class XhrInterceptor implements HttpInterceptor {
     WalletCreatorComponent,
     WalletDetailsComponent,
     ErrorComponent,
+    TransactionCreatorComponent,
+    TransactionComponent,
+    CategoryComponent,
+    CategoryCreatorComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     RegisterHttpService,

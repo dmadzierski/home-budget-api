@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div *ngIf="categories.length >0;else noCategories">
+      <h3 class="text-center text-vertical-center">Wallet list</h3>
+      <table class="table table-hover table-striped text-center">
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Balance</th>
+        </tr>
+        <tr *ngFor="let category of categories; let i = index">
+          <td>
+            <a class="text-decoration-none text-black"
+               role="button"> {{i + 1}}</a></td>
+          <td><a class="text-decoration-none text-black"
+                 role="button"> {{category.name}}</a></td>
+          <td><a class="text-decoration-none text-black"
+                 role="button"> {{category.description}}</a></td>
+          <td><a class="text-decoration-none text-black"
+                 role="button"> {{category.transactionType}}</a></td>
+        </tr>
+      </table>
+    </div>
+    <ng-template #noCategories>
+      <h3 class="text-center">You do not have any category</h3>
+    </ng-template>
+  </div>
+</div>
