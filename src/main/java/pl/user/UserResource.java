@@ -20,7 +20,7 @@ public class UserResource {
 
   @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserDto> register (@Valid @RequestBody UserDto userDto) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(userController.addWithDefaultRoleAndDefaultCategory(userDto));
+    return ResponseEntity.status(HttpStatus.CREATED).body(userController.addUserWithDefaultsResources(userDto));
   }
 
   @RequestMapping("/user")
