@@ -13,7 +13,7 @@
       </div>
       <div class="form-group">
         <label>Select transaction type</label>
-        <select class="form-control" [(ngModel)]="transactionTypeString" name="transactionType">
+        <select [(ngModel)]="transactionTypeString" class="form-control" name="transactionType">
           <option *ngFor="let transactionType of transactionTypes" [value]="transactionType">
             {{transactionType}}
           </option>

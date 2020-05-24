@@ -36,10 +36,10 @@ const routes: Routes = [
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    if (sessionStorage.getItem('email') && sessionStorage.getItem('basicauth')) {
+    if (localStorage.getItem('email') && localStorage.getItem('basicauth')) {
       req = req.clone({
         setHeaders: {
-          Authorization: sessionStorage.getItem('basicauth')
+          Authorization: localStorage.getItem('basicauth')
         }
       });
     }

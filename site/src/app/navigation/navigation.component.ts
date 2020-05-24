@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {AuthService} from '../auth.service';
 
 @Component({
@@ -6,9 +6,8 @@ import {AuthService} from '../auth.service';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit, OnChanges {
 
-  email: string = this.auth.getUserName();
 
   constructor(private auth: AuthService) {
     auth.authenticate(undefined, undefined);
@@ -18,11 +17,19 @@ export class NavigationComponent implements OnInit {
     return this.auth.isAuthenticated();
   }
 
-  ngOnInit(): void {
+
+  getEmail(): string {
+    return this.auth.getEmail();
   }
 
   logout(): void {
     this.auth.logout();
+  }
+
+  ngOnChanges(): void {
+  }
+
+  ngOnInit(): void {
   }
 
 }

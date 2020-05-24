@@ -27,13 +27,13 @@ export class WalletDetailsComponent implements OnInit {
     this.getWallet();
   }
 
+  addTransaction() {
+
+  }
+
   private getWallet() {
     this.walletHttpService.getWalletWithDetails(this.id).subscribe(k => {
       this.wallet = k;
     });
-  }
-
-  addTransaction() {
-
   }
 }
