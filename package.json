@@ -5,6 +5,6 @@
     "npm": "6.14.x"
   },
   "scripts": {
-    "start": "cd site && npm install && ng serve"
+    "start": "cd site && ng serve"
   }
 }
