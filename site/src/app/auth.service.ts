@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 })
 export class AuthService {
   private authenticated = false;
+  email: string;
 
   constructor(private http: HttpClient, private router: Router) {
   }
@@ -51,7 +52,7 @@ export class AuthService {
     this.authenticated = false;
   }
 
-  getUserName(): string {
+  getEmail() {
     return localStorage.getItem('email');
   }
 }
