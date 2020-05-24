@@ -8,6 +8,8 @@ import {AuthService} from '../auth.service';
 })
 export class NavigationComponent implements OnInit {
 
+  email: string = this.auth.getUserName();
+
   constructor(private auth: AuthService) {
     auth.authenticate(undefined, undefined);
   }

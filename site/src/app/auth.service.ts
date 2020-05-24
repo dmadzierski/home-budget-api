@@ -52,9 +52,7 @@ export class AuthService {
     this.authenticated = false;
   }
 
-  redirectUserWhenHeIsNotHasAccess(): void {
-    if (!this.isAuthenticated()) {
-      this.router.navigateByUrl('/');
-    }
+  getUserName(): string {
+    return sessionStorage.getItem('email');
   }
 }
