@@ -13,7 +13,6 @@ export class WalletComponent implements OnInit {
   wallets: Array<Wallet>;
 
   constructor(private http: HttpClient, private walletHttpService: WalletHttpService, private router: Router) {
-    this.wallets = new Array<Wallet>();
     this.getWallets();
   }
 
@@ -28,7 +27,7 @@ export class WalletComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  showDetails(id: number) {
+  showWalletsDetails(id: number) {
     this.router.navigateByUrl('/wallet/details?id=' + id);
   }
 }

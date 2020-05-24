@@ -17,8 +17,8 @@ export class AuthService {
   }
 
   authenticate(user, callback): void {
-    if (sessionStorage.getItem('email') !== undefined && sessionStorage.getItem('email') !== null
-      && sessionStorage.getItem('basicauth') !== undefined && sessionStorage.getItem('basiauth') !== null
+    if (localStorage.getItem('email') !== undefined && localStorage.getItem('email') !== null
+      && localStorage.getItem('basicauth') !== undefined && localStorage.getItem('basicauth') !== null
       && user === undefined) {
       this.authenticated = true;
       return;
@@ -34,8 +34,8 @@ export class AuthService {
       }
       if (response['name'] !== null) {
         if (user !== undefined) {
-          sessionStorage.setItem('email', user.email);
-          sessionStorage.setItem('basicauth', authString);
+          localStorage.setItem('email', user.email);
+          localStorage.setItem('basicauth', authString);
         }
         this.authenticated = true;
         return callback && callback();
@@ -47,12 +47,11 @@ export class AuthService {
   }
 
   logout(): void {
-    sessionStorage.removeItem('email');
-    sessionStorage.removeItem('basicauth');
+    localStorage.clear();
     this.authenticated = false;
   }
 
   getUserName(): string {
-    return sessionStorage.getItem('email');
+    return localStorage.getItem('email');
   }
 }
