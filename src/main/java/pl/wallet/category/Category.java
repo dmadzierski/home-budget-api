@@ -6,7 +6,7 @@ import pl.user.User;
 import pl.wallet.transaction.TransactionType;
 
 import javax.persistence.*;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +37,8 @@ public class Category {
     try {
       users.add(user);
     } catch (NullPointerException e) {
-      users = Collections.singletonList(user);
+      this.users = new ArrayList<>();
+      users.add(user);
     }
   }
 }

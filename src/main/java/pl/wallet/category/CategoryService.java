@@ -1,6 +1,6 @@
 package pl.wallet.category;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.exception.EntityNotFoundException;
 import pl.exception.ThereIsNoYourPropertyException;
@@ -9,14 +9,10 @@ import pl.user.User;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CategoryService {
 
   private CategoryRepository categoryRepository;
-
-  @Autowired
-  public CategoryService (CategoryRepository categoryRepository) {
-    this.categoryRepository = categoryRepository;
-  }
 
   public Category isUserCategory (User user, Long categoryId) {
     if(getCategories(user).stream().anyMatch(category -> category.getId().equals(categoryId)))

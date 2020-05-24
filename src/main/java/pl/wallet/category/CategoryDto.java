@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 import pl.wallet.transaction.TransactionType;
 
 import javax.validation.constraints.NotEmpty;
@@ -12,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @EqualsAndHashCode
-@ToString
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoryDto {
 

@@ -36,4 +36,5 @@ public class CategoryController {
     List<Category> categories = categoryService.getCategoriesByUser(user);
     return categories.stream().map(CategoryMapper::toDto).collect(Collectors.toList());
   }
+
 }
