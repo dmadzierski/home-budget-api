@@ -1,0 +1,10 @@
+{
+  "name": "home-budget-app",
+  "engines": {
+    "node": "12.16.x",
+    "npm": "6.14.x"
+  },
+  "scripts": {
+    "postinstall": "cd site && ng serve"
+  }
+}
