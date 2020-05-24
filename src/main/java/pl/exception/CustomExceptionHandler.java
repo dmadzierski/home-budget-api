@@ -23,7 +23,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity handleAllExceptions (Exception exception, WebRequest request) {
-
     return ResponseEntity.status(INTERNAL_SERVER_ERROR)
       .body(new ErrorsResponse(Map.of("Server Error", Collections.singletonList(exception.getLocalizedMessage()))).getErrors());
   }

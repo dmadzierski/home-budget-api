@@ -11,8 +11,8 @@ import org.springframework.test.context.ActiveProfiles;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.test_tool.RandomTool;
 import pl.test_tool.error.WalletError;
-import pl.user.RegisterResource;
 import pl.user.UserDto;
+import pl.user.UserResource;
 import pl.user.UserTool;
 import pl.wallet.category.CategoryDto;
 import pl.wallet.category.CategoryResource;
@@ -37,14 +37,14 @@ import static org.springframework.http.HttpStatus.OK;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class WalletResourceTest {
   private WalletResource walletResource;
-  private RegisterResource registerResource;
+  private UserResource userResource;
   private TransactionResource transactionResource;
   private CategoryResource categoryResource;
 
   @Autowired
-  WalletResourceTest (WalletResource walletResource, RegisterResource registerResource, TransactionResource transactionResource, CategoryResource categoryResource) {
+  WalletResourceTest (WalletResource walletResource, UserResource userResource, TransactionResource transactionResource, CategoryResource categoryResource) {
     this.walletResource = walletResource;
-    this.registerResource = registerResource;
+    this.userResource = userResource;
     this.transactionResource = transactionResource;
     this.categoryResource = categoryResource;
   }
@@ -52,7 +52,7 @@ class WalletResourceTest {
   @Test
   void should_add_wallet () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.randomWallet();
     //when
@@ -66,7 +66,7 @@ class WalletResourceTest {
   @Test
   void should_not_add_wallet_with_id () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.walletBuilderWithNecessaryValue().id(RandomTool.id()).build();
     //when
@@ -79,7 +79,7 @@ class WalletResourceTest {
   @Test
   void should_not_add_wallet_without_name () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.walletBuilderWithNecessaryValue().name(null).build();
     //when
@@ -92,7 +92,7 @@ class WalletResourceTest {
   @Test
   void should_not_add_wallet_without_balance () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.walletBuilderWithNecessaryValue().balance(null).build();
     //when
@@ -105,8 +105,8 @@ class WalletResourceTest {
   @Test
   void should_return_only_user_wallet_by_id () {
     //given
-    WalletTool.saveRandomWallet(UserTool.registerRandomUser(registerResource)::getEmail, walletResource);
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    WalletTool.saveRandomWallet(UserTool.registerRandomUser(userResource)::getEmail, walletResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.saveRandomWallet(principal, walletResource);
     WalletDto expectedWalletDto = WalletDto.builder()
@@ -127,9 +127,9 @@ class WalletResourceTest {
   @Test
   void can_not_get_wallet_not_on_your_own () {
     //given
-    WalletDto walletDto = WalletTool.saveRandomWallet(UserTool.registerRandomUser(registerResource)::getEmail, walletResource);
+    WalletDto walletDto = WalletTool.saveRandomWallet(UserTool.registerRandomUser(userResource)::getEmail, walletResource);
 
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     WalletTool.saveRandomWallet(principal, walletResource);
     //when
@@ -142,7 +142,7 @@ class WalletResourceTest {
   @Test
   void user_can_get_all_own_wallets () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     int numberOfWallets = 100;
     List<WalletDto> wallets = addWallets(principal, numberOfWallets);
@@ -159,7 +159,7 @@ class WalletResourceTest {
   @Test
   void user_can_remove_own_wallet () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.randomWallet();
     Long walletId = walletResource.addWallet(principal, walletDto).getBody().getId();
@@ -174,9 +174,9 @@ class WalletResourceTest {
   @Test
   void user_can_not_remove_someones_wallet () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
-    Long walletId = addWallets(UserTool.registerRandomUser(registerResource)::getEmail, 1).get(0).getId();
+    Long walletId = addWallets(UserTool.registerRandomUser(userResource)::getEmail, 1).get(0).getId();
     //when
 
     //then
@@ -188,7 +188,7 @@ class WalletResourceTest {
   @Test
   void user_can_get_wallet_with_transaction () {
     //given
-    UserDto userDto = UserTool.registerRandomUser(registerResource);
+    UserDto userDto = UserTool.registerRandomUser(userResource);
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.saveRandomWallet(principal, walletResource);
     CategoryDto categoryDto = CategoryTool.saveRandomCategory(principal, categoryResource);

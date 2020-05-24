@@ -1,20 +1,17 @@
 package pl.wallet.category;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import pl.user.User;
 import pl.wallet.transaction.TransactionType;
 
 import javax.persistence.*;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode
+
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "category")
 public class Category {
@@ -24,7 +21,7 @@ public class Category {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, unique = true)
+  @Column(nullable = false)
   private String name;
 
   private String description;
@@ -40,7 +37,8 @@ public class Category {
     try {
       users.add(user);
     } catch (NullPointerException e) {
-      users = Collections.singletonList(user);
+      this.users = new ArrayList<>();
+      users.add(user);
     }
   }
 }

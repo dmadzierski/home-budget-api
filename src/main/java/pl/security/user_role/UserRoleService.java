@@ -1,19 +1,17 @@
 package pl.security.user_role;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@AllArgsConstructor
+
 public class UserRoleService {
 
   private UserRoleRepository userRoleRepository;
 
-  @Autowired
-  public UserRoleService (UserRoleRepository userRoleRepository) {
-    this.userRoleRepository = userRoleRepository;
-  }
 
   public UserRole findRole (String roleName) {
     return userRoleRepository.findByRoleName(roleName).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

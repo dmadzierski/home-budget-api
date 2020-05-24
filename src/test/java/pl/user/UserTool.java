@@ -2,7 +2,6 @@ package pl.user;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.test_tool.RandomTool;
 import pl.test_tool.web.RequestTool;
@@ -37,11 +36,11 @@ public class UserTool {
   @Deprecated
   public static UserDto registerRandomUser (UserController userController) {
     UserDto userDto = UserTool.createRandomUserDto();
-    return userController.addWithDefaultRoleAndDefaultCategory(userDto);
+    return userController.addUserWithDefaultsResources(userDto);
   }
 
-  public static UserDto registerRandomUser (RegisterResource registerResource) {
+  public static UserDto registerRandomUser (UserResource userResource) {
     UserDto userDto = UserTool.createRandomUserDto();
-    return registerResource.register(userDto).getBody();
+    return userResource.register(userDto).getBody();
   }
 }

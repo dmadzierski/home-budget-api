@@ -4,6 +4,7 @@ import pl.test_tool.RandomTool;
 import pl.wallet.WalletDto;
 import pl.wallet.category.CategoryDto;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 
 public class TransactionTool {
@@ -23,11 +24,11 @@ public class TransactionTool {
   }
 
   public static TransactionDto saveRandomTransaction (Principal principal, WalletDto walletDto, CategoryDto categoryDto, TransactionResource transactionResource) {
-    return transactionResource.addTransaction(principal,categoryDto.getId(), walletDto.getId(),  getRandomTransaction()).getBody();
+    return transactionResource.addTransaction(principal, categoryDto.getId(), walletDto.getId(), getRandomTransaction()).getBody();
   }
 
-  private static Integer getRandomBalance () {
-    return RandomTool.getNumberInteger();
+  private static BigDecimal getRandomBalance () {
+    return BigDecimal.valueOf(RandomTool.getNumberInteger());
   }
 
   private static String getRandomName () {

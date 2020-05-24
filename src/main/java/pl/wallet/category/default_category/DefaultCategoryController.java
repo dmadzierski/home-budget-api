@@ -1,31 +1,37 @@
 package pl.wallet.category.default_category;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
-import pl.wallet.category.CategoryService;
+import pl.wallet.category.Category;
 
+import javax.validation.ConstraintViolationException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@AllArgsConstructor
 public class DefaultCategoryController {
   private DefaultCategoryService defaultCategoryService;
-  private CategoryService categoryService;
 
-  @Autowired
-  public DefaultCategoryController (DefaultCategoryService defaultCategoryService, CategoryService categoryService) {
-    this.defaultCategoryService = defaultCategoryService;
-    this.categoryService = categoryService;
+  public List<Category> getDefaultCategories () {
+    return this.defaultCategoryService.getDefaultCategories();
   }
 
   @EventListener(ApplicationReadyEvent.class)
   public void addDefaultCategoryToDb () {
-    defaultCategoryService.setDefaultCategories(
-      defaultCategoryService
-        .getDefaultCategoryFromEnum()
-        .stream()
-        .map(categoryService::saveCategory)
-        .collect(Collectors.toList()));
+    try {
+      defaultCategoryService.setDefaultCategories(
+        defaultCategoryService.getDefaultCategoryFromEnum()
+          .stream()
+          .map(defaultCategoryService::saveCategory)
+          .collect(Collectors.toList()));
+    } catch (ConstraintViolationException ignored) {
+    }
   }
+
+
 }
+
+

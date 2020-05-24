@@ -23,7 +23,7 @@ public class UserDto {
   @Null(message = "New user can not have id")
   private Long id;
 
-  @Unique(message = "Email is used by another account")
+  @UniqueUserEmail(message = "Email is used by another account")
   @Email(message = "Must be a well-formed email address")
   @NotNull(message = "User must have email")
   private String email;

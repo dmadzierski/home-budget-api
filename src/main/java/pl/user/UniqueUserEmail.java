@@ -13,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(ElementType.FIELD)
 @Constraint(validatedBy = UserUniqueValidator.class)
 @Retention(RUNTIME)
-public @interface Unique {
+public @interface UniqueUserEmail {
   String message ();
 
   Class<?>[] groups () default {};

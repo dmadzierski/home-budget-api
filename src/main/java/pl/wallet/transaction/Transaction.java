@@ -8,6 +8,7 @@ import pl.wallet.Wallet;
 import pl.wallet.category.Category;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -31,7 +32,7 @@ public class Transaction {
   private Category category;
 
   @Column(nullable = false)
-  private Integer price;
+  private BigDecimal price;
 
   @ManyToOne
   private Wallet wallet;

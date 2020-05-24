@@ -1,35 +1,33 @@
 package pl.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import pl.security.user_role.UserRole;
 import pl.security.user_role.UserRoleService;
+import pl.wallet.category.default_category.DefaultCategoryService;
 
 import static pl.security.user_role.default_user_role.DefaultUserRoleType.USER_ROLE;
 
 @Controller
+@AllArgsConstructor
 public class UserController {
 
   private UserService userService;
   private UserRoleService userRoleService;
   private PasswordEncoder passwordEncoder;
+  private DefaultCategoryService defaultCategoryService;
 
-  @Autowired
-  public UserController (UserService userService, UserRoleService userRoleService, PasswordEncoder passwordEncoder) {
-    this.userService = userService;
-    this.userRoleService = userRoleService;
-    this.passwordEncoder = passwordEncoder;
-  }
-
-  UserDto addWithDefaultRoleAndDefaultCategory (UserDto userDto) {
+  UserDto addUserWithDefaultsResources (UserDto userDto) {
     User user = UserMapper.toEntity(userDto);
     UserRole userRole = userRoleService.findRole(USER_ROLE.getName());
     user.addRole(userRole);
     encodePassword(user);
-    user = userService.saveUser(user);
-    return UserMapper.toDto(user);
+    User savedUser = userService.saveUser(user);
+    defaultCategoryService.addDefaultCategories(user);
+    return UserMapper.toDto(savedUser);
   }
+
 
   private void encodePassword (User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));

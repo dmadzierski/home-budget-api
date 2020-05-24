@@ -1,9 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-.content{
+#content {
   min-height: 90vh !important;
   padding: 2%;
 }
-nav, footer{
+
+nav, footer {
   min-height: 10vh !important;
   padding: 0;
 }

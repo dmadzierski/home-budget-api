@@ -6,12 +6,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.security.user_role.default_user_role.DefaultUserRoleType;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
   @Bean
   public PasswordEncoder passwordEncoder () {
     return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -20,15 +19,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure (HttpSecurity http) throws Exception {
     http
+      .httpBasic()
+      .and()
       .authorizeRequests()
-      .antMatchers("/").permitAll()
-      .antMatchers("/register").permitAll()
-      .antMatchers("/user_role").hasRole(DefaultUserRoleType.ADMIN_ROLE.getName())
+      .antMatchers("/index.html", "/register", "/login", "/", "/user").permitAll()
       .anyRequest().authenticated()
       .and()
-      .formLogin().permitAll()
+      .formLogin().usernameParameter("email")
+      .and()
+      .cors()
       .and()
       .csrf().disable()
       .headers().frameOptions().disable();
+  }
+
+  @Bean
+  public WebMvcConfigurer corsConfigurer () {
+    return new WebMvcConfigurer() {
+      @Override
+      public void addCorsMappings (CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+      }
+    };
   }
 }

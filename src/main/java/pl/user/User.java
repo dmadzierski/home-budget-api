@@ -7,7 +7,7 @@ import pl.wallet.category.Category;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode
@@ -46,7 +46,8 @@ public class User {
     try {
       categories.add(category);
     } catch (NullPointerException e) {
-      categories = Collections.singletonList(category);
+      categories = new ArrayList<>();
+      categories.add(category);
     }
   }
 
@@ -55,7 +56,8 @@ public class User {
     try {
       this.roles.add(userRole);
     } catch (NullPointerException e) {
-      this.roles = Collections.singletonList(userRole);
+      this.roles = new ArrayList<>();
+      this.roles.add(userRole);
     }
   }
 
@@ -63,7 +65,8 @@ public class User {
     try {
       this.wallets.add(wallet);
     } catch (NullPointerException e) {
-      this.wallets = Collections.singletonList(wallet);
+      this.wallets = new ArrayList<>();
+      this.wallets.add(wallet);
     }
   }
 }
