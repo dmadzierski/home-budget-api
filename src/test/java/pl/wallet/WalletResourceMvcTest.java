@@ -17,6 +17,7 @@ import pl.test_tool.error.WalletError;
 import pl.test_tool.web.RequestToolWithAuth;
 import pl.user.UserDto;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 
 import static pl.test_tool.error.ServerError.IS_NOT_YOU_PROPERTY;
@@ -44,7 +45,7 @@ class WalletResourceMvcTest {
   @Test
   void should_remove_wallet () {
     UserDto userDto = pl.user.UserTool.register(mockMvc);
-    WalletDto walletDto = WalletDto.builder().name(RandomTool.getRandomString()).balance(RandomTool.id()).build();
+    WalletDto walletDto = WalletDto.builder().name(RandomTool.getRandomString()).balance(BigDecimal.valueOf(RandomTool.getNumberInteger())).build();
     WalletDto expectedWalletDto = WalletDto.builder()
       .id(1L)
       .name(walletDto.getName())
@@ -63,7 +64,7 @@ class WalletResourceMvcTest {
   void should_add_wallet () {
     //given
     UserDto userDto = pl.user.UserTool.register(mockMvc);
-    WalletDto walletDto = WalletDto.builder().name(RandomTool.getRandomString()).balance(RandomTool.id()).build();
+    WalletDto walletDto = WalletDto.builder().name(RandomTool.getRandomString()).balance(BigDecimal.valueOf(RandomTool.getNumberInteger())).build();
     WalletDto expectedWalletDto = WalletDto.builder()
       .id(1L)
       .name(walletDto.getName())
@@ -95,7 +96,7 @@ class WalletResourceMvcTest {
   void wallet_should_have_name () {
     //given
     UserDto userDto = UserTool.register(mockMvc);
-    WalletDto walletDto = WalletDto.builder().balance(RandomTool.id()).build();
+    WalletDto walletDto = WalletDto.builder().balance(BigDecimal.valueOf(RandomTool.getNumberInteger())).build();
     ErrorsResponse errorsResponse = HibernateErrorTool.buildErrorResponse(WalletError.NAME_NOT_NULL);
     //when
 
@@ -110,7 +111,7 @@ class WalletResourceMvcTest {
     WalletDto walletDto = WalletDto.builder()
       .id(RandomTool.id())
       .name(RandomTool.getRandomString())
-      .balance(RandomTool.id())
+      .balance(BigDecimal.valueOf(RandomTool.getNumberInteger()))
       .build();
     ErrorsResponse errorsResponse = HibernateErrorTool.buildErrorResponse(WalletError.ID_NULL);
     //when

@@ -36,7 +36,7 @@ public class UserTool {
   @Deprecated
   public static UserDto registerRandomUser (UserController userController) {
     UserDto userDto = UserTool.createRandomUserDto();
-    return userController.addWithDefaultRoleAndDefaultCategory(userDto);
+    return userController.addUserWithDefaultsResources(userDto);
   }
 
   public static UserDto registerRandomUser (UserResource userResource) {

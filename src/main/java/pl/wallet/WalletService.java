@@ -50,7 +50,7 @@ public class WalletService {
   }
 
   public Wallet changeBalance (Wallet wallet, Transaction transaction) {
-    wallet.setBalance(wallet.getBalance() - transaction.getPrice());
+    wallet.setBalance(wallet.getBalance().subtract(transaction.getPrice()));
     return saveWallet(wallet);
   }
 }

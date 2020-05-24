@@ -2,6 +2,7 @@ package pl.wallet;
 
 import pl.test_tool.RandomTool;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 
 public class WalletTool {
@@ -13,7 +14,7 @@ public class WalletTool {
   public static WalletDto.WalletDtoBuilder walletBuilderWithNecessaryValue () {
     return WalletDto.builder()
       .name(RandomTool.getRandomString())
-      .balance(RandomTool.id());
+      .balance(BigDecimal.valueOf(RandomTool.getNumberInteger()));
   }
 
   @Deprecated

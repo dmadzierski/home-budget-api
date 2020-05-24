@@ -9,6 +9,7 @@ import pl.wallet.transaction.Transaction;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Wallet {
   private String name;
 
   @Column(nullable = false)
-  private Long balance;
+  private BigDecimal balance;
 
   @OneToMany
   private List<Transaction> transactions;
