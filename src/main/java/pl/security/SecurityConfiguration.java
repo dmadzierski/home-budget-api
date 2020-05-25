@@ -27,8 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
       .and()
       .formLogin().usernameParameter("email")
       .and()
-      .cors()
-      .and()
+      .cors().disable()
       .csrf().disable()
       .headers().frameOptions().disable();
   }
