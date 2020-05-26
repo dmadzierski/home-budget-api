@@ -14,7 +14,6 @@ import java.security.Principal;
 @RestController
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, path = "/wallet/{walletId}")
 @AllArgsConstructor
-
 public class TransactionResource {
   private TransactionController transactionController;
 

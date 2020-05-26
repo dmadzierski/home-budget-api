@@ -12,7 +12,6 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/user/friend")
 @AllArgsConstructor
-
 public class FriendResource {
 
   private FriendController friendController;

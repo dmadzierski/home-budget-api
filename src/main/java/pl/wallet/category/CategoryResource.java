@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @Validated
 @RestController
 @RequestMapping(path = "/category", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
