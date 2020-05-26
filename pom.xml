@@ -11,7 +11,7 @@
     <groupId>pl.api.home</groupId>
     <artifactId>api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>budget-home</name>
+    <name>budget-home-api</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

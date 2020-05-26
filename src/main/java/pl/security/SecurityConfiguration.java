@@ -1,5 +1,6 @@
 package pl.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +12,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+  @Value("${cors.allowed-origins}")
+  private String allowedOrigins;
+
   @Bean
   public PasswordEncoder passwordEncoder () {
     return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -38,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
     return new WebMvcConfigurer() {
       @Override
       public void addCorsMappings (CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+        registry.addMapping("/**").allowedOrigins(allowedOrigins);
       }
     };
   }

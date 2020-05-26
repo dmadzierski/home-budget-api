@@ -15,7 +15,6 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/wallet")
-@CrossOrigin("http://localhost:4200")
 @AllArgsConstructor
 public class WalletResource {
   private WalletController walletController;

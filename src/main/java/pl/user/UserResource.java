@@ -12,7 +12,6 @@ import java.security.Principal;
 
 @Validated
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @AllArgsConstructor
 public class UserResource {
 
