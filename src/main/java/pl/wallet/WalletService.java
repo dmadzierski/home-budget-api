@@ -7,6 +7,7 @@ import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.wallet.transaction.Transaction;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -15,7 +16,7 @@ public class WalletService {
 
   private WalletRepository walletRepository;
 
-  Wallet saveWallet (Wallet wallet) {
+  public Wallet saveWallet (Wallet wallet) {
     return walletRepository.save(wallet);
   }
 
@@ -49,8 +50,23 @@ public class WalletService {
     return walletRepository.save(wallet);
   }
 
-  public Wallet changeBalance (Wallet wallet, Transaction transaction) {
-    wallet.setBalance(wallet.getBalance().subtract(transaction.getPrice()));
+  public Wallet updateBalance (Wallet wallet, Transaction transaction) {
+    wallet.addTransaction(transaction);
     return saveWallet(wallet);
+  }
+
+  public Wallet saveDefaultWallet (User user) {
+    Wallet defaultWallet = createDefaultWallet();
+    defaultWallet.addUser(user);
+    defaultWallet.setOwnerEmail(user.getEmail());
+    this.saveWallet(defaultWallet);
+    return defaultWallet;
+  }
+
+  Wallet createDefaultWallet () {
+    Wallet wallet = new Wallet();
+    wallet.setName("Wallet");
+    wallet.setBalance(BigDecimal.ZERO);
+    return wallet;
   }
 }

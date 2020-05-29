@@ -23,7 +23,12 @@ public class UserResource {
   }
 
   @RequestMapping("/user")
-  public Principal user (Principal user) {
-    return user;
+  public Principal user (Principal principal) {
+    return principal;
+  }
+
+  @GetMapping("/getUser")
+  public UserDto getUser (Principal principal) {
+    return userController.getUserByPrincipal(principal);
   }
 }

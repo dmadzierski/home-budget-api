@@ -6,7 +6,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 import pl.wallet.category.Category;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +26,7 @@ public class DefaultCategoryController {
           .stream()
           .map(defaultCategoryService::saveCategory)
           .collect(Collectors.toList()));
-    } catch (ConstraintViolationException ignored) {
+    } catch (Exception ignored) {
     }
   }
 

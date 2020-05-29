@@ -14,6 +14,7 @@ public class UserMapper {
   public static UserDto toDto (User user) {
     return UserDto.builder()
       .email(user.getEmail())
+      .favoriteWalletId(user.getFavoriteWalletId())
       .build();
   }
 

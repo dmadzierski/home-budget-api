@@ -22,14 +22,20 @@ public class TransactionController {
 
 
   TransactionDto addTransaction (Principal principal, Long walletId, Long categoryId, TransactionDto transactionDto) {
+
     User user = userService.getUserByEmail(principal.getName());
     Wallet wallet = getWallet(user, walletId);
     Category category = getCategory(user, categoryId);
+
     Transaction transaction = TransactionMapper.toEntity(transactionDto);
-    wallet = walletService.changeBalance(wallet, transaction);
+
     transaction.setWallet(wallet);
     transaction.setCategory(category);
+
+    walletService.updateBalance(wallet, transaction);
+
     transaction = transactionService.save(transaction);
+
     return TransactionMapper.toDto(transaction);
   }
 

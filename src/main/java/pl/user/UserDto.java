@@ -36,12 +36,15 @@ public class UserDto {
 
   private List<FriendDto> friends;
 
+  private Long favoriteWalletId;
+
   @Builder
-  public UserDto (Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, Set<UserRoleDto> roles, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, List<FriendDto> friends) {
+  public UserDto (Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, Set<UserRoleDto> roles, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, List<FriendDto> friends, Long favoriteWalletId) {
     this.id = id;
     this.email = email;
     this.roles = roles;
     this.password = password;
     this.friends = friends;
+    this.favoriteWalletId = favoriteWalletId;
   }
 }

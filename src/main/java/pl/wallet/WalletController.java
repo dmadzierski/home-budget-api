@@ -29,6 +29,7 @@ public class WalletController {
     User user = userService.getUserByEmail(principal.getName());
     Wallet wallet = WalletMapper.toEntity(walletDto);
     wallet.addUser(user);
+    wallet.setOwnerEmail(user.getEmail());
     wallet = walletService.saveWallet(wallet);
     walletDto = WalletMapper.toDto(wallet);
     return walletDto;

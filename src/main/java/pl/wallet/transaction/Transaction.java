@@ -9,6 +9,7 @@ import pl.wallet.category.Category;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -36,6 +37,8 @@ public class Transaction {
 
   @ManyToOne
   private Wallet wallet;
+
+  private LocalDateTime addingTime;
 
 }
 

@@ -41,6 +41,7 @@ public class User {
   @ManyToMany
   private List<Category> categories;
 
+  private Long favoriteWalletId;
 
   public void addCategory (Category category) {
     try {
