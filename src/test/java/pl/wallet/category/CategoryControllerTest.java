@@ -21,7 +21,7 @@ class CategoryControllerTest {
   private UserController userController;
 
   @Autowired
-  public CategoryControllerTest (CategoryController categoryController, UserController userController) {
+  CategoryControllerTest (CategoryController categoryController, UserController userController) {
     this.categoryController = categoryController;
     this.userController = userController;
   }

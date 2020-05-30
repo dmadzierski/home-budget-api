@@ -1,5 +1,6 @@
 package pl.wallet.transaction;
 
+import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,14 +46,6 @@ class TransactionResourceTest {
     this.transactionResource = transactionResource;
     this.walletResource = walletResource;
   }
-
-//  @Autowired
-//  TransactionResourceTest (WalletController walletController, UserController userController, CategoryController categoryController, TransactionResource transactionResource) {
-//    this.walletController = walletController;
-//    this.userController = userController;
-//    this.categoryController = categoryController;
-//    this.transactionResource = transactionResource;
-//  }
 
 
   @Test

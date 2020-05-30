@@ -25,7 +25,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -121,7 +120,9 @@ class WalletResourceTest {
     //then
     assertThat(walletDtoResponseEntity).isNotNull();
     assertThat(walletDtoResponseEntity.getStatusCode()).isEqualTo(OK);
-    assertThat(walletDtoResponseEntity.getBody()).isEqualTo(expectedWalletDto);
+    assertThat(walletDtoResponseEntity.getBody()).isEqualToIgnoringGivenFields(expectedWalletDto, "balance");
+    assertThat(walletDtoResponseEntity.getBody().getBalance())
+      .isEqualByComparingTo(expectedWalletDto.getBalance());
   }
 
   @Test
@@ -137,23 +138,6 @@ class WalletResourceTest {
     //then
     assertThatExceptionOfType(ThereIsNoYourPropertyException.class).isThrownBy(() -> walletResource.getWallet(principal, walletDto.getId()))
       .withMessage(new ThereIsNoYourPropertyException().getMessage());
-  }
-
-  @Test
-  void user_can_get_all_own_wallets () {
-    //given
-    UserDto userDto = UserTool.registerRandomUser(userResource);
-    Principal principal = userDto::getEmail;
-    int numberOfWallets = 100;
-    List<WalletDto> wallets = addWallets(principal, numberOfWallets);
-    //when
-    ResponseEntity<List<WalletDto>> walletsResponseEntity = walletResource.getWallets(principal);
-    //then
-    assertThat(walletsResponseEntity).isNotNull();
-    assertThat(walletsResponseEntity.getStatusCode()).isEqualTo(OK);
-    assertThat(walletsResponseEntity.getBody()).hasSize(numberOfWallets)
-      .allMatch(Objects::nonNull)
-      .allMatch(k -> wallets.stream().anyMatch(l -> l.equals(k)));
   }
 
   @Test

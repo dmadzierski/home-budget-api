@@ -34,7 +34,7 @@ class WalletControllerTest {
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.randomWallet();
     WalletDto expectedWalletDto = WalletDto.builder()
-      .id(1L)
+      .id(2L)
       .balance(walletDto.getBalance())
       .name(walletDto.getName())
       .users(Collections.singletonList(userDto))

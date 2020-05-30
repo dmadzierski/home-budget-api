@@ -90,7 +90,8 @@ class FriendControllerTest {
     //when
     WalletDto walletDtoWithAddedFriend = friendController.shareWalletWithFriend(principal, friendDto, walletDto.getId());
     //then
-    assertThat(walletDtoWithAddedFriend).isEqualToComparingFieldByField(expectedWallet);
+    assertThat(walletDtoWithAddedFriend).isEqualToIgnoringGivenFields(expectedWallet,"balance");
+    assertThat(walletDtoWithAddedFriend.getBalance()).isEqualByComparingTo(expectedWallet.getBalance());
   }
 
 }

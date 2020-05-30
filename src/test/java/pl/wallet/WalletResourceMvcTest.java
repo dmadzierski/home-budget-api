@@ -11,7 +11,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.exception.ErrorsResponse;
 import pl.test_tool.RandomTool;
-import pl.test_tool.UserTool;
 import pl.test_tool.error.HibernateErrorTool;
 import pl.test_tool.error.WalletError;
 import pl.test_tool.web.RequestToolWithAuth;
@@ -34,23 +33,23 @@ class WalletResourceMvcTest {
   @Test
   void should_not_remove_wallet_another_user () {
     should_add_wallet();
-    UserDto userDto = pl.user.UserTool.register(mockMvc);
+    UserDto userDto = pl.user.UserTool.register(mockMvc, 3L);
     ErrorsResponse errorsResponse = HibernateErrorTool.buildErrorResponse(IS_NOT_YOU_PROPERTY);
     //when
 
     //then
-    RequestToolWithAuth.checkResponseDelete(mockMvc, "/wallet/remove/1", HttpStatus.INTERNAL_SERVER_ERROR, errorsResponse.getErrors(), userDto.getEmail());
+    RequestToolWithAuth.checkResponseDelete(mockMvc, "/wallet/remove/2", HttpStatus.INTERNAL_SERVER_ERROR, errorsResponse.getErrors(), userDto.getEmail());
   }
 
   @Test
   void should_remove_wallet () {
-    UserDto userDto = pl.user.UserTool.register(mockMvc);
+    UserDto userDto = pl.user.UserTool.register(mockMvc, 1L);
     WalletDto walletDto = WalletDto.builder().name(RandomTool.getRandomString()).balance(BigDecimal.valueOf(RandomTool.getNumberInteger())).build();
     WalletDto expectedWalletDto = WalletDto.builder()
-      .id(1L)
+      .id(2L)
       .name(walletDto.getName())
       .balance(walletDto.getBalance())
-      .users(Collections.singletonList(UserDto.builder().email(userDto.getEmail()).build()))
+      .users(Collections.singletonList(UserDto.builder().email(userDto.getEmail()).favoriteWalletId(1L).build()))
       .build();
     addWallet(walletDto, HttpStatus.CREATED, expectedWalletDto, userDto.getEmail());
     //when
@@ -63,27 +62,24 @@ class WalletResourceMvcTest {
   @Test
   void should_add_wallet () {
     //given
-    UserDto userDto = pl.user.UserTool.register(mockMvc);
+    UserDto userDto = pl.user.UserTool.register(mockMvc, 1L);
     WalletDto walletDto = WalletDto.builder().name(RandomTool.getRandomString()).balance(BigDecimal.valueOf(RandomTool.getNumberInteger())).build();
     WalletDto expectedWalletDto = WalletDto.builder()
-      .id(1L)
+      .id(2L)
       .name(walletDto.getName())
       .balance(walletDto.getBalance())
-      .users(Collections.singletonList(UserDto.builder().email(userDto.getEmail()).build()))
+      .users(Collections.singletonList(UserDto.builder().email(userDto.getEmail()).favoriteWalletId(1L).build()))
       .build();
     //when
 
     //then
-    System.out.println("------");
-    System.out.println(expectedWalletDto.toString());
-    System.out.println("------");
     addWallet(walletDto, HttpStatus.CREATED, expectedWalletDto, userDto.getEmail());
   }
 
   @Test
   void wallet_should_have_balance () {
     //given
-    UserDto userDto = UserTool.register(mockMvc);
+    UserDto userDto = pl.user.UserTool.register(mockMvc, 1L);
     WalletDto walletDto = WalletDto.builder().name(RandomTool.getRandomString()).build();
     ErrorsResponse errorsResponse = HibernateErrorTool.buildErrorResponse(WalletError.BALANCE_NOT_NULL);
     //when
@@ -95,8 +91,8 @@ class WalletResourceMvcTest {
   @Test
   void wallet_should_have_name () {
     //given
-    UserDto userDto = UserTool.register(mockMvc);
-    WalletDto walletDto = WalletDto.builder().balance(BigDecimal.valueOf(RandomTool.getNumberInteger())).build();
+    UserDto userDto = pl.user.UserTool.register(mockMvc, 1L);
+    WalletDto walletDto = WalletDto.builder().balance(RandomTool.getNumber()).build();
     ErrorsResponse errorsResponse = HibernateErrorTool.buildErrorResponse(WalletError.NAME_NOT_NULL);
     //when
 
@@ -107,7 +103,7 @@ class WalletResourceMvcTest {
   @Test
   void new_wallet_should_not_have_id () {
     //given
-    UserDto userDto = UserTool.register(mockMvc);
+    UserDto userDto = pl.user.UserTool.register(mockMvc, 1L);
     WalletDto walletDto = WalletDto.builder()
       .id(RandomTool.id())
       .name(RandomTool.getRandomString())

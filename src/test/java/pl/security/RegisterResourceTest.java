@@ -32,7 +32,7 @@ class RegisterResourceTest {
   void should_create_new_user () {
     //given
     UserDto userDto = UserTool.createRandomCorrectUserDto();
-    UserDto userDtoExpectedResult = UserDto.builder().email(userDto.getEmail()).build();
+    UserDto userDtoExpectedResult = UserDto.builder().email(userDto.getEmail()).favoriteWalletId(1L).build();
     //when
 
     //then
@@ -98,7 +98,7 @@ class RegisterResourceTest {
   void new_user_should_have_unique_email () {
     //given
     UserDto userDto = UserTool.createRandomCorrectUserDto();
-    UserDto userDtoExpectedResult = UserDto.builder().email(userDto.getEmail()).build();
+    UserDto userDtoExpectedResult = UserDto.builder().email(userDto.getEmail()).favoriteWalletId(1L).build();
     ErrorsResponse response = HibernateErrorTool.buildErrorResponse(EMAIL_UNIQUE);
     //when
     register(userDto, HttpStatus.CREATED, userDtoExpectedResult);

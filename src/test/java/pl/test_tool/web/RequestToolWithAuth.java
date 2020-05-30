@@ -33,10 +33,8 @@ public class RequestToolWithAuth {
   }
 
   public static MvcResult checkResponseDelete (MockMvc mockMvc, String uri, HttpStatus expectedStatus, Object expectedObject, String userName) {
-
     try {
       String jsonStringExpectedObject = JsonTool.asJsonString(expectedObject);
-      System.out.println(jsonStringExpectedObject);
       return mockMvc.perform(delete(uri).with(user(userName))
         .accept(MediaType.APPLICATION_JSON_VALUE)
         .contentType(MediaType.APPLICATION_JSON_VALUE))

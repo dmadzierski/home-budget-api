@@ -36,11 +36,13 @@ class FriendResourceTest {
     Principal principal = userDto::getEmail;
     //when
     ResponseEntity<UserDto> userDtoResponseEntity = friendResource.addFriend(principal, friend);
+    UserDto expectedUserDto = UserDto.builder().email(userDto.getEmail()).build();
+
     //then
     Assertions.assertThat(userDtoResponseEntity).isNotNull();
     Assertions.assertThat(userDtoResponseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     Assertions.assertThat(userDtoResponseEntity.getBody().getFriends()).matches(k -> k.stream().allMatch(c -> c.getDateOfMakingFriend() != null && c.getName().equals(friend.getEmail())));
-    Assertions.assertThat(userDtoResponseEntity.getBody()).isEqualToIgnoringNullFields(userDto);
+    Assertions.assertThat(userDtoResponseEntity.getBody()).isEqualToIgnoringNullFields(expectedUserDto);
   }
 
 
