@@ -16,15 +16,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity handleAllExceptions (Exception exception, WebRequest request) {
-    return ResponseEntity.status(INTERNAL_SERVER_ERROR)
-      .body(new ErrorsResponse(Map.of("Server Error", Collections.singletonList(exception.getLocalizedMessage()))).getErrors());
+    return ResponseEntity.status(BAD_REQUEST)
+      .body(new ErrorsResponse(Map.of("Server Error", Collections.singletonList(exception.getLocalizedMessage().replace("addTransaction.<cross-parameter>: ", "")))).getErrors());
   }
 
   @Override
@@ -37,6 +36,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         .collect(Collectors.toMap(Map.Entry::getKey, fieldError -> fieldError.getValue()
           .stream()
           .map(ObjectError::getDefaultMessage)
+          .map(message -> message.replace("addTransaction.<cross-parameter>:", ""))
           .collect(Collectors.toList())))));
   }
 }

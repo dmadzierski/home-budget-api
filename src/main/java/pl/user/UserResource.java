@@ -13,12 +13,13 @@ import java.security.Principal;
 @Validated
 @RestController
 @AllArgsConstructor
+@CrossOrigin("${cors.allowed-origins}")
 public class UserResource {
 
   private UserController userController;
 
   @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<UserDto> register (@Valid @RequestBody UserDto userDto) {
+  public ResponseEntity<UserDto> register (@RequestBody @Valid UserDto userDto) {
     return ResponseEntity.status(HttpStatus.CREATED).body(userController.addUserWithDefaultsResources(userDto));
   }
 
@@ -27,7 +28,7 @@ public class UserResource {
     return principal;
   }
 
-  @GetMapping("/getUser")
+  @GetMapping("/profile")
   public UserDto getUser (Principal principal) {
     return userController.getUserByPrincipal(principal);
   }

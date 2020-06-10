@@ -1,21 +1,21 @@
 package pl.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Component
+@AllArgsConstructor
 public class UserUniqueValidator implements ConstraintValidator<UniqueUserEmail, String> {
 
   private UserService userService;
 
-  @Autowired
-  UserUniqueValidator (ApplicationContext applicationContext) {
-    userService = applicationContext.getBean(UserService.class);
-  }
+//  @Autowired
+//  UserUniqueValidator (ApplicationContext applicationContext) {
+//    userService = applicationContext.getBean(UserService.class);
+//  }
 
   @Override
   public void initialize (UniqueUserEmail uniqueUserEmail) {

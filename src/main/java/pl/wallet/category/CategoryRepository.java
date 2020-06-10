@@ -1,6 +1,8 @@
 package pl.wallet.category;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.user.User;
 
@@ -11,5 +13,12 @@ import java.util.Optional;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
   Optional<Category> getById (Long categoryId);
 
-  List<Category> findAllByUsers (User users);
+  @Query("SELECT c FROM Category c JOIN c.users u WHERE u = :user")
+  List<Category> findByUsers (@Param("user") User user);
+
+  @Query("SELECT c FROM Category c WHERE c.isDefault = true")
+  List<Category> getDefaultCategories ();
+
+  @Query("SELECT c FROM Category c INNER JOIN c.users u WHERE :categoryId = c.id AND :user = :user")
+  Optional<Category> findByIdAndUsers (@Param("categoryId") Long categoryId, @Param("user") User user);
 }

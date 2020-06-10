@@ -2,4 +2,4 @@ Change login page, add password repeat
 A new should not copy default categories
 Try to find answer on that @Bean corsConfigurer works on all server exception serverBase/category/add
 Add edit and remove to categories.component
-User should not have duplacate categories name
+User should not create new categories

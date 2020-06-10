@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/wallet")
 @AllArgsConstructor
+@CrossOrigin("${cors.allowed-origins}")
 public class WalletResource {
   private WalletController walletController;
 

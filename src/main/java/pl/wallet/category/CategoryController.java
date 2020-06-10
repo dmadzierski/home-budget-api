@@ -21,19 +21,20 @@ public class CategoryController {
     Category category = CategoryMapper.toEntity(categoryDto);
     category.addUser(user);
     category = categoryService.saveCategory(category);
+    user.addCategory(category);
+    userService.saveUser(user);
     return CategoryMapper.toDto(category);
   }
 
   void removeCategory (Principal principal, Long categoryId) {
     User user = userService.getUserByEmail(principal.getName());
-    categoryService.isUserCategory(user, categoryId);
+    categoryService.getUserCategory(user, categoryId);
     categoryService.removeCategory(categoryId);
   }
 
   List<CategoryDto> getCategories (Principal principal) {
     User user = userService.getUserByEmail(principal.getName());
-    List<Category> categories = categoryService.getCategoriesByUser(user);
-    return categories.stream().map(CategoryMapper::toDto).collect(Collectors.toList());
+    return categoryService.getCategoriesByUser(user).stream().map(CategoryMapper::toDto).collect(Collectors.toList());
   }
 
 }

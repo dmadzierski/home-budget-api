@@ -28,11 +28,7 @@ public class UserService {
     return userRepository.findByEmail(email).isPresent();
   }
 
-  User saveUser (User user) {
+  public User saveUser (User user) {
     return userRepository.save(user);
-  }
-
-  public User getUserById (Long userId) {
-    return userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(userId, User.class));
   }
 }

@@ -23,6 +23,7 @@ public class UserRole {
 
   private String description;
 
+  private Boolean isDefault;
 
   public UserRole (String roleName, String description) {
     this.roleName = roleName;

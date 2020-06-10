@@ -1,9 +1,6 @@
 package pl.wallet.transaction;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.wallet.Wallet;
 import pl.wallet.category.Category;
 
@@ -17,6 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "transaction")
+@ToString
 public class Transaction {
 
   @Column(name = "transaction_id")
@@ -40,5 +38,20 @@ public class Transaction {
 
   private LocalDateTime addingTime;
 
+  private Boolean isFinished;
+
+  private Long transactionIdReference;
+
+  @Builder
+  public Transaction (String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime addingTime, Boolean isFinished, Long transactionIdReference) {
+    this.name = name;
+    this.description = description;
+    this.category = category;
+    this.price = price;
+    this.wallet = wallet;
+    this.addingTime = addingTime;
+    this.isFinished = isFinished;
+    this.transactionIdReference = transactionIdReference;
+  }
 }
 
