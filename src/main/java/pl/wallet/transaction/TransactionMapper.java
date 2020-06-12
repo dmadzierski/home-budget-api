@@ -11,8 +11,9 @@ public class TransactionMapper {
       .name(transactionDto.getName())
       .description(transactionDto.getDescription())
       .price(transactionDto.getPrice())
-//      .isFinished(transactionDto.getIsFinished())
-//      .transactionIdReference(transactionDto.getTransactionIdReference())
+      .addingTime(transactionDto.getAddingTime())
+      .isFinished(transactionDto.getIsFinished())
+      .transactionIdReference(transactionDto.getTransactionIdReference())
       .build();
   }
 
@@ -23,8 +24,9 @@ public class TransactionMapper {
       .description(transaction.getDescription())
       .price(transaction.getPrice())
       .category(CategoryMapper.toDto(transaction.getCategory()))
-//      .isFinished(transaction.getIsFinished())
-//      .transactionIdReference(transaction.getTransactionIdReference())
+      .addingTime(transaction.getAddingTime())
+      .isFinished(transaction.getIsFinished())
+      .transactionIdReference(transaction.getTransactionIdReference())
       .build();
   }
 }

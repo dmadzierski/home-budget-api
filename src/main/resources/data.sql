@@ -1,5 +1,3 @@
-
-
 INSERT INTO `home-budget`.user_role (id_user_role, description, role_name, is_default)
 VALUES (1, ' Default role', 'USER_ROLE', true);
 

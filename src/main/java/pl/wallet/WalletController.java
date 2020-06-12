@@ -21,7 +21,7 @@ public class WalletController {
   WalletDto getWalletWithTransactions (Principal principal, Long walletId) {
     isUserWallet(principal, walletId);
     Wallet wallet = walletService.getWalletById(walletId);
-    List<Transaction> transactions = transactionService.getTransactionByWalletId(walletId);
+    List<Transaction> transactions = transactionService.getTransactionsByWalletId(walletId);
     return WalletMapper.toDtoWithTransaction(wallet, transactions);
   }
 

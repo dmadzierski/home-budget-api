@@ -9,9 +9,9 @@ import pl.user.UserService;
 import pl.wallet.Wallet;
 import pl.wallet.WalletService;
 import pl.wallet.category.Category;
-import pl.wallet.category.CategoryService;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +22,6 @@ public class TransactionController {
   private TransactionService transactionService;
   private UserService userService;
   private WalletService walletService;
-  private CategoryService categoryService;
 
 
   TransactionDto addTransaction (Principal principal, Long walletId, Long categoryId, TransactionDto transactionDto) {
@@ -30,7 +29,13 @@ public class TransactionController {
     Wallet wallet = getWallet(user, walletId);
     Category category = getCategory(user, categoryId);
     Transaction transaction = TransactionMapper.toEntity(transactionDto);
-    if(transaction.getTransactionIdReference() != null) transaction.setIsFinished(false);
+
+    if(category.getTransactionType().ordinal() == 2 || category.getTransactionType().ordinal() == 3)
+      transaction.setIsFinished(false);
+    else transaction.setIsFinished(true);
+    if(transaction.getAddingTime() == null)
+      transaction.setAddingTime(LocalDateTime.now());
+
     transaction.setWallet(wallet);
     transaction.setCategory(category);
     walletService.updateBalance(wallet, transaction);
@@ -47,7 +52,6 @@ public class TransactionController {
     }
   }
 
-
   private Wallet getWallet (User user, Long walletId) {
     return walletService.isUserWallet(user, walletId);
   }
@@ -55,7 +59,7 @@ public class TransactionController {
   void removeTransaction (Principal principal, Long walletId, Long transactionId) {
     User user = userService.getUserByEmail(principal.getName());
     Wallet wallet = getWallet(user, walletId);
-    if(wallet.getTransactions().stream().anyMatch(k -> k.getId().equals(transactionId)))
+    if(transactionService.getTransactionsByWalletId(walletId).stream().anyMatch(k -> k.getId().equals(transactionId)))
       transactionService.removeTransactionById(transactionId);
     else
       throw new ThereIsNoWalletsPropertyException("The wallet does not contain this transaction");
@@ -65,13 +69,13 @@ public class TransactionController {
   public List<TransactionDto> getLoanTransaction (Principal principal, Long walletId) {
     User user = userService.getUserByPrincipal(principal);
     Wallet wallet = getWallet(user, walletId);
-    List<Transaction> transaction = transactionService.getLoanTransaction(walletId);
+    List<Transaction> transaction = transactionService.getLoanTransaction(wallet);
     return transaction.stream().map(TransactionMapper::toDto).collect(Collectors.toList());
   }
 
   public List<TransactionDto> getBorrowTransaction (Principal principal, Long walletId) {
     User user = userService.getUserByPrincipal(principal);
-    Wallet wallet = getWallet(user, walletId);
+    getWallet(user, walletId);
     List<Transaction> transaction = transactionService.getBorrowTransaction(walletId);
     return transaction.stream().map(TransactionMapper::toDto).collect(Collectors.toList());
   }

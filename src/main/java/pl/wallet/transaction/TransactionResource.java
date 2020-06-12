@@ -28,7 +28,7 @@ public class TransactionResource {
     return ResponseEntity.status(HttpStatus.CREATED).body(transactionController.addTransaction(principal, walletId, categoryId, transactionDto));
   }
 
-  @DeleteMapping("/{transactionId}")
+  @DeleteMapping(value = "/transaction/remove/{transactionId}", consumes = MediaType.ALL_VALUE, produces = MediaType.ALL_VALUE)
   public ResponseEntity removeTransaction (Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
     transactionController.removeTransaction(principal, walletId, transactionId);
     return ResponseEntity.noContent().build();
