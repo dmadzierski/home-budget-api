@@ -28,7 +28,7 @@ public class UserResource {
     return principal;
   }
 
-  @GetMapping("/profile")
+  @GetMapping(value = "/profile", consumes = MediaType.ALL_VALUE)
   public UserDto getUser (Principal principal) {
     return userController.getUserByPrincipal(principal);
   }
