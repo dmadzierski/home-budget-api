@@ -50,7 +50,7 @@ public class WalletService {
     return walletRepository.save(wallet);
   }
 
-  public Wallet updateBalance (Wallet wallet, Transaction transaction) {
+  public Wallet addTransaction (Wallet wallet, Transaction transaction) {
     wallet.addTransaction(transaction);
     return saveWallet(wallet);
   }

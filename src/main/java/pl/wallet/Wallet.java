@@ -55,12 +55,12 @@ public class Wallet {
     users.remove(user);
   }
 
-  //  This method only update balance
+  //  This method update balance
   public void addTransaction (Transaction transaction) {
     this.balance = transaction.getCategory().getTransactionType().countBalance(this, transaction);
   }
 
-  //  This method only undo changes in balance
+  //  This method undo changes in balance
   public void removeTransaction (Transaction transaction) {
     this.balance = transaction.getCategory().getTransactionType().undoCountBalance(this, transaction);
 

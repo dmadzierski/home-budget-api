@@ -13,6 +13,7 @@ import pl.wallet.category.Category;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -38,7 +39,7 @@ public class TransactionController {
 
     transaction.setWallet(wallet);
     transaction.setCategory(category);
-    walletService.updateBalance(wallet, transaction);
+    walletService.addTransaction(wallet, transaction);
     transaction = transactionService.save(transaction);
     return TransactionMapper.toDto(transaction);
   }
@@ -59,9 +60,12 @@ public class TransactionController {
   void removeTransaction (Principal principal, Long walletId, Long transactionId) {
     User user = userService.getUserByEmail(principal.getName());
     Wallet wallet = getWallet(user, walletId);
-    if(transactionService.getTransactionsByWalletId(walletId).stream().anyMatch(k -> k.getId().equals(transactionId)))
+    Optional<Transaction> transactionOptional = transactionService.getTransactionsByWalletId(walletId).stream().filter(k -> k.getId().equals(transactionId)).findAny();
+    if(transactionOptional.isPresent()) {
       transactionService.removeTransactionById(transactionId);
-    else
+      wallet.removeTransaction(transactionOptional.get());
+      walletService.saveWallet(wallet);
+    } else
       throw new ThereIsNoWalletsPropertyException("The wallet does not contain this transaction");
   }
 

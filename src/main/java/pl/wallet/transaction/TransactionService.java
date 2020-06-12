@@ -32,4 +32,5 @@ public class TransactionService {
   public List<Transaction> getLoanTransaction (Wallet wallet) {
     return transactionRepository.getLoanTransaction(wallet);
   }
+
 }
