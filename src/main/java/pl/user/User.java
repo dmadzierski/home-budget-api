@@ -35,7 +35,7 @@ public class User {
   @ManyToMany(fetch = FetchType.EAGER)
   private List<UserRole> roles;
 
-  @ManyToMany(cascade = CascadeType.MERGE)
+  @OneToMany(cascade = CascadeType.MERGE)
   private List<Wallet> wallets;
 
   @ManyToMany

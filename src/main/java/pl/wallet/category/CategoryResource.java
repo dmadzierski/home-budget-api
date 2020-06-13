@@ -25,7 +25,7 @@ public class CategoryResource {
     return ResponseEntity.status(HttpStatus.CREATED).body(categoryController.addCategory(principal, categoryDto));
   }
 
-  @DeleteMapping(path = "/remove/{categoryId}")
+  @DeleteMapping(path = "/remove/{categoryId}", produces = MediaType.ALL_VALUE)
   public ResponseEntity removeCategory (Principal principal, @PathVariable Long categoryId) {
     categoryController.removeCategory(principal, categoryId);
     return ResponseEntity.noContent().build();

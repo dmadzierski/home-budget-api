@@ -27,7 +27,7 @@ public class WalletResource {
     return ResponseEntity.status(HttpStatus.CREATED).body(walletController.addWallet(principal, walletDto));
   }
 
-  @GetMapping("")
+  @GetMapping()
   public ResponseEntity<List<WalletDto>> getWallets (Principal principal) {
     return ResponseEntity.ok(walletController.getWallets(principal));
   }
@@ -40,8 +40,7 @@ public class WalletResource {
 
   @GetMapping("/{walletId}")
   public ResponseEntity<WalletDto> getWallet (Principal principal, @PathVariable Long walletId) {
-    return ResponseEntity.ok(walletController.getWalletWithTransactions(principal, walletId));
+    return ResponseEntity.ok(walletController.getWallet(principal, walletId));
   }
-
 
 }

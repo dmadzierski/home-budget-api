@@ -23,7 +23,6 @@ import pl.wallet.transaction.TransactionTool;
 import javax.validation.ConstraintViolationException;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -113,7 +112,7 @@ class WalletResourceTest {
       .name(walletDto.getName())
       .balance(walletDto.getBalance())
       .transactions(new ArrayList<>())
-      .users(Collections.singletonList(userDto))
+      .user(userDto)
       .build();
     //when
     ResponseEntity<WalletDto> walletDtoResponseEntity = walletResource.getWallet(principal, walletDto.getId());

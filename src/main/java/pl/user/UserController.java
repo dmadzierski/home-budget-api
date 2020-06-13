@@ -46,6 +46,6 @@ public class UserController {
   }
 
   UserDto getUserByPrincipal (Principal principal) {
-    return UserMapper.toDto(userService.getUserByPrincipal(principal));
+    return UserMapper.toDto(userService.getUser(principal));
   }
 }

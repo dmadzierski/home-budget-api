@@ -1,6 +1,5 @@
 package pl.wallet;
 
-import pl.user.UserMapper;
 import pl.wallet.transaction.Transaction;
 import pl.wallet.transaction.TransactionMapper;
 
@@ -16,7 +15,6 @@ public class WalletMapper {
       .id(wallet.getId())
       .balance(wallet.getBalance())
       .name(wallet.getName())
-      .users(wallet.getUsers().stream().map(UserMapper::toDto).collect(Collectors.toList()))
       .build();
   }
 
@@ -35,7 +33,6 @@ public class WalletMapper {
       .balance(wallet.getBalance())
       .name(wallet.getName())
       .transactions(transactions.stream().map(TransactionMapper::toDto).collect(Collectors.toList()))
-      .users(wallet.getUsers().stream().map(UserMapper::toDto).collect(Collectors.toList()))
       .build();
   }
 

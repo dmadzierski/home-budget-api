@@ -71,16 +71,22 @@ public class TransactionController {
 
 
   public List<TransactionDto> getLoanTransaction (Principal principal, Long walletId) {
-    User user = userService.getUserByPrincipal(principal);
+    User user = userService.getUser(principal);
     Wallet wallet = getWallet(user, walletId);
     List<Transaction> transaction = transactionService.getLoanTransaction(wallet);
     return transaction.stream().map(TransactionMapper::toDto).collect(Collectors.toList());
   }
 
   public List<TransactionDto> getBorrowTransaction (Principal principal, Long walletId) {
-    User user = userService.getUserByPrincipal(principal);
+    User user = userService.getUser(principal);
     getWallet(user, walletId);
     List<Transaction> transaction = transactionService.getBorrowTransaction(walletId);
     return transaction.stream().map(TransactionMapper::toDto).collect(Collectors.toList());
+  }
+
+  public List<TransactionDto> getWalletTransactions (Principal principal, Long walletId) {
+    User user = userService.getUser(principal);
+    walletService.isUserWallet(user, walletId);
+    return transactionService.getTransactionsByWalletId(walletId).stream().map(TransactionMapper::toDto).collect(Collectors.toList());
   }
 }

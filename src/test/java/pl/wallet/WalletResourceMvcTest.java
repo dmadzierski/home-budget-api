@@ -17,7 +17,6 @@ import pl.test_tool.web.RequestToolWithAuth;
 import pl.user.UserDto;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 
 import static pl.test_tool.error.ServerError.IS_NOT_YOU_PROPERTY;
 
@@ -49,7 +48,7 @@ class WalletResourceMvcTest {
       .id(2L)
       .name(walletDto.getName())
       .balance(walletDto.getBalance())
-      .users(Collections.singletonList(UserDto.builder().email(userDto.getEmail()).favoriteWalletId(1L).build()))
+      .user(UserDto.builder().email(userDto.getEmail()).favoriteWalletId(1L).build())
       .build();
     addWallet(walletDto, HttpStatus.CREATED, expectedWalletDto, userDto.getEmail());
     //when
@@ -68,7 +67,7 @@ class WalletResourceMvcTest {
       .id(2L)
       .name(walletDto.getName())
       .balance(walletDto.getBalance())
-      .users(Collections.singletonList(UserDto.builder().email(userDto.getEmail()).favoriteWalletId(1L).build()))
+      .user(UserDto.builder().email(userDto.getEmail()).favoriteWalletId(1L).build())
       .build();
     //when
 

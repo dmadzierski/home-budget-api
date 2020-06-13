@@ -19,7 +19,6 @@ import java.util.List;
 public class TransactionResource {
   private TransactionController transactionController;
 
-
   @BackTransactionOrSimpleTransaction(
     message = "Back transaction should have reference to loan or borrow transation and transaction with set reference to another transaction should have set other other transaction type",
     message2 = "Transaction with set reference to another transaction should have set other other transaction type")
@@ -44,5 +43,9 @@ public class TransactionResource {
     return ResponseEntity.ok(transactionController.getBorrowTransaction(principal, walletId));
   }
 
+  @GetMapping(value = "/transactions", consumes = MediaType.ALL_VALUE)
+  public ResponseEntity<List<TransactionDto>> getWalletTransactions (Principal principal, @PathVariable Long walletId) {
+    return ResponseEntity.ok(transactionController.getWalletTransactions(principal, walletId));
+  }
 
 }

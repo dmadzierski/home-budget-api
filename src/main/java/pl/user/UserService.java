@@ -20,7 +20,7 @@ public class UserService {
     return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException(email, email.getClass()));
   }
 
-  public User getUserByPrincipal (Principal principal) {
+  public User getUser (Principal principal) {
     return getUserByEmail(principal.getName());
   }
 

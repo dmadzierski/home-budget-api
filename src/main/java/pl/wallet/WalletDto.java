@@ -29,18 +29,18 @@ public class WalletDto {
 
   private List<TransactionDto> transactions;
 
-  private List<UserDto> users;
+  private UserDto user;
 
   @Builder
   public WalletDto (@Null(message = "New wallet can not have id") Long id,
                     @NotEmpty(message = "Wallet must have name") String name,
                     @NotNull(message = "Wallet must have balance") BigDecimal balance,
                     List<TransactionDto> transactions,
-                    List<UserDto> users) {
+                    UserDto user) {
     this.id = id;
     this.name = name;
     this.balance = balance;
     this.transactions = transactions;
-    this.users = users;
+    this.user = user;
   }
 }
