@@ -36,6 +36,11 @@ public class CategoryResource {
     return ResponseEntity.ok(categoryController.getCategories(principal));
   }
 
+  @PostMapping(path = "/restoreDefaultCategories", consumes = MediaType.ALL_VALUE)
+  public ResponseEntity<List<CategoryDto>> restoreDefaultCategories (Principal principal) {
+    return ResponseEntity.ok(categoryController.restoreDefaultCategories(principal));
+  }
+
 
 }
 

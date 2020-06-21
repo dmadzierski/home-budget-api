@@ -54,4 +54,14 @@ public class WalletController {
     User user = this.userService.getUser(principal);
     return WalletMapper.toDto(walletService.getUserWalletById(user, walletId).orElseThrow(ThereIsNoYourPropertyException::new));
   }
+
+  public WalletDto editWallet (Principal principal, WalletDto walletDto) {
+    User user = this.userService.getUser(principal);
+    Wallet wallet = walletService.getUserWalletById(walletDto.getId());
+
+    wallet.setName(walletDto.getName());
+
+    Wallet updateWallet = walletService.saveWallet(wallet);
+    return WalletMapper.toDto(updateWallet);
+  }
 }

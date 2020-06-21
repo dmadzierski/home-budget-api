@@ -57,4 +57,9 @@ public class TransactionResource {
     return ResponseEntity.ok(transactionController.getWalletTransactions(principal, walletId));
   }
 
+  @PostMapping(value = "/transaction/switchIsFinished/{transactionId}")
+  public ResponseEntity<TransactionDto> switchIsFinished (Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
+    return ResponseEntity.ok(this.transactionController.switchIsFinished(principal, walletId, transactionId));
+  }
+
 }

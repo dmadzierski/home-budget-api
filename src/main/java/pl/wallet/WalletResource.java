@@ -32,6 +32,11 @@ public class WalletResource {
     return ResponseEntity.ok(walletController.getWallets(principal));
   }
 
+  @PostMapping("/edit")
+  public ResponseEntity<WalletDto> editWallet (Principal principal, @Valid @RequestBody WalletDto walletDto) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(walletController.editWallet(principal, walletDto));
+  }
+
   @DeleteMapping("/remove/{walletId}")
   public ResponseEntity removeWallet (Principal principal, @PathVariable Long walletId) {
     walletController.removeWallet(principal, walletId);

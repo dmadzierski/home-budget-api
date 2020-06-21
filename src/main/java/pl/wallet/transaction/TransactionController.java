@@ -2,6 +2,7 @@ package pl.wallet.transaction;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import pl.exception.SuchTransactionDoNotHavePropertyIsFinshed;
 import pl.exception.ThereIsNoWalletsPropertyException;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
@@ -109,5 +110,18 @@ public class TransactionController {
 
     transactionService.update(transaction);
     return TransactionMapper.toDto(transaction);
+  }
+
+  public TransactionDto switchIsFinished (Principal principal, Long walletId, Long transactionId) {
+    User user = userService.getUser(principal);
+    getWalletTransactions(principal, walletId);
+    Transaction transaction = transactionService.getTransaction(transactionId);
+    if(transaction.getIsFinished() == null)
+      throw new SuchTransactionDoNotHavePropertyIsFinshed("This transaction do not have property is finished");
+    transaction.setIsFinished(!transaction.getIsFinished());
+    Transaction updateTransaction = transactionService.save(transaction);
+
+    return TransactionMapper.toDto(updateTransaction);
+
   }
 }

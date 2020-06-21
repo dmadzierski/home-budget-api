@@ -36,4 +36,11 @@ public class CategoryController {
     return categoryService.getCategoriesByUser(user).stream().map(CategoryMapper::toDto).collect(Collectors.toList());
   }
 
+  public List<CategoryDto> restoreDefaultCategories (Principal principal) {
+    User user = userService.getUserByEmail(principal.getName());
+    List<Category> defaultCategories = categoryService.getDefaultCategories();
+    user.setCategories(defaultCategories);
+    this.userService.saveUser(user);
+    return getCategories(principal);
+  }
 }
