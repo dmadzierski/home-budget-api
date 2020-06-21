@@ -27,9 +27,7 @@ public class UserController {
     User savedUser = userService.saveUser(user);
     addDefaultCategories(user);
     Wallet wallet = walletService.saveDefaultWallet(user);
-    savedUser.setFavoriteWalletId(wallet.getId());
-    savedUser = userService.saveUser(user);
-    return UserMapper.toDto(savedUser);
+    return UserMapper.toDto(userService.setFavoriteWallet(savedUser, wallet.getId()));
   }
 
   private void addDefaultCategories (User user) {
@@ -48,4 +46,11 @@ public class UserController {
   UserDto getUserByPrincipal (Principal principal) {
     return UserMapper.toDto(userService.getUser(principal));
   }
+
+  public UserDto setFavoriteWallet (Principal principal, Long walletId) {
+    User user = userService.getUser(principal);
+    return UserMapper.toDto(userService.setFavoriteWallet(user, walletId));
+  }
+
+
 }

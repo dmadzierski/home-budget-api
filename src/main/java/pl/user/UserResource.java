@@ -32,4 +32,9 @@ public class UserResource {
   public UserDto getUser (Principal principal) {
     return userController.getUserByPrincipal(principal);
   }
+
+  @PostMapping(value = "user/setFavoriteWallet")
+  public UserDto setFavoriteWallet (Principal principal, @RequestBody(required = false) Long walletId) {
+    return userController.setFavoriteWallet(principal, walletId);
+  }
 }
