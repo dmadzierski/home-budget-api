@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @ToString
 public class TransactionDto {
 
-  @Null(message = "New transaction can not have id")
   private Long id;
 
   @NotNull(message = "Transaction must have name")
@@ -27,18 +26,18 @@ public class TransactionDto {
   @NotNull(message = "Transaction must have price")
   private BigDecimal price;
 
-  private LocalDateTime addingTime;
+  private LocalDateTime dateOfPurchase;
 
   private Long transactionIdReference;
 
   private Boolean isFinished;
 
   @Builder
-  public TransactionDto (@Null(message = "New transaction can not have id") Long id,
+  public TransactionDto (Long id,
                          @NotNull(message = "Transaction should have name") String name,
                          String description,
                          CategoryDto category,
-                         @NotNull(message = "Transaction must have price") BigDecimal price, LocalDateTime addingTime,
+                         @NotNull(message = "Transaction must have price") BigDecimal price, LocalDateTime dateOfPurchase,
                          Long transactionIdReference,
                          Boolean isFinished) {
     this.isFinished = isFinished;
@@ -47,7 +46,7 @@ public class TransactionDto {
     this.description = description;
     this.category = category;
     this.price = price;
-    this.addingTime = addingTime;
+    this.dateOfPurchase = dateOfPurchase;
     this.transactionIdReference = transactionIdReference;
   }
 }

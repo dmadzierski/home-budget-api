@@ -20,5 +20,4 @@ public @interface BackTransactionOrSimpleTransaction {
 
   Class<? extends Payload>[] payload () default {};
 
-  String message2 ();
 }

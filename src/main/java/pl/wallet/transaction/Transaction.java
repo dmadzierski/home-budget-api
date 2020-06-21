@@ -36,20 +36,20 @@ public class Transaction {
   @ManyToOne
   private Wallet wallet;
 
-  private LocalDateTime addingTime;
+  private LocalDateTime dateOfPurchase;
 
   private Boolean isFinished;
 
   private Long transactionIdReference;
 
   @Builder
-  public Transaction (String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime addingTime, Boolean isFinished, Long transactionIdReference) {
+  public Transaction (String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase, Boolean isFinished, Long transactionIdReference) {
     this.name = name;
     this.description = description;
     this.category = category;
     this.price = price;
     this.wallet = wallet;
-    this.addingTime = addingTime;
+    this.dateOfPurchase = dateOfPurchase;
     this.isFinished = isFinished;
     this.transactionIdReference = transactionIdReference;
   }

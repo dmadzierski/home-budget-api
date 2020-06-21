@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -69,5 +70,9 @@ public class User {
       this.wallets = new ArrayList<>();
       this.wallets.add(wallet);
     }
+  }
+
+  public void removeCategory (Long categoryId) {
+    this.setCategories(this.categories.stream().filter(c -> c.getId() != categoryId).collect(Collectors.toList()));
   }
 }

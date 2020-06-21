@@ -33,4 +33,11 @@ public class TransactionService {
     return transactionRepository.getLoanTransaction(wallet);
   }
 
+  public Transaction getTransaction (Long transactionId) {
+    return transactionRepository.findById(transactionId).get();
+  }
+
+  public Transaction update (Transaction transaction) {
+    return transactionRepository.save(transaction);
+  }
 }

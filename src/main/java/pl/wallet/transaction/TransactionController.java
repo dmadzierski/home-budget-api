@@ -30,12 +30,13 @@ public class TransactionController {
     Wallet wallet = getWallet(user, walletId);
     Category category = getCategory(user, categoryId);
     Transaction transaction = TransactionMapper.toEntity(transactionDto);
+    if(transaction.getId() != null) transaction.setId(null);
 
     if(category.getTransactionType().ordinal() == 2 || category.getTransactionType().ordinal() == 3)
       transaction.setIsFinished(false);
     else transaction.setIsFinished(true);
-    if(transaction.getAddingTime() == null)
-      transaction.setAddingTime(LocalDateTime.now());
+    if(transaction.getDateOfPurchase() == null)
+      transaction.setDateOfPurchase(LocalDateTime.now());
 
     transaction.setWallet(wallet);
     transaction.setCategory(category);
@@ -88,5 +89,25 @@ public class TransactionController {
     User user = userService.getUser(principal);
     walletService.isUserWallet(user, walletId);
     return transactionService.getTransactionsByWalletId(walletId).stream().map(TransactionMapper::toDto).collect(Collectors.toList());
+  }
+
+  public TransactionDto getTransaction (Principal principal, Long walletId, Long transactionId) {
+    User user = userService.getUser(principal);
+    getWalletTransactions(principal, walletId);
+    return TransactionMapper.toDto(transactionService.getTransaction(transactionId));
+  }
+
+  public TransactionDto editTransaction (Principal principal, Long walletId, TransactionDto transactionDto) {
+    User user = userService.getUser(principal);
+    getWalletTransactions(principal, walletId);
+
+    Transaction transaction = transactionService.getTransaction(transactionDto.getId());
+    transaction.setDescription(transactionDto.getDescription());
+    transaction.setName(transactionDto.getName());
+    transaction.setDateOfPurchase(transactionDto.getDateOfPurchase());
+    transaction.setPrice(transactionDto.getPrice());
+
+    transactionService.update(transaction);
+    return TransactionMapper.toDto(transaction);
   }
 }

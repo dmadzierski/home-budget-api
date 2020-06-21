@@ -19,17 +19,16 @@ public class CategoryController {
   CategoryDto addCategory (Principal principal, CategoryDto categoryDto) {
     User user = userService.getUserByEmail(principal.getName());
     Category category = CategoryMapper.toEntity(categoryDto);
+    user.addCategory(category);
     category.addUser(user);
     category = categoryService.saveCategory(category);
-    user.addCategory(category);
-    userService.saveUser(user);
     return CategoryMapper.toDto(category);
   }
 
   void removeCategory (Principal principal, Long categoryId) {
     User user = userService.getUserByEmail(principal.getName());
-    categoryService.getUserCategory(user, categoryId);
-    categoryService.removeCategory(categoryId);
+    user.removeCategory(categoryId);
+    userService.saveUser(user);
   }
 
   List<CategoryDto> getCategories (Principal principal) {

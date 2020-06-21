@@ -20,11 +20,20 @@ public class TransactionResource {
   private TransactionController transactionController;
 
   @BackTransactionOrSimpleTransaction(
-    message = "Back transaction should have reference to loan or borrow transation and transaction with set reference to another transaction should have set other other transaction type",
-    message2 = "Transaction with set reference to another transaction should have set other other transaction type")
+    message = "Back transaction should have reference to loan or borrow transation and transaction with set reference to another transaction should have set other transaction type")
   @PutMapping("/category/{categoryId}/transaction/add")
   public ResponseEntity<TransactionDto> addTransaction (Principal principal, @PathVariable Long categoryId, @PathVariable Long walletId, @Valid @RequestBody TransactionDto transactionDto) {
     return ResponseEntity.status(HttpStatus.CREATED).body(transactionController.addTransaction(principal, walletId, categoryId, transactionDto));
+  }
+
+  @GetMapping(value = "/transaction/{transactionId}", consumes = MediaType.ALL_VALUE)
+  public ResponseEntity<TransactionDto> getTransaction (Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
+    return ResponseEntity.ok(transactionController.getTransaction(principal, walletId, transactionId));
+  }
+
+  @PostMapping(value = "/transaction/edit", consumes = MediaType.ALL_VALUE)
+  public ResponseEntity<TransactionDto> editTransaction (Principal principal, @PathVariable Long walletId, @Valid @RequestBody TransactionDto transactionDto) {
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body(transactionController.editTransaction(principal, walletId, transactionDto));
   }
 
   @DeleteMapping(value = "/transaction/remove/{transactionId}", consumes = MediaType.ALL_VALUE, produces = MediaType.ALL_VALUE)

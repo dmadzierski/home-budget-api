@@ -18,7 +18,6 @@ import java.util.List;
 @EqualsAndHashCode
 public class WalletDto {
 
-  @Null(message = "New wallet can not have id")
   private Long id;
 
   @NotEmpty(message = "Wallet must have name")
