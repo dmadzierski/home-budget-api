@@ -13,17 +13,28 @@ import java.security.Principal;
 @Validated
 @RestController
 @AllArgsConstructor
+@CrossOrigin("${cors.allowed-origins}")
 public class UserResource {
 
   private UserController userController;
 
   @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<UserDto> register (@Valid @RequestBody UserDto userDto) {
+  public ResponseEntity<UserDto> register (@RequestBody @Valid UserDto userDto) {
     return ResponseEntity.status(HttpStatus.CREATED).body(userController.addUserWithDefaultsResources(userDto));
   }
 
   @RequestMapping("/user")
-  public Principal user (Principal user) {
-    return user;
+  public Principal user (Principal principal) {
+    return principal;
+  }
+
+  @GetMapping(value = "/profile", consumes = MediaType.ALL_VALUE)
+  public UserDto getUser (Principal principal) {
+    return userController.getUserByPrincipal(principal);
+  }
+
+  @PostMapping(value = "user/setFavoriteWallet")
+  public UserDto setFavoriteWallet (Principal principal, @RequestBody(required = false) Long walletId) {
+    return userController.setFavoriteWallet(principal, walletId);
   }
 }

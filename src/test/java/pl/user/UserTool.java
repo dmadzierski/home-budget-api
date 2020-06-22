@@ -26,9 +26,9 @@ public class UserTool {
       .build();
   }
 
-  public static UserDto register (MockMvc mockMvc) {
+  public static UserDto register (MockMvc mockMvc, Long walletId) {
     UserDto userDto = UserTool.createRandomUserDto();
-    UserDto userDtoExpectedResult = UserDto.builder().email(userDto.getEmail()).build();
+    UserDto userDtoExpectedResult = UserDto.builder().email(userDto.getEmail()).favoriteWalletId(walletId).build();
     RequestTool.checkResponse(HttpMethod.POST, mockMvc, "/register", userDto, HttpStatus.CREATED, userDtoExpectedResult);
     return userDto;
   }

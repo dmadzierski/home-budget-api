@@ -7,12 +7,10 @@ import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import pl.security.user_role.UserRoleDto;
-import pl.user.friend.FriendDto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -34,14 +32,15 @@ public class UserDto {
   @NotNull(message = "User must have password")
   private String password;
 
-  private List<FriendDto> friends;
+
+  private Long favoriteWalletId;
 
   @Builder
-  public UserDto (Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, Set<UserRoleDto> roles, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, List<FriendDto> friends) {
+  public UserDto (Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, Set<UserRoleDto> roles, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, Long favoriteWalletId) {
     this.id = id;
     this.email = email;
     this.roles = roles;
     this.password = password;
-    this.friends = friends;
+    this.favoriteWalletId = favoriteWalletId;
   }
 }

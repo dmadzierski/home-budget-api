@@ -8,9 +8,7 @@ import pl.user.User;
 import pl.wallet.transaction.Transaction;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 
 @EqualsAndHashCode
@@ -35,19 +33,17 @@ public class Wallet {
   @OneToMany
   private List<Transaction> transactions;
 
-  @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-  private List<User> users;
+  @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+  private User user;
 
-  @Transactional
-  public void addUser (User user) {
-    try {
-      users.add(user);
-    } catch (NullPointerException e) {
-      users = Collections.singletonList(user);
-    }
+  //  This method update balance
+  public void addTransaction (Transaction transaction) {
+    this.balance = transaction.getCategory().getTransactionType().countBalance(this, transaction);
   }
 
-  public void removeUser (User user) {
-    users.remove(user);
+  //  This method undo changes in balance
+  public void removeTransaction (Transaction transaction) {
+    this.balance = transaction.getCategory().getTransactionType().undoCountBalance(this, transaction);
+
   }
 }

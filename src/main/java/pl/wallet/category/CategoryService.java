@@ -14,17 +14,11 @@ public class CategoryService {
 
   private CategoryRepository categoryRepository;
 
-  public Category isUserCategory (User user, Long categoryId) {
-    if(getCategories(user).stream().anyMatch(category -> category.getId().equals(categoryId)))
-      return getCategory(categoryId);
-    else throw new ThereIsNoYourPropertyException();
+  public Category getUserCategory (User user, Long categoryId) {
+    return categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(ThereIsNoYourPropertyException::new);
   }
 
-  private List<Category> getCategories (User user) {
-    return categoryRepository.findAllByUsers(user);
-  }
-
-  private Category getCategory (Long categoryId) {
+  public Category getCategory (Long categoryId) {
     return categoryRepository.getById(categoryId).orElseThrow(() -> new EntityNotFoundException(categoryId, categoryId.getClass()));
   }
 
@@ -32,12 +26,15 @@ public class CategoryService {
     categoryRepository.deleteById(categoryId);
   }
 
-  public Category saveCategory (Category category) {
+  Category saveCategory (Category category) {
     return categoryRepository.save(category);
   }
 
   List<Category> getCategoriesByUser (User user) {
-    return categoryRepository.findAllByUsers(user);
+    return categoryRepository.findByUsers(user);
   }
 
+  public List<Category> getDefaultCategories () {
+    return categoryRepository.getDefaultCategories();
+  }
 }

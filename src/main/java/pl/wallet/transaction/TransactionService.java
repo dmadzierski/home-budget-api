@@ -2,6 +2,7 @@ package pl.wallet.transaction;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.wallet.Wallet;
 
 import java.util.List;
 
@@ -16,7 +17,27 @@ public class TransactionService {
     return transactionRepository.save(transaction);
   }
 
-  public List<Transaction> getTransactionByWalletId (Long walletId) {
+  public List<Transaction> getTransactionsByWalletId (Long walletId) {
     return transactionRepository.getTransactionsByWalletId(walletId);
+  }
+
+  void removeTransactionById (Long transactionId) {
+    transactionRepository.deleteById(transactionId);
+  }
+
+  public List<Transaction> getBorrowTransaction (Long walletId) {
+    return transactionRepository.getBorrowTransaction(walletId);
+  }
+
+  public List<Transaction> getLoanTransaction (Wallet wallet) {
+    return transactionRepository.getLoanTransaction(wallet);
+  }
+
+  public Transaction getTransaction (Long transactionId) {
+    return transactionRepository.findById(transactionId).get();
+  }
+
+  public Transaction update (Transaction transaction) {
+    return transactionRepository.save(transaction);
   }
 }

@@ -2,6 +2,8 @@ package pl.wallet;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import pl.exception.SavedEntityCanNotHaveIdException;
+import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserService;
 import pl.wallet.transaction.Transaction;
@@ -20,22 +22,23 @@ public class WalletController {
 
   WalletDto getWalletWithTransactions (Principal principal, Long walletId) {
     isUserWallet(principal, walletId);
-    Wallet wallet = walletService.getWalletById(walletId);
-    List<Transaction> transactions = transactionService.getTransactionByWalletId(walletId);
+    Wallet wallet = walletService.getUserWalletById(walletId);
+    List<Transaction> transactions = transactionService.getTransactionsByWalletId(walletId);
     return WalletMapper.toDtoWithTransaction(wallet, transactions);
   }
 
   WalletDto addWallet (Principal principal, WalletDto walletDto) {
-    User user = userService.getUserByEmail(principal.getName());
+    if(walletDto.getId() != null) throw new SavedEntityCanNotHaveIdException();
+    User user = userService.getUser(principal);
     Wallet wallet = WalletMapper.toEntity(walletDto);
-    wallet.addUser(user);
+    wallet.setUser(user);
     wallet = walletService.saveWallet(wallet);
-    walletDto = WalletMapper.toDto(wallet);
-    return walletDto;
+    return WalletMapper.toDto(wallet);
+
   }
 
   List<WalletDto> getWallets (Principal principal) {
-    User user = userService.getUserByEmail(principal.getName());
+    User user = userService.getUser(principal);
     return walletService.getWalletsByUser(user).stream().map(WalletMapper::toDto).collect(Collectors.toList());
   }
 
@@ -45,7 +48,22 @@ public class WalletController {
   }
 
   private void isUserWallet (Principal principal, Long walletId) {
-    User user = userService.getUserByEmail(principal.getName());
+    User user = userService.getUser(principal);
     walletService.isUserWallet(user, walletId);
+  }
+
+  public WalletDto getWallet (Principal principal, Long walletId) {
+    User user = this.userService.getUser(principal);
+    return WalletMapper.toDto(walletService.getUserWalletById(user, walletId).orElseThrow(ThereIsNoYourPropertyException::new));
+  }
+
+  public WalletDto editWallet (Principal principal, WalletDto walletDto) {
+    User user = this.userService.getUser(principal);
+    Wallet wallet = walletService.getUserWalletById(walletDto.getId());
+
+    wallet.setName(walletDto.getName());
+
+    Wallet updateWallet = walletService.saveWallet(wallet);
+    return WalletMapper.toDto(updateWallet);
   }
 }

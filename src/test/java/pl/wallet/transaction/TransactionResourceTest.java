@@ -6,6 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
+import pl.exception.SavedEntityCanNotHaveIdException;
 import pl.test_tool.RandomTool;
 import pl.test_tool.error.TransactionError;
 import pl.user.UserController;
@@ -29,6 +31,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Transactional
 class TransactionResourceTest {
 
   private WalletController walletController;
@@ -46,14 +49,6 @@ class TransactionResourceTest {
     this.walletResource = walletResource;
   }
 
-//  @Autowired
-//  TransactionResourceTest (WalletController walletController, UserController userController, CategoryController categoryController, TransactionResource transactionResource) {
-//    this.walletController = walletController;
-//    this.userController = userController;
-//    this.categoryController = categoryController;
-//    this.transactionResource = transactionResource;
-//  }
-
 
   @Test
   void new_transaction_should_not_have_id () {
@@ -61,15 +56,13 @@ class TransactionResourceTest {
     UserDto userDto = UserTool.registerRandomUser(userController);
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.saveRandomWallet(principal, walletController);
-    System.err.println(walletResource.getWallet(principal, walletDto.getId()));
     CategoryDto categoryDto = CategoryTool.saveRandomCategory(principal, categoryController);
     TransactionDto transactionDto = TransactionTool.getTransactionBuilderWithNecessaryValue().id(RandomTool.id()).build();
     //when
 
     //then
-    assertThatExceptionOfType(ConstraintViolationException.class).isThrownBy(
+    assertThatExceptionOfType(SavedEntityCanNotHaveIdException.class).isThrownBy(
       () -> transactionResource.addTransaction(principal, categoryDto.getId(), walletDto.getId(), transactionDto));
-    System.err.println(walletResource.getWallet(principal, walletDto.getId()));
   }
 
   @Test

@@ -16,6 +16,8 @@ import java.util.List;
 @Table(name = "category")
 public class Category {
 
+  private Boolean isDefault = false;
+
   @Column(name = "category_id")
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,15 +32,25 @@ public class Category {
   @Enumerated
   private TransactionType transactionType;
 
-  @ManyToMany
+  @ManyToMany(mappedBy = "categories")
   private List<User> users;
 
+
   public void addUser (User user) {
-    try {
-      users.add(user);
-    } catch (NullPointerException e) {
+    if(users == null) {
       this.users = new ArrayList<>();
       users.add(user);
-    }
+    } else
+      users.add(user);
+  }
+
+
+  public List<User> getUser () {
+    return this.users;
+  }
+
+
+  public void setUserList (List<User> users) {
+    this.users = users;
   }
 }

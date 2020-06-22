@@ -8,24 +8,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import pl.exception.SavedEntityCanNotHaveIdException;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.test_tool.RandomTool;
+import pl.test_tool.error.ServerError;
 import pl.test_tool.error.WalletError;
 import pl.user.UserDto;
 import pl.user.UserResource;
 import pl.user.UserTool;
-import pl.wallet.category.CategoryDto;
 import pl.wallet.category.CategoryResource;
-import pl.wallet.category.CategoryTool;
 import pl.wallet.transaction.TransactionResource;
-import pl.wallet.transaction.TransactionTool;
 
 import javax.validation.ConstraintViolationException;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -72,8 +69,8 @@ class WalletResourceTest {
     //when
 
     //then
-    assertThatExceptionOfType(ConstraintViolationException.class).isThrownBy(() -> walletResource.addWallet(principal, walletDto))
-      .withMessageEndingWith(WalletError.ID_NULL.getFieldName());
+    assertThatExceptionOfType(SavedEntityCanNotHaveIdException.class).isThrownBy(() -> walletResource.addWallet(principal, walletDto))
+      .withMessageEndingWith(ServerError.SAVED_ENTITY_CAN_NOT_HAVE_ID.getMessage());
   }
 
   @Test
@@ -113,15 +110,16 @@ class WalletResourceTest {
       .id(walletDto.getId())
       .name(walletDto.getName())
       .balance(walletDto.getBalance())
-      .transactions(new ArrayList<>())
-      .users(Collections.singletonList(userDto))
+      .transactions(null)
       .build();
     //when
     ResponseEntity<WalletDto> walletDtoResponseEntity = walletResource.getWallet(principal, walletDto.getId());
     //then
     assertThat(walletDtoResponseEntity).isNotNull();
     assertThat(walletDtoResponseEntity.getStatusCode()).isEqualTo(OK);
-    assertThat(walletDtoResponseEntity.getBody()).isEqualTo(expectedWalletDto);
+    assertThat(walletDtoResponseEntity.getBody()).isEqualToIgnoringGivenFields(expectedWalletDto, "balance");
+    assertThat(walletDtoResponseEntity.getBody().getBalance())
+      .isEqualByComparingTo(expectedWalletDto.getBalance());
   }
 
   @Test
@@ -137,23 +135,6 @@ class WalletResourceTest {
     //then
     assertThatExceptionOfType(ThereIsNoYourPropertyException.class).isThrownBy(() -> walletResource.getWallet(principal, walletDto.getId()))
       .withMessage(new ThereIsNoYourPropertyException().getMessage());
-  }
-
-  @Test
-  void user_can_get_all_own_wallets () {
-    //given
-    UserDto userDto = UserTool.registerRandomUser(userResource);
-    Principal principal = userDto::getEmail;
-    int numberOfWallets = 100;
-    List<WalletDto> wallets = addWallets(principal, numberOfWallets);
-    //when
-    ResponseEntity<List<WalletDto>> walletsResponseEntity = walletResource.getWallets(principal);
-    //then
-    assertThat(walletsResponseEntity).isNotNull();
-    assertThat(walletsResponseEntity.getStatusCode()).isEqualTo(OK);
-    assertThat(walletsResponseEntity.getBody()).hasSize(numberOfWallets)
-      .allMatch(Objects::nonNull)
-      .allMatch(k -> wallets.stream().anyMatch(l -> l.equals(k)));
   }
 
   @Test
@@ -183,20 +164,6 @@ class WalletResourceTest {
     assertThatExceptionOfType(ThereIsNoYourPropertyException.class)
       .isThrownBy(() -> walletResource.removeWallet(principal, walletId))
       .withMessage(new ThereIsNoYourPropertyException().getMessage());
-  }
-
-  @Test
-  void user_can_get_wallet_with_transaction () {
-    //given
-    UserDto userDto = UserTool.registerRandomUser(userResource);
-    Principal principal = userDto::getEmail;
-    WalletDto walletDto = WalletTool.saveRandomWallet(principal, walletResource);
-    CategoryDto categoryDto = CategoryTool.saveRandomCategory(principal, categoryResource);
-    TransactionTool.saveRandomTransaction(principal, walletDto, categoryDto, transactionResource);
-    //when
-    ResponseEntity<WalletDto> wallet = walletResource.getWallet(principal, walletDto.getId());
-    //then
-    System.out.println(wallet.getBody().getTransactions().size());
   }
 
   private List<WalletDto> addWallets (Principal principal, int number) {

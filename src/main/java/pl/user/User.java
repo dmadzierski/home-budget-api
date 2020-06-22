@@ -1,6 +1,8 @@
 package pl.user;
 
 import lombok.*;
+import org.hibernate.annotations.Proxy;
+import org.springframework.transaction.annotation.Transactional;
 import pl.security.user_role.UserRole;
 import pl.wallet.Wallet;
 import pl.wallet.category.Category;
@@ -9,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -35,12 +38,13 @@ public class User {
   @ManyToMany(fetch = FetchType.EAGER)
   private List<UserRole> roles;
 
-  @ManyToMany(cascade = CascadeType.MERGE)
+  @OneToMany(cascade = CascadeType.MERGE)
   private List<Wallet> wallets;
 
   @ManyToMany
   private List<Category> categories;
 
+  private Long favoriteWalletId;
 
   public void addCategory (Category category) {
     try {
@@ -68,5 +72,9 @@ public class User {
       this.wallets = new ArrayList<>();
       this.wallets.add(wallet);
     }
+  }
+
+  public void removeCategory (Long categoryId) {
+    this.setCategories(this.categories.stream().filter(c -> c.getId() != categoryId).collect(Collectors.toList()));
   }
 }

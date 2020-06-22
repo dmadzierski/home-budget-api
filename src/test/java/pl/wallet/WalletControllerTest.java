@@ -11,7 +11,6 @@ import pl.user.UserDto;
 import pl.user.UserTool;
 
 import java.security.Principal;
-import java.util.Collections;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -34,16 +33,13 @@ class WalletControllerTest {
     Principal principal = userDto::getEmail;
     WalletDto walletDto = WalletTool.randomWallet();
     WalletDto expectedWalletDto = WalletDto.builder()
-      .id(1L)
+      .id(2L)
       .balance(walletDto.getBalance())
       .name(walletDto.getName())
-      .users(Collections.singletonList(userDto))
       .build();
     //when
     WalletDto savedWallet = walletController.addWallet(principal, walletDto);
     //then
-    System.out.println(savedWallet);
-    System.out.println(expectedWalletDto);
     Assertions.assertThat(savedWallet).isEqualToComparingFieldByField(expectedWalletDto);
   }
 }

@@ -7,11 +7,14 @@ public class TransactionMapper {
   }
 
   static Transaction toEntity (TransactionDto transactionDto) {
-    Transaction transaction = new Transaction();
-    transaction.setName(transactionDto.getName());
-    transaction.setDescription(transactionDto.getDescription());
-    transaction.setPrice(transactionDto.getPrice());
-    return transaction;
+    return Transaction.builder()
+      .name(transactionDto.getName())
+      .description(transactionDto.getDescription())
+      .price(transactionDto.getPrice())
+      .dateOfPurchase(transactionDto.getDateOfPurchase())
+      .isFinished(transactionDto.getIsFinished())
+      .transactionIdReference(transactionDto.getTransactionIdReference())
+      .build();
   }
 
   public static TransactionDto toDto (Transaction transaction) {
@@ -21,6 +24,9 @@ public class TransactionMapper {
       .description(transaction.getDescription())
       .price(transaction.getPrice())
       .category(CategoryMapper.toDto(transaction.getCategory()))
+      .dateOfPurchase(transaction.getDateOfPurchase())
+      .isFinished(transaction.getIsFinished())
+      .transactionIdReference(transaction.getTransactionIdReference())
       .build();
   }
 }

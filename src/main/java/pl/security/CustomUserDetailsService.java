@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername (String username) {
-    User user = null;
+    User user;
     try {
       user = userService.getUserByEmail(username);
     } catch (EntityNotFoundException e) {

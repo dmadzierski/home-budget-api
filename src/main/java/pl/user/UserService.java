@@ -20,7 +20,7 @@ public class UserService {
     return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException(email, email.getClass()));
   }
 
-  public User getUserByPrincipal (Principal principal) {
+  public User getUser (Principal principal) {
     return getUserByEmail(principal.getName());
   }
 
@@ -28,11 +28,12 @@ public class UserService {
     return userRepository.findByEmail(email).isPresent();
   }
 
-  User saveUser (User user) {
+  public User saveUser (User user) {
     return userRepository.save(user);
   }
 
-  public User getUserById (Long userId) {
-    return userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(userId, User.class));
+  public User setFavoriteWallet (User user, Long walletId) {
+    user.setFavoriteWalletId(walletId);
+    return saveUser(user);
   }
 }
