@@ -2,6 +2,7 @@ package pl.wallet;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import pl.exception.SavedEntityCanNotHaveIdException;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserService;
@@ -27,11 +28,12 @@ public class WalletController {
   }
 
   WalletDto addWallet (Principal principal, WalletDto walletDto) {
+    if(walletDto.getId() != null) throw new SavedEntityCanNotHaveIdException();
     User user = userService.getUser(principal);
     Wallet wallet = WalletMapper.toEntity(walletDto);
     wallet.setUser(user);
     wallet = walletService.saveWallet(wallet);
-    return walletDto = WalletMapper.toDto(wallet);
+    return WalletMapper.toDto(wallet);
 
   }
 

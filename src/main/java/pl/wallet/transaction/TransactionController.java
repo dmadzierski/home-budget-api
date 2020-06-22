@@ -2,6 +2,7 @@ package pl.wallet.transaction;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import pl.exception.SavedEntityCanNotHaveIdException;
 import pl.exception.SuchTransactionDoNotHavePropertyIsFinshed;
 import pl.exception.ThereIsNoWalletsPropertyException;
 import pl.exception.ThereIsNoYourPropertyException;
@@ -27,11 +28,11 @@ public class TransactionController {
 
 
   TransactionDto addTransaction (Principal principal, Long walletId, Long categoryId, TransactionDto transactionDto) {
+    if(transactionDto.getId() != null) throw new SavedEntityCanNotHaveIdException();
     User user = userService.getUserByEmail(principal.getName());
     Wallet wallet = getWallet(user, walletId);
     Category category = getCategory(user, categoryId);
     Transaction transaction = TransactionMapper.toEntity(transactionDto);
-    if(transaction.getId() != null) transaction.setId(null);
 
     if(category.getTransactionType().ordinal() == 2 || category.getTransactionType().ordinal() == 3)
       transaction.setIsFinished(false);
@@ -50,7 +51,7 @@ public class TransactionController {
     List<Category> collect = user.getCategories().stream().filter(c -> c.getId().equals(categoryId)).collect(Collectors.toList());
     try {
       return collect.get(0);
-    } catch (NullPointerException e) {
+    } catch (NullPointerException | IndexOutOfBoundsException e) {
       throw new ThereIsNoYourPropertyException();
     }
   }

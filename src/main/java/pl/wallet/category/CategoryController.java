@@ -2,6 +2,7 @@ package pl.wallet.category;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import pl.user.User;
 import pl.user.UserService;
 
@@ -15,9 +16,8 @@ public class CategoryController {
   private CategoryService categoryService;
   private UserService userService;
 
-
   CategoryDto addCategory (Principal principal, CategoryDto categoryDto) {
-    User user = userService.getUserByEmail(principal.getName());
+    User user = userService.getUser(principal);
     Category category = CategoryMapper.toEntity(categoryDto);
     user.addCategory(category);
     category.addUser(user);

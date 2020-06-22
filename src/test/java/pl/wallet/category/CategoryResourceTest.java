@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import pl.user.UserDto;
 import pl.user.UserResource;
 import pl.user.UserTool;
@@ -21,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Transactional
 public class CategoryResourceTest {
   private CategoryResource categoryResource;
   private UserResource userResource;
@@ -76,7 +78,7 @@ public class CategoryResourceTest {
     //then
     assertThat(categoriesDtoResponseEntity).isNotNull();
     assertThat(categoriesDtoResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assertThat(categoriesDtoResponseEntity.getBody()).hasSize(number);
+    assertThat(categoriesDtoResponseEntity.getBody()).hasSize(number + 8);
 
   }
 

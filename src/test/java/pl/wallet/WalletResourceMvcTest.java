@@ -19,6 +19,7 @@ import pl.user.UserDto;
 import java.math.BigDecimal;
 
 import static pl.test_tool.error.ServerError.IS_NOT_YOU_PROPERTY;
+import static pl.test_tool.error.ServerError.SAVED_ENTITY_CAN_NOT_HAVE_ID;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -37,7 +38,7 @@ class WalletResourceMvcTest {
     //when
 
     //then
-    RequestToolWithAuth.checkResponseDelete(mockMvc, "/wallet/remove/2", HttpStatus.INTERNAL_SERVER_ERROR, errorsResponse.getErrors(), userDto.getEmail());
+    RequestToolWithAuth.checkResponseDelete(mockMvc, "/wallet/remove/2", HttpStatus.BAD_REQUEST, errorsResponse.getErrors(), userDto.getEmail());
   }
 
   @Test
@@ -48,7 +49,6 @@ class WalletResourceMvcTest {
       .id(2L)
       .name(walletDto.getName())
       .balance(walletDto.getBalance())
-      .user(UserDto.builder().email(userDto.getEmail()).favoriteWalletId(1L).build())
       .build();
     addWallet(walletDto, HttpStatus.CREATED, expectedWalletDto, userDto.getEmail());
     //when
@@ -67,7 +67,6 @@ class WalletResourceMvcTest {
       .id(2L)
       .name(walletDto.getName())
       .balance(walletDto.getBalance())
-      .user(UserDto.builder().email(userDto.getEmail()).favoriteWalletId(1L).build())
       .build();
     //when
 
@@ -108,12 +107,10 @@ class WalletResourceMvcTest {
       .name(RandomTool.getRandomString())
       .balance(BigDecimal.valueOf(RandomTool.getNumberInteger()))
       .build();
-    ErrorsResponse errorsResponse = HibernateErrorTool.buildErrorResponse(WalletError.ID_NULL);
     //when
 
     //then
-    System.out.println(errorsResponse.getErrors().toString());
-    addWallet(walletDto, HttpStatus.BAD_REQUEST, errorsResponse, userDto.getEmail());
+    addWallet(walletDto, HttpStatus.BAD_REQUEST, HibernateErrorTool.buildErrorResponse(SAVED_ENTITY_CAN_NOT_HAVE_ID).getErrors(), userDto.getEmail());
   }
 
 

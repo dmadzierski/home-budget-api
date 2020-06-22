@@ -36,13 +36,10 @@ class WalletControllerTest {
       .id(2L)
       .balance(walletDto.getBalance())
       .name(walletDto.getName())
-      .user(userDto)
       .build();
     //when
     WalletDto savedWallet = walletController.addWallet(principal, walletDto);
     //then
-    System.out.println(savedWallet);
-    System.out.println(expectedWalletDto);
     Assertions.assertThat(savedWallet).isEqualToComparingFieldByField(expectedWalletDto);
   }
 }

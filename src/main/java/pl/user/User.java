@@ -1,6 +1,8 @@
 package pl.user;
 
 import lombok.*;
+import org.hibernate.annotations.Proxy;
+import org.springframework.transaction.annotation.Transactional;
 import pl.security.user_role.UserRole;
 import pl.wallet.Wallet;
 import pl.wallet.category.Category;

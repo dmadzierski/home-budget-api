@@ -20,7 +20,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
-  @ExceptionHandler(Exception.class)
+  @ExceptionHandler(RuntimeException.class)
   public ResponseEntity handleAllExceptions (Exception exception, WebRequest request) {
     return ResponseEntity.status(BAD_REQUEST)
       .body(new ErrorsResponse(Map.of("Server Error", Collections.singletonList(exception.getLocalizedMessage().replace("addTransaction.<cross-parameter>: ", "")))).getErrors());
