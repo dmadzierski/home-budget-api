@@ -15,7 +15,7 @@ public class CategoryTool {
     return CategoryDto
       .builder()
       .name(getRandomName())
-      .transactionType(getRandomTransactionType())
+      .transactionType(TransactionType.EXPENSE)
       .build();
   }
 
