@@ -1,14 +1,15 @@
 package pl.wallet.transaction;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import pl.wallet.Wallet;
+import pl.exception.ThereIsNoYourPropertyException;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
-
 public class TransactionService {
 
   private TransactionRepository transactionRepository;
@@ -17,27 +18,16 @@ public class TransactionService {
     return transactionRepository.save(transaction);
   }
 
-  public List<Transaction> getTransactionsByWalletId (Long walletId) {
-    return transactionRepository.getTransactionsByWalletId(walletId);
+  Transaction getTransaction (Long transactionId) {
+    return transactionRepository.findById(transactionId).orElseThrow(ThereIsNoYourPropertyException::new);
   }
 
-  void removeTransactionById (Long transactionId) {
+  List<Transaction> getTransactionsByWalletId (Pageable pageable, Specification<Transaction> transactionSpecification) {
+    return transactionRepository.findAll(transactionSpecification, pageable);
+  }
+
+  void removeTransaction (Long transactionId) {
     transactionRepository.deleteById(transactionId);
   }
 
-  public List<Transaction> getBorrowTransaction (Long walletId) {
-    return transactionRepository.getBorrowTransaction(walletId);
-  }
-
-  public List<Transaction> getLoanTransaction (Wallet wallet) {
-    return transactionRepository.getLoanTransaction(wallet);
-  }
-
-  public Transaction getTransaction (Long transactionId) {
-    return transactionRepository.findById(transactionId).get();
-  }
-
-  public Transaction update (Transaction transaction) {
-    return transactionRepository.save(transaction);
-  }
 }

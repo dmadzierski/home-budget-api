@@ -2,7 +2,6 @@ package pl.wallet.category;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import pl.user.User;
 import pl.user.UserService;
 

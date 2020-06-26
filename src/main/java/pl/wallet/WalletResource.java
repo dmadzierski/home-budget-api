@@ -20,8 +20,6 @@ import java.util.List;
 public class WalletResource {
   private WalletController walletController;
 
-
-  // TODO the uri response should include error description when balance is not a number
   @PostMapping("/add")
   public ResponseEntity<WalletDto> addWallet (Principal principal, @Valid @RequestBody WalletDto walletDto) {
     return ResponseEntity.status(HttpStatus.CREATED).body(walletController.addWallet(principal, walletDto));
