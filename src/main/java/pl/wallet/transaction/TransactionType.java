@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.function.BiFunction;
 
 public enum TransactionType {
+
   EXPENSE(BigDecimal::subtract, BigDecimal::add),
   REVENUES(BigDecimal::add, BigDecimal::subtract),
   BORROW(BigDecimal::add, BigDecimal::subtract),

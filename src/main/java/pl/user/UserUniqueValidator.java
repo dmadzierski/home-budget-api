@@ -12,11 +12,6 @@ public class UserUniqueValidator implements ConstraintValidator<UniqueUserEmail,
 
   private UserService userService;
 
-//  @Autowired
-//  UserUniqueValidator (ApplicationContext applicationContext) {
-//    userService = applicationContext.getBean(UserService.class);
-//  }
-
   @Override
   public void initialize (UniqueUserEmail uniqueUserEmail) {
     uniqueUserEmail.message();

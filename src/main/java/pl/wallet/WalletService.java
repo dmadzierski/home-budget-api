@@ -29,13 +29,13 @@ public class WalletService {
     walletRepository.deleteById(walletId);
   }
 
-  Wallet getUserWalletById (Long walletId) {
+  Wallet getUserWallet (Long walletId) {
     return walletRepository.getById(walletId).orElseThrow(() -> new EntityNotFoundException(walletId, Wallet.class));
   }
 
   public Wallet isUserWallet (User user, Long walletId) {
     if(this.getWalletsByUser(user).stream().anyMatch(userWallet -> userWallet.getId().equals(walletId)))
-      return getUserWalletById(walletId);
+      return getUserWallet(walletId);
     throw new ThereIsNoYourPropertyException();
   }
 
@@ -58,7 +58,8 @@ public class WalletService {
     return wallet;
   }
 
-  public Optional<Wallet> getUserWalletById (User user, Long walletId) {
+  public Optional<Wallet> getUserWallet (User user, Long walletId) {
     return walletRepository.getByIdAndUser(walletId, user);
   }
+
 }

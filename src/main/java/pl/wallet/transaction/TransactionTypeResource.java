@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 @CrossOrigin("${cors.allowed-origins}")
 public class TransactionTypeResource {
   @GetMapping("/types")
-  public ResponseEntity<List<TransactionType>> getTransactionsType (Principal principal) {
+  public ResponseEntity<List<TransactionType>> getTransactionsType () {
     return ResponseEntity.ok(Arrays.stream(TransactionType.values()).collect(Collectors.toList()));
   }
 }

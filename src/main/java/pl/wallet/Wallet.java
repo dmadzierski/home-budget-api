@@ -36,12 +36,10 @@ public class Wallet {
   @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
   private User user;
 
-  //  This method update balance
   public void addTransaction (Transaction transaction) {
     this.balance = transaction.getCategory().getTransactionType().countBalance(this, transaction);
   }
 
-  //  This method undo changes in balance
   public void removeTransaction (Transaction transaction) {
     this.balance = transaction.getCategory().getTransactionType().undoCountBalance(this, transaction);
 

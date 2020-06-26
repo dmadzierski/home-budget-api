@@ -9,7 +9,6 @@ import pl.wallet.transaction.TransactionDto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -31,11 +30,7 @@ public class WalletDto {
   private UserDto user;
 
   @Builder
-  public WalletDto (@Null(message = "New wallet can not have id") Long id,
-                    @NotEmpty(message = "Wallet must have name") String name,
-                    @NotNull(message = "Wallet must have balance") BigDecimal balance,
-                    List<TransactionDto> transactions,
-                    UserDto user) {
+  public WalletDto (Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<TransactionDto> transactions, UserDto user) {
     this.id = id;
     this.name = name;
     this.balance = balance;

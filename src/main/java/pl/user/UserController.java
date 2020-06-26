@@ -47,7 +47,7 @@ public class UserController {
     return UserMapper.toDto(userService.getUser(principal));
   }
 
-  public UserDto setFavoriteWallet (Principal principal, Long walletId) {
+  UserDto setFavoriteWallet (Principal principal, Long walletId) {
     User user = userService.getUser(principal);
     return UserMapper.toDto(userService.setFavoriteWallet(user, walletId));
   }

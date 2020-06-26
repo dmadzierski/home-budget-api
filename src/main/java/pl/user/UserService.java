@@ -1,20 +1,16 @@
 package pl.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.exception.EntityNotFoundException;
 
 import java.security.Principal;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
   private UserRepository userRepository;
-
-  @Autowired
-  public UserService (UserRepository userRepository) {
-    this.userRepository = userRepository;
-  }
 
   public User getUserByEmail (String email) {
     return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException(email, email.getClass()));
@@ -32,7 +28,7 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  public User setFavoriteWallet (User user, Long walletId) {
+  User setFavoriteWallet (User user, Long walletId) {
     user.setFavoriteWalletId(walletId);
     return saveUser(user);
   }
