@@ -21,7 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .httpBasic()
       .and()
       .authorizeRequests()
-      .antMatchers("/index.html", "/register", "/login", "/", "/user").permitAll()
+      .antMatchers("/index.html", "/register**", "/login", "/", "/user").permitAll()
       .anyRequest().authenticated()
       .and()
       .formLogin().usernameParameter("email")

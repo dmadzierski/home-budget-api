@@ -73,6 +73,6 @@ public class User {
   }
 
   public void removeCategory (Long categoryId) {
-    this.setCategories(this.categories.stream().filter(c -> c.getId() != categoryId).collect(Collectors.toList()));
+    this.setCategories(this.categories.stream().filter(c -> !c.getId().equals(categoryId)).collect(Collectors.toList()));
   }
 }
