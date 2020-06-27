@@ -21,13 +21,10 @@ public class UserRoleDto {
 
   private String description;
 
-  private Set<UserDto> users;
-
   @Builder
-  public UserRoleDto (Long id, String name, String description, Set<UserDto> users) {
+  public UserRoleDto (Long id, String name, String description) {
     this.id = id;
     this.name = name;
     this.description = description;
-    this.users = users;
   }
 }

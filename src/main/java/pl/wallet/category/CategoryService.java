@@ -6,6 +6,7 @@ import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -25,11 +26,11 @@ public class CategoryService {
     return categoryRepository.save(category);
   }
 
-  List<Category> getCategoriesByUser (User user) {
+  Set<Category> getCategoriesByUser (User user) {
     return categoryRepository.findByUsers(user);
   }
 
-  public List<Category> getDefaultCategories () {
+  public Set<Category> getDefaultCategories () {
     return categoryRepository.getDefaultCategories();
   }
 }

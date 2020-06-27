@@ -30,4 +30,7 @@ public class TransactionService {
     transactionRepository.deleteById(transactionId);
   }
 
+  public void removeWalletTransactions (Long walletId) {
+    transactionRepository.getTransactionsByWalletId(walletId).forEach(transaction -> this.removeTransaction(transaction.getId()));
+  }
 }

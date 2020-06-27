@@ -30,7 +30,7 @@ public class Wallet {
   @Column(nullable = false)
   private BigDecimal balance;
 
-  @OneToMany
+  @OneToMany(mappedBy = "wallet")
   private List<Transaction> transactions;
 
   @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
