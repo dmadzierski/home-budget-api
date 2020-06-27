@@ -14,6 +14,7 @@ import pl.user.UserTool;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -74,7 +75,7 @@ public class CategoryResourceTest {
     Principal principal = userDto::getEmail;
     List<CategoryDto> categoriesDto = addCategories(number, principal);
     //when
-    ResponseEntity<List<CategoryDto>> categoriesDtoResponseEntity = categoryResource.getUserCategories(principal);
+    ResponseEntity<Set<CategoryDto>> categoriesDtoResponseEntity = categoryResource.getUserCategories(principal);
     //then
     assertThat(categoriesDtoResponseEntity).isNotNull();
     assertThat(categoriesDtoResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

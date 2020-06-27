@@ -6,6 +6,7 @@ import pl.exception.SavedEntityCanNotHaveIdException;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserService;
+import pl.wallet.transaction.TransactionService;
 
 import java.security.Principal;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class WalletController {
   private WalletService walletService;
   private UserService userService;
+  private TransactionService transactionService;
 
   WalletDto addWallet (Principal principal, WalletDto walletDto) {
     if(walletDto.getId() != null) throw new SavedEntityCanNotHaveIdException();
@@ -38,6 +40,7 @@ public class WalletController {
 
   void removeWallet (Principal principal, Long walletId) {
     isUserWallet(principal, walletId);
+    transactionService.removeWalletTransactions(walletId);
     walletService.removeWallet(walletId);
   }
 

@@ -8,7 +8,9 @@ import pl.wallet.category.Category;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode
@@ -34,13 +36,13 @@ public class User {
 
   @Column(nullable = false)
   @ManyToMany(fetch = FetchType.EAGER)
-  private List<UserRole> roles;
+  private Set<UserRole> roles;
 
-  @OneToMany(cascade = CascadeType.MERGE)
+  @OneToMany(cascade = CascadeType.MERGE, mappedBy = "user")
   private List<Wallet> wallets;
 
   @ManyToMany
-  private List<Category> categories;
+  private Set<Category> categories;
 
   private Long favoriteWalletId;
 
@@ -48,7 +50,7 @@ public class User {
     try {
       categories.add(category);
     } catch (NullPointerException e) {
-      categories = new ArrayList<>();
+      categories = new HashSet<>();
       categories.add(category);
     }
   }
@@ -58,7 +60,7 @@ public class User {
     try {
       this.roles.add(userRole);
     } catch (NullPointerException e) {
-      this.roles = new ArrayList<>();
+      this.roles = new HashSet<>();
       this.roles.add(userRole);
     }
   }
@@ -73,6 +75,6 @@ public class User {
   }
 
   public void removeCategory (Long categoryId) {
-    this.setCategories(this.categories.stream().filter(c -> !c.getId().equals(categoryId)).collect(Collectors.toList()));
+    this.setCategories(this.categories.stream().filter(c -> !c.getId().equals(categoryId)).collect(Collectors.toSet()));
   }
 }

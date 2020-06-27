@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
+import java.util.Set;
 
 @Validated
 @RestController
@@ -32,12 +32,12 @@ public class CategoryResource {
   }
 
   @GetMapping(consumes = MediaType.ALL_VALUE)
-  public ResponseEntity<List<CategoryDto>> getUserCategories (Principal principal) {
+  public ResponseEntity<Set<CategoryDto>> getUserCategories (Principal principal) {
     return ResponseEntity.ok(categoryController.getCategories(principal));
   }
 
   @PostMapping(path = "/restoreDefaultCategories", consumes = MediaType.ALL_VALUE)
-  public ResponseEntity<List<CategoryDto>> restoreDefaultCategories (Principal principal) {
+  public ResponseEntity<Set<CategoryDto>> restoreDefaultCategories (Principal principal) {
     return ResponseEntity.ok(categoryController.restoreDefaultCategories(principal));
   }
 

@@ -7,6 +7,7 @@ import pl.user.UserService;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -30,14 +31,14 @@ public class CategoryController {
     userService.saveUser(user);
   }
 
-  List<CategoryDto> getCategories (Principal principal) {
+  Set<CategoryDto> getCategories (Principal principal) {
     User user = userService.getUserByEmail(principal.getName());
-    return categoryService.getCategoriesByUser(user).stream().map(CategoryMapper::toDto).collect(Collectors.toList());
+    return categoryService.getCategoriesByUser(user).stream().map(CategoryMapper::toDto).collect(Collectors.toSet());
   }
 
-  public List<CategoryDto> restoreDefaultCategories (Principal principal) {
+  public Set<CategoryDto> restoreDefaultCategories (Principal principal) {
     User user = userService.getUserByEmail(principal.getName());
-    List<Category> defaultCategories = categoryService.getDefaultCategories();
+    Set<Category> defaultCategories = categoryService.getDefaultCategories();
     user.setCategories(defaultCategories);
     this.userService.saveUser(user);
     return getCategories(principal);
