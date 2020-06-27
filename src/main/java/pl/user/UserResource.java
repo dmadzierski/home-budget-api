@@ -13,7 +13,7 @@ import java.security.Principal;
 @Validated
 @RestController
 @AllArgsConstructor
-@CrossOrigin("${cors.allowed-origins}")
+@CrossOrigin(origins = "${cors.allowed-origins}")
 public class UserResource {
 
   private UserController userController;
