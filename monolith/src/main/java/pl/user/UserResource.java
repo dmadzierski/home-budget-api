@@ -17,7 +17,7 @@ import java.security.Principal;
 @CrossOrigin(origins = "${cors.allowed-origins}")
 class UserResource {
 
-   private UserController userController;
+   private final UserController userController;
 
    @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
    public ResponseEntity<UserDto> register(@RequestBody @Valid UserDto userDto) {

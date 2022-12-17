@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 class CategoryResource {
 
-   private CategoryController categoryController;
+   private final CategoryController categoryController;
 
    @PutMapping(path = "/add")
    public ResponseEntity<CategoryDto> addCategory(Principal principal, @Valid @RequestBody CategoryDto categoryDto) {

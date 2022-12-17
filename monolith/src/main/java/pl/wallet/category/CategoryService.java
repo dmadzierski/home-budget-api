@@ -11,7 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class CategoryService {
 
-   private CategoryRepository categoryRepository;
+   private final CategoryRepository categoryRepository;
 
    public Category getCategory(User user, Long categoryId) {
       return categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(ThereIsNoYourPropertyException::new);

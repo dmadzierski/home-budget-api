@@ -11,8 +11,6 @@ import java.util.Set;
 
 @Repository
 interface CategoryRepository extends JpaRepository<Category, Long> {
-   Optional<Category> getById(Long categoryId);
-
    @Query("SELECT c FROM Category c JOIN c.users u WHERE u = :user")
    Set<Category> findByUsers(@Param("user") User user);
 

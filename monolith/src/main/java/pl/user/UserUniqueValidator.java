@@ -10,7 +10,7 @@ import javax.validation.ConstraintValidatorContext;
 @AllArgsConstructor
 class UserUniqueValidator implements ConstraintValidator<UniqueUserEmail, String> {
 
-   private UserService userService;
+   private final UserService userService;
 
    @Override
    public void initialize(UniqueUserEmail uniqueUserEmail) {

@@ -1,8 +1,6 @@
 package pl.wallet.category;
 
 public class CategoryMapper {
-   private CategoryMapper() {
-   }
 
    public static Category toEntity(CategoryDto categoryDto) {
       Category category = new Category();

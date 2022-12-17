@@ -28,7 +28,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @CrossOrigin("${cors.allowed-origins}")
 class TransactionResource {
-   private TransactionController transactionController;
+   private final TransactionController transactionController;
 
    @BackTransactionOrSimpleTransaction(
       message = "Back transaction should have reference to loan or borrow transation and transaction with set reference to another transaction should have set other transaction type")

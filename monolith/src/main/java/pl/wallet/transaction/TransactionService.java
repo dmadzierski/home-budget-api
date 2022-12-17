@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class TransactionService {
 
-   private TransactionRepository transactionRepository;
+   private final TransactionRepository transactionRepository;
 
    Transaction save(Transaction transaction) {
       return transactionRepository.save(transaction);

@@ -16,7 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class WalletService {
 
-   private WalletRepository walletRepository;
+   private final WalletRepository walletRepository;
 
    public Wallet saveWallet(Wallet wallet) {
       return walletRepository.save(wallet);

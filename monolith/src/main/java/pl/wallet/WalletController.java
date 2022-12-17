@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 @Controller
 @AllArgsConstructor
 class WalletController {
-   private WalletService walletService;
-   private UserService userService;
-   private TransactionService transactionService;
+   private final WalletService walletService;
+   private final UserService userService;
+   private final TransactionService transactionService;
 
    WalletDto addWallet(Principal principal, WalletDto walletDto) {
       if (walletDto.getId() != null) throw new SavedEntityCanNotHaveIdException();

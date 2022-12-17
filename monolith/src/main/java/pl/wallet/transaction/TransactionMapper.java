@@ -3,8 +3,6 @@ package pl.wallet.transaction;
 import pl.wallet.category.CategoryMapper;
 
 class TransactionMapper {
-   private TransactionMapper() {
-   }
 
    static Transaction toEntity(TransactionDto transactionDto) {
       return Transaction.builder()

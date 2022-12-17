@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 @Controller
 @AllArgsConstructor
 class TransactionController {
-   private TransactionService transactionService;
-   private UserService userService;
-   private WalletService walletService;
-   private CategoryService categoryService;
+   private final TransactionService transactionService;
+   private final UserService userService;
+   private final WalletService walletService;
+   private final CategoryService categoryService;
 
 
    TransactionDto addTransaction(Principal principal, Long walletId, Long categoryId, TransactionDto transactionDto) {

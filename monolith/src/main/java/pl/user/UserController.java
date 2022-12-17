@@ -14,11 +14,11 @@ import java.security.Principal;
 @AllArgsConstructor
 class UserController {
 
-   private UserService userService;
-   private UserRoleService userRoleService;
-   private PasswordEncoder passwordEncoder;
-   private WalletService walletService;
-   private CategoryService categoryService;
+   private final UserService userService;
+   private final UserRoleService userRoleService;
+   private final PasswordEncoder passwordEncoder;
+   private final WalletService walletService;
+   private final CategoryService categoryService;
 
    UserDto addUserWithDefaultsResources(UserDto userDto) {
       User user = UserMapper.toEntity(userDto);

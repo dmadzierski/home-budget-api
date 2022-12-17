@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @CrossOrigin("${cors.allowed-origins}")
 class WalletResource {
-   private WalletController walletController;
+   private final WalletController walletController;
 
    @PostMapping("/add")
    public ResponseEntity<WalletDto> addWallet(Principal principal, @Valid @RequestBody WalletDto walletDto) {

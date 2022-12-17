@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 @Controller
 @AllArgsConstructor
 class CategoryController {
-   private CategoryService categoryService;
-   private UserService userService;
+   private final CategoryService categoryService;
+   private final UserService userService;
 
    CategoryDto addCategory(Principal principal, CategoryDto categoryDto) {
       User user = userService.getUser(principal);

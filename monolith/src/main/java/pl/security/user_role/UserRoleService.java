@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class UserRoleService {
 
-   private UserRoleRepository userRoleRepository;
+   private final UserRoleRepository userRoleRepository;
 
    public List<UserRole> findDefaultRoles() {
       return userRoleRepository.getDefaultRoles();
