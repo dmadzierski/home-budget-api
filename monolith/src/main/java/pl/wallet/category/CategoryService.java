@@ -17,10 +17,6 @@ public class CategoryService {
       return categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(ThereIsNoYourPropertyException::new);
    }
 
-//  public Category getCategory (Long categoryId) {
-//    return categoryRepository.getById(categoryId).orElseThrow(() -> new EntityNotFoundException(categoryId, categoryId.getClass()));
-//  }
-
    Category saveCategory(Category category) {
       return categoryRepository.save(category);
    }

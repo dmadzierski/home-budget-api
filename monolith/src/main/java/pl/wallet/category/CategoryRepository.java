@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+interface CategoryRepository extends JpaRepository<Category, Long> {
    Optional<Category> getById(Long categoryId);
 
    @Query("SELECT c FROM Category c JOIN c.users u WHERE u = :user")
