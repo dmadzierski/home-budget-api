@@ -8,17 +8,17 @@ import javax.validation.ConstraintValidatorContext;
 
 @Component
 @AllArgsConstructor
-public class UserUniqueValidator implements ConstraintValidator<UniqueUserEmail, String> {
+class UserUniqueValidator implements ConstraintValidator<UniqueUserEmail, String> {
 
-  private UserService userService;
+   private UserService userService;
 
-  @Override
-  public void initialize (UniqueUserEmail uniqueUserEmail) {
-    uniqueUserEmail.message();
-  }
+   @Override
+   public void initialize(UniqueUserEmail uniqueUserEmail) {
+      uniqueUserEmail.message();
+   }
 
-  @Override
-  public boolean isValid (String email, ConstraintValidatorContext context) {
-    return !userService.emailIsExist(email);
-  }
+   @Override
+   public boolean isValid(String email, ConstraintValidatorContext context) {
+      return !userService.emailIsExist(email);
+   }
 }

@@ -10,11 +10,11 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 public class UserWallet implements Specification<Transaction> {
-  public UserWallet (User user) {
-  }
+   public UserWallet(User user) {
+   }
 
-  @Override
-  public Predicate toPredicate (Root<Transaction> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-    return null;
-  }
+   @Override
+   public Predicate toPredicate(Root<Transaction> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+      return null;
+   }
 }

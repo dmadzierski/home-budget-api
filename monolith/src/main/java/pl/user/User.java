@@ -22,59 +22,59 @@ import java.util.stream.Collectors;
 @ToString
 public class User {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "user_id")
-  private Long id;
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "user_id")
+   private Long id;
 
-  @Email
-  @Column(nullable = false, unique = true)
-  private String email;
+   @Email
+   @Column(nullable = false, unique = true)
+   private String email;
 
-  @Column(nullable = false)
-  private String password;
+   @Column(nullable = false)
+   private String password;
 
-  @Column(nullable = false)
-  @ManyToMany(fetch = FetchType.EAGER)
-  private Set<UserRole> roles;
+   @Column(nullable = false)
+   @ManyToMany(fetch = FetchType.EAGER)
+   private Set<UserRole> roles;
 
-  @OneToMany(cascade = CascadeType.MERGE, mappedBy = "user")
-  private List<Wallet> wallets;
+   @OneToMany(cascade = CascadeType.MERGE, mappedBy = "user")
+   private List<Wallet> wallets;
 
-  @ManyToMany
-  private Set<Category> categories;
+   @ManyToMany
+   private Set<Category> categories;
 
-  private Long favoriteWalletId;
+   private Long favoriteWalletId;
 
-  public void addCategory (Category category) {
-    try {
-      categories.add(category);
-    } catch (NullPointerException e) {
-      categories = new HashSet<>();
-      categories.add(category);
-    }
-  }
+   public void addCategory(Category category) {
+      try {
+         categories.add(category);
+      } catch (NullPointerException e) {
+         categories = new HashSet<>();
+         categories.add(category);
+      }
+   }
 
 
-  public void addRole (UserRole userRole) {
-    try {
-      this.roles.add(userRole);
-    } catch (NullPointerException e) {
-      this.roles = new HashSet<>();
-      this.roles.add(userRole);
-    }
-  }
+   public void addRole(UserRole userRole) {
+      try {
+         this.roles.add(userRole);
+      } catch (NullPointerException e) {
+         this.roles = new HashSet<>();
+         this.roles.add(userRole);
+      }
+   }
 
-  public void addWallet (Wallet wallet) {
-    try {
-      this.wallets.add(wallet);
-    } catch (NullPointerException e) {
-      this.wallets = new ArrayList<>();
-      this.wallets.add(wallet);
-    }
-  }
+   public void addWallet(Wallet wallet) {
+      try {
+         this.wallets.add(wallet);
+      } catch (NullPointerException e) {
+         this.wallets = new ArrayList<>();
+         this.wallets.add(wallet);
+      }
+   }
 
-  public void removeCategory (Long categoryId) {
-    this.setCategories(this.categories.stream().filter(c -> !c.getId().equals(categoryId)).collect(Collectors.toSet()));
-  }
+   public void removeCategory(Long categoryId) {
+      this.setCategories(this.categories.stream().filter(c -> !c.getId().equals(categoryId)).collect(Collectors.toSet()));
+   }
 }

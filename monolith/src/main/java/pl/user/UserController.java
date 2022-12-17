@@ -12,45 +12,45 @@ import java.security.Principal;
 
 @Controller
 @AllArgsConstructor
-public class UserController {
+class UserController {
 
-  private UserService userService;
-  private UserRoleService userRoleService;
-  private PasswordEncoder passwordEncoder;
-  private WalletService walletService;
-  private CategoryService categoryService;
+   private UserService userService;
+   private UserRoleService userRoleService;
+   private PasswordEncoder passwordEncoder;
+   private WalletService walletService;
+   private CategoryService categoryService;
 
-  UserDto addUserWithDefaultsResources (UserDto userDto) {
-    User user = UserMapper.toEntity(userDto);
-    encodePassword(user);
-    addDefaultRoles(user);
-    User savedUser = userService.saveUser(user);
-    addDefaultCategories(user);
-    Wallet wallet = walletService.saveDefaultWallet(user);
-    return UserMapper.toDto(userService.setFavoriteWallet(savedUser, wallet.getId()));
-  }
+   UserDto addUserWithDefaultsResources(UserDto userDto) {
+      User user = UserMapper.toEntity(userDto);
+      encodePassword(user);
+      addDefaultRoles(user);
+      User savedUser = userService.saveUser(user);
+      addDefaultCategories(user);
+      Wallet wallet = walletService.saveDefaultWallet(user);
+      return UserMapper.toDto(userService.setFavoriteWallet(savedUser, wallet.getId()));
+   }
 
-  private void addDefaultCategories (User user) {
-    categoryService.getDefaultCategories().forEach(user::addCategory);
-  }
+   private void addDefaultCategories(User user) {
+      categoryService.getDefaultCategories().forEach(user::addCategory);
+   }
 
-  private void addDefaultRoles (User user) {
-    userRoleService.findDefaultRoles().forEach(user::addRole);
-  }
+   private void addDefaultRoles(User user) {
+      userRoleService.findDefaultRoles().forEach(user::addRole);
+   }
 
 
-  private void encodePassword (User user) {
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
-  }
+   private void encodePassword(User user) {
+      user.setPassword(passwordEncoder.encode(user.getPassword()));
+   }
 
-  UserDto getUserByPrincipal (Principal principal) {
-    return UserMapper.toDto(userService.getUser(principal));
-  }
+   UserDto getUserByPrincipal(Principal principal) {
+      return UserMapper.toDto(userService.getUser(principal));
+   }
 
-  UserDto setFavoriteWallet (Principal principal, Long walletId) {
-    User user = userService.getUser(principal);
-    return UserMapper.toDto(userService.setFavoriteWallet(user, walletId));
-  }
+   UserDto setFavoriteWallet(Principal principal, Long walletId) {
+      User user = userService.getUser(principal);
+      return UserMapper.toDto(userService.setFavoriteWallet(user, walletId));
+   }
 
 
 }

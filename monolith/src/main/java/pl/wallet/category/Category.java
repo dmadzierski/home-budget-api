@@ -1,7 +1,9 @@
 package pl.wallet.category;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.user.User;
 import pl.wallet.transaction.TransactionType;
 
@@ -11,46 +13,43 @@ import java.util.List;
 
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter(value = AccessLevel.PACKAGE)
 @Entity
 @Table(name = "category")
 public class Category {
 
-  private Boolean isDefault = false;
+   private Boolean isDefault = false;
 
-  @Column(name = "category_id")
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+   @Column(name = "category_id")
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
 
-  @Column(nullable = false)
-  private String name;
+   @Column(nullable = false)
+   private String name;
 
-  private String description;
+   private String description;
 
-  @Column(nullable = false)
-  @Enumerated
-  private TransactionType transactionType;
+   @Column(nullable = false)
+   @Enumerated
+   private TransactionType transactionType;
 
-  @ManyToMany(mappedBy = "categories")
-  private List<User> users;
-
-
-  public void addUser (User user) {
-    if(users == null) {
-      this.users = new ArrayList<>();
-      users.add(user);
-    } else
-      users.add(user);
-  }
+   @ManyToMany(mappedBy = "categories")
+   private List<User> users;
 
 
-  public List<User> getUser () {
-    return this.users;
-  }
+   public void addUser(User user) {
+      if (users == null) {
+         this.users = new ArrayList<>();
+         users.add(user);
+      } else
+         users.add(user);
+   }
 
 
-  public void setUserList (List<User> users) {
-    this.users = users;
-  }
+   public List<User> getUser() {
+      return this.users;
+   }
+
 }

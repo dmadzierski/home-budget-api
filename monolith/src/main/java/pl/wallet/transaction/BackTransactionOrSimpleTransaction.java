@@ -13,11 +13,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(ElementType.METHOD)
 @Retention(RUNTIME)
 @Documented
-public @interface BackTransactionOrSimpleTransaction {
-  String message ();
+@interface BackTransactionOrSimpleTransaction {
+   String message();
 
-  Class<?>[] groups () default {};
+   Class<?>[] groups() default {};
 
-  Class<? extends Payload>[] payload () default {};
+   Class<? extends Payload>[] payload() default {};
 
 }

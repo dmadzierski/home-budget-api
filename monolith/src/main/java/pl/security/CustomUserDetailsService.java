@@ -19,27 +19,26 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+class CustomUserDetailsService implements UserDetailsService {
 
-public class CustomUserDetailsService implements UserDetailsService {
-
-  private UserService userService;
+   private UserService userService;
 
 
-  @Override
-  public UserDetails loadUserByUsername (String username) {
-    User user;
-    try {
-      user = userService.getUserByEmail(username);
-    } catch (EntityNotFoundException e) {
-      throw new UsernameNotFoundException("User not found");
-    }
-    return new org.springframework.security.core.userdetails.User(
-      user.getEmail(),
-      user.getPassword(),
-      convertAuthorities(user.getRoles()));
-  }
+   @Override
+   public UserDetails loadUserByUsername(String username) {
+      User user;
+      try {
+         user = userService.getUserByEmail(username);
+      } catch (EntityNotFoundException e) {
+         throw new UsernameNotFoundException("User not found");
+      }
+      return new org.springframework.security.core.userdetails.User(
+         user.getEmail(),
+         user.getPassword(),
+         convertAuthorities(user.getRoles()));
+   }
 
-  private Set<GrantedAuthority> convertAuthorities (Collection<UserRole> userRoles) {
-    return userRoles.stream().map(k -> new SimpleGrantedAuthority(k.getRoleName())).collect(Collectors.toSet());
-  }
+   private Set<GrantedAuthority> convertAuthorities(Collection<UserRole> userRoles) {
+      return userRoles.stream().map(k -> new SimpleGrantedAuthority(k.getRoleName())).collect(Collectors.toSet());
+   }
 }

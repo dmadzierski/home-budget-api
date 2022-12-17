@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
+interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 
-  @Query("SELECT r FROM UserRole r WHERE r.isDefault = true")
-  List<UserRole> getDefaultRoles ();
+   @Query("SELECT r FROM UserRole r WHERE r.isDefault = true")
+   List<UserRole> getDefaultRoles();
 }

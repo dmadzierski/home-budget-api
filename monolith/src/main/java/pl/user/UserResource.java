@@ -1,5 +1,6 @@
 package pl.user;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,29 +13,29 @@ import java.security.Principal;
 
 @Validated
 @RestController
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @CrossOrigin(origins = "${cors.allowed-origins}")
-public class UserResource {
+class UserResource {
 
-  private UserController userController;
+   private UserController userController;
 
-  @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<UserDto> register (@RequestBody @Valid UserDto userDto) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(userController.addUserWithDefaultsResources(userDto));
-  }
+   @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<UserDto> register(@RequestBody @Valid UserDto userDto) {
+      return ResponseEntity.status(HttpStatus.CREATED).body(userController.addUserWithDefaultsResources(userDto));
+   }
 
-  @RequestMapping("/user")
-  public Principal user (Principal principal) {
-    return principal;
-  }
+   @RequestMapping("/user")
+   public Principal user(Principal principal) {
+      return principal;
+   }
 
-  @GetMapping(value = "/profile", consumes = MediaType.ALL_VALUE)
-  public UserDto getUser (Principal principal) {
-    return userController.getUserByPrincipal(principal);
-  }
+   @GetMapping(value = "/profile", consumes = MediaType.ALL_VALUE)
+   public UserDto getUser(Principal principal) {
+      return userController.getUserByPrincipal(principal);
+   }
 
-  @PostMapping(value = "user/setFavoriteWallet")
-  public UserDto setFavoriteWallet (Principal principal, @RequestBody(required = false) Long walletId) {
-    return userController.setFavoriteWallet(principal, walletId);
-  }
+   @PostMapping(value = "user/setFavoriteWallet")
+   public UserDto setFavoriteWallet(Principal principal, @RequestBody(required = false) Long walletId) {
+      return userController.setFavoriteWallet(principal, walletId);
+   }
 }

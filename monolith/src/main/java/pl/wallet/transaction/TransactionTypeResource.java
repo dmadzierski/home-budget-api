@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/transaction", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin("${cors.allowed-origins}")
-public class TransactionTypeResource {
-  @GetMapping("/types")
-  public ResponseEntity<List<TransactionType>> getTransactionsType () {
-    return ResponseEntity.ok(Arrays.stream(TransactionType.values()).collect(Collectors.toList()));
-  }
+class TransactionTypeResource {
+   @GetMapping("/types")
+   public ResponseEntity<List<TransactionType>> getTransactionsType() {
+      return ResponseEntity.ok(Arrays.stream(TransactionType.values()).collect(Collectors.toList()));
+   }
 }

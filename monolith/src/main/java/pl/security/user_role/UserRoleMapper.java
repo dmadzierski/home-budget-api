@@ -1,13 +1,12 @@
 package pl.security.user_role;
 
-public class UserRoleMapper {
-  private UserRoleMapper () {
-  }
+class UserRoleMapper {
 
-  public static UserRoleDto toDto (UserRole userRole) {
-    return UserRoleDto.builder()
-      .description(userRole.getDescription())
-      .name(userRole.getRoleName())
-      .build();
-  }
+
+   public static UserRoleDto toDto(UserRole userRole) {
+      return UserRoleDto.builder()
+         .description(userRole.getDescription())
+         .name(userRole.getRoleName())
+         .build();
+   }
 }

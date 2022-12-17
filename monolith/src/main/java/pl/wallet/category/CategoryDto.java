@@ -15,22 +15,22 @@ import javax.validation.constraints.NotNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoryDto {
 
-  private Long id;
+   private Long id;
 
-  @NotEmpty(message = "Category must have name")
-  private String name;
+   @NotEmpty(message = "Category must have name")
+   private String name;
 
-  private String description;
+   private String description;
 
-  @NotNull(message = "Category must have transaction type")
-  private TransactionType transactionType;
+   @NotNull(message = "Category must have transaction type")
+   private TransactionType transactionType;
 
 
-  @Builder
-  public CategoryDto (Long id, @NotEmpty(message = "Category must have name") String name, String description, @NotNull(message = "Category must have transaction type") TransactionType transactionType) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.transactionType = transactionType;
-  }
+   @Builder
+   public CategoryDto(Long id, @NotEmpty(message = "Category must have name") String name, String description, @NotNull(message = "Category must have transaction type") TransactionType transactionType) {
+      this.id = id;
+      this.name = name;
+      this.description = description;
+      this.transactionType = transactionType;
+   }
 }
