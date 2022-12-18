@@ -7,7 +7,7 @@ import pl.user.User;
 import java.util.Optional;
 import java.util.Set;
 
-public interface CategoryQueryRepository extends org.springframework.data.repository.Repository<Category, Long> {
+interface CategoryQueryRepository extends org.springframework.data.repository.Repository<Category, Long> {
 
    @Query("SELECT c FROM Category c JOIN c.users u WHERE u = :user")
    Set<Category> findByUsers(@Param("user") User user);

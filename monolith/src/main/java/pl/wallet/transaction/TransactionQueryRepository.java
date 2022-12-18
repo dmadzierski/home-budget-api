@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TransactionQueryRepository extends org.springframework.data.repository.Repository<Transaction, Long> {
+interface TransactionQueryRepository extends org.springframework.data.repository.Repository<Transaction, Long> {
    List<TransactionDto> findAll(Specification<Transaction> transactionSpecification, Pageable pageable);
 
 
