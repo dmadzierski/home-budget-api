@@ -23,7 +23,7 @@ class TransactionMapper {
          .price(transaction.getPrice())
          .category(CategoryMapper.toDto(transaction.getCategory()))
          .dateOfPurchase(transaction.getDateOfPurchase())
-         .isFinished(transaction.getIsFinished())
+         .isFinished(transaction.getFinished())
          .transactionIdReference(transaction.getTransactionIdReference())
          .build();
    }

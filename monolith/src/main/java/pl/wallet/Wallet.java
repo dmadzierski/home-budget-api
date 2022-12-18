@@ -1,6 +1,7 @@
 package pl.wallet;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import pl.user.User;
 import pl.wallet.transaction.Transaction;
 
@@ -10,8 +11,6 @@ import java.util.List;
 
 @EqualsAndHashCode
 @NoArgsConstructor
-@Getter
-@Setter(AccessLevel.PACKAGE)
 @Entity
 @Table(name = "wallet")
 public class Wallet {
@@ -40,5 +39,45 @@ public class Wallet {
    public void removeTransaction(Transaction transaction) {
       this.balance = transaction.getCategory().getTransactionType().undoCountBalance(this, transaction);
 
+   }
+
+   public Long getId() {
+      return id;
+   }
+
+   void setId(Long id) {
+      this.id = id;
+   }
+
+   String getName() {
+      return name;
+   }
+
+   void setName(String name) {
+      this.name = name;
+   }
+
+   public BigDecimal getBalance() {
+      return balance;
+   }
+
+   void setBalance(BigDecimal balance) {
+      this.balance = balance;
+   }
+
+   List<Transaction> getTransactions() {
+      return transactions;
+   }
+
+   void setTransactions(List<Transaction> transactions) {
+      this.transactions = transactions;
+   }
+
+   User getUser() {
+      return user;
+   }
+
+   void setUser(User user) {
+      this.user = user;
    }
 }

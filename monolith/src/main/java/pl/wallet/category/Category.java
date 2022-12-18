@@ -1,9 +1,6 @@
 package pl.wallet.category;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import pl.user.User;
 import pl.wallet.transaction.TransactionType;
 
@@ -13,8 +10,6 @@ import java.util.List;
 
 
 @NoArgsConstructor
-@Getter
-@Setter(value = AccessLevel.PACKAGE)
 @Entity
 @Table(name = "category")
 public class Category {
@@ -40,16 +35,53 @@ public class Category {
 
 
    public void addUser(User user) {
-      if (users == null) {
+      if (users == null)
          this.users = new ArrayList<>();
-         users.add(user);
-      } else
-         users.add(user);
+      users.add(user);
    }
 
 
-   public List<User> getUser() {
-      return this.users;
+   public TransactionType getTransactionType() {
+      return transactionType;
    }
 
+   public void setTransactionType(TransactionType transactionType) {
+      this.transactionType = transactionType;
+   }
+
+   public Boolean getDefault() {
+      return isDefault;
+   }
+
+   void setDefault(Boolean aDefault) {
+      isDefault = aDefault;
+   }
+
+   public Long getId() {
+      return id;
+   }
+
+   void setId(Long id) {
+      this.id = id;
+   }
+
+   String getName() {
+      return name;
+   }
+
+   void setName(String name) {
+      this.name = name;
+   }
+
+   String getDescription() {
+      return description;
+   }
+
+   void setDescription(String description) {
+      this.description = description;
+   }
+
+   void setUsers(List<User> users) {
+      this.users = List.copyOf(users);
+   }
 }

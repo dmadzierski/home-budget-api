@@ -34,8 +34,8 @@ class TransactionController {
       Transaction transaction = TransactionMapper.toEntity(transactionDto);
 
       if (category.getTransactionType().ordinal() == 2 || category.getTransactionType().ordinal() == 3)
-         transaction.setIsFinished(false);
-      else transaction.setIsFinished(true);
+         transaction.setFinished(false);
+      else transaction.setFinished(true);
 
       if (transaction.getDateOfPurchase() == null)
          transaction.setDateOfPurchase(LocalDateTime.now());
@@ -94,9 +94,9 @@ class TransactionController {
       User user = userProvider.getUser(principal);
       walletProvider.isUserWallet(user, walletId);
       Transaction transaction = transactionService.getTransaction(transactionId);
-      if (transaction.getIsFinished() == null)
+      if (transaction.getFinished() == null)
          throw new TransactionException(TransactionError.CAN_NOT_SET_FINISHED);
-      transaction.setIsFinished(!transaction.getIsFinished());
+      transaction.setFinished(!transaction.getFinished());
       Transaction updateTransaction = transactionService.save(transaction);
       return TransactionMapper.toDto(updateTransaction);
 

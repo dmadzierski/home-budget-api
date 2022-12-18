@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 
 @EqualsAndHashCode
 @NoArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "transaction")
 @ToString
@@ -52,6 +50,78 @@ public class Transaction {
       this.dateOfPurchase = dateOfPurchase;
       this.isFinished = isFinished;
       this.transactionIdReference = transactionIdReference;
+   }
+
+    BigDecimal getPrice() {
+      return price;
+   }
+
+    Long getId() {
+      return id;
+   }
+
+    String getName() {
+      return name;
+   }
+
+    String getDescription() {
+      return description;
+   }
+
+    Wallet getWallet() {
+      return wallet;
+   }
+
+    LocalDateTime getDateOfPurchase() {
+      return dateOfPurchase;
+   }
+
+    void setId(Long id) {
+      this.id = id;
+   }
+
+    void setName(String name) {
+      this.name = name;
+   }
+
+    void setDescription(String description) {
+      this.description = description;
+   }
+
+    void setPrice(BigDecimal price) {
+      this.price = price;
+   }
+
+    void setTransactionIdReference(Long transactionIdReference) {
+      this.transactionIdReference = transactionIdReference;
+   }
+
+    void setCategory(Category category) {
+      this.category = category;
+   }
+
+   void setWallet(Wallet wallet) {
+      this.wallet = wallet;
+   }
+
+    void setDateOfPurchase(LocalDateTime dateOfPurchase) {
+      this.dateOfPurchase = dateOfPurchase;
+   }
+
+    void setFinished(Boolean finished) {
+      isFinished = finished;
+   }
+
+   Boolean getFinished() {
+      return isFinished;
+   }
+
+    Long getTransactionIdReference() {
+      return transactionIdReference;
+   }
+
+   public Category getCategory() {
+      return category;
    }
 }
 

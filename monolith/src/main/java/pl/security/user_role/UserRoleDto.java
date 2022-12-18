@@ -3,11 +3,9 @@ package pl.security.user_role;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 
-@Getter
 @EqualsAndHashCode
 @Builder
 public class UserRoleDto {
@@ -24,5 +22,17 @@ public class UserRoleDto {
       this.id = id;
       this.name = name;
       this.description = description;
+   }
+
+   Long getId() {
+      return id;
+   }
+
+   String getName() {
+      return name;
+   }
+
+   String getDescription() {
+      return description;
    }
 }

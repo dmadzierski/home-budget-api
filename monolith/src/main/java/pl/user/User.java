@@ -1,13 +1,14 @@
 package pl.user;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.security.user_role.UserRole;
 import pl.wallet.Wallet;
 import pl.wallet.category.Category;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,8 +16,6 @@ import java.util.stream.Collectors;
 
 @EqualsAndHashCode
 @NoArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "\"user\"")
 @ToString
@@ -31,6 +30,7 @@ public class User {
    @Column(nullable = false, unique = true)
    private String email;
 
+
    @Column(nullable = false)
    private String password;
 
@@ -39,7 +39,7 @@ public class User {
    private Set<UserRole> roles;
 
    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "user")
-   private List<Wallet> wallets;
+   private Set<Wallet> wallets;
 
    @ManyToMany
    private Set<Category> categories;
@@ -47,34 +47,70 @@ public class User {
    private Long favoriteWalletId;
 
    public void addCategory(Category category) {
-      try {
-         categories.add(category);
-      } catch (NullPointerException e) {
+      if (this.categories == null)
          categories = new HashSet<>();
-         categories.add(category);
-      }
+      categories.add(category);
    }
 
 
-   public void addRole(UserRole userRole) {
-      try {
-         this.roles.add(userRole);
-      } catch (NullPointerException e) {
-         this.roles = new HashSet<>();
-         this.roles.add(userRole);
-      }
+   void addRole(UserRole userRole) {
+      if (roles == null)
+         roles = new HashSet<>();
+      roles.add(userRole);
    }
 
-   public void addWallet(Wallet wallet) {
-      try {
-         this.wallets.add(wallet);
-      } catch (NullPointerException e) {
-         this.wallets = new ArrayList<>();
-         this.wallets.add(wallet);
-      }
+   public Set<UserRole> getRoles() {
+      return Set.copyOf(roles);
+   }
+
+   void addWallet(Wallet wallet) {
+      if (wallets == null)
+         wallets = new HashSet<>();
+      wallets.add(wallet);
    }
 
    public void removeCategory(Long categoryId) {
       this.setCategories(this.categories.stream().filter(c -> !c.getId().equals(categoryId)).collect(Collectors.toSet()));
    }
+
+   public Set<Category> getCategories() {
+      return categories;
+   }
+
+   public void setCategories(Set<Category> categories) {
+      this.categories = categories;
+   }
+
+   void setId(Long id) {
+      this.id = id;
+   }
+
+   Long getId() {
+      return id;
+   }
+
+   String getEmail() {
+      return email;
+   }
+
+   void setEmail(String email) {
+      this.email = email;
+   }
+
+   String getPassword() {
+      return password;
+   }
+
+   void setPassword(String password) {
+      this.password = password;
+   }
+
+   Long getFavoriteWalletId() {
+      return favoriteWalletId;
+   }
+
+   void setFavoriteWalletId(Long favoriteWalletId) {
+      this.favoriteWalletId = favoriteWalletId;
+   }
+
 }

@@ -1,16 +1,11 @@
 package pl.security.user_role;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
 @NoArgsConstructor
 @Entity
-@Setter(value = AccessLevel.PACKAGE)
 @Table(name = "user_role")
 public class UserRole {
 
@@ -31,5 +26,36 @@ public class UserRole {
       this.description = description;
    }
 
+   Long getId() {
+      return id;
+   }
+
+   void setId(Long id) {
+      this.id = id;
+   }
+
+   public String getRoleName() {
+      return roleName;
+   }
+
+   void setRoleName(String roleName) {
+      this.roleName = roleName;
+   }
+
+   String getDescription() {
+      return description;
+   }
+
+   void setDescription(String description) {
+      this.description = description;
+   }
+
+   Boolean getDefault() {
+      return isDefault;
+   }
+
+   void setDefault(Boolean aDefault) {
+      isDefault = aDefault;
+   }
 }
 
