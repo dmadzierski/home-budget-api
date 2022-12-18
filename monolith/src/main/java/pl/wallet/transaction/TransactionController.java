@@ -10,9 +10,9 @@ import pl.user.User;
 import pl.user.UserService;
 import pl.wallet.UserWallet;
 import pl.wallet.Wallet;
-import pl.wallet.WalletService;
+import pl.wallet.WalletProvider;
 import pl.wallet.category.Category;
-import pl.wallet.category.CategoryService;
+import pl.wallet.category.CategoryProvider;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 class TransactionController {
    private final TransactionService transactionService;
    private final UserService userService;
-   private final WalletService walletService;
-   private final CategoryService categoryService;
+   private final WalletProvider walletProvider;
+   private final CategoryProvider categoryProvider;
 
 
    TransactionDto addTransaction(Principal principal, Long walletId, Long categoryId, TransactionDto transactionDto) {
@@ -44,17 +44,17 @@ class TransactionController {
 
       transaction.setWallet(wallet);
       transaction.setCategory(category);
-      walletService.addTransaction(wallet, transaction);
+      walletProvider.addTransaction(wallet, transaction);
       transaction = transactionService.save(transaction);
       return TransactionMapper.toDto(transaction);
    }
 
    private Category getCategory(User user, Long categoryId) {
-      return categoryService.getCategory(user, categoryId);
+      return categoryProvider.getCategory(user, categoryId);
    }
 
    private Wallet getWallet(User user, Long walletId) {
-      return walletService.isUserWallet(user, walletId);
+      return walletProvider.isUserWallet(user, walletId);
    }
 
    void removeTransaction(Principal principal, Long walletId, Long transactionId) {
@@ -63,7 +63,7 @@ class TransactionController {
       Transaction transaction = transactionService.getTransaction(transactionId);
       wallet.removeTransaction(transaction);
       transactionService.removeTransaction(transactionId);
-      walletService.saveWallet(wallet);
+      walletProvider.saveWallet(wallet);
    }
 
    public List<TransactionDto> getWalletTransactions(Principal principal, Long walletId, Pageable pageable, Specification<Transaction> transactionSpecification) {
@@ -75,13 +75,13 @@ class TransactionController {
 
    public TransactionDto getTransaction(Principal principal, Long walletId, Long transactionId) {
       User user = userService.getUser(principal);
-      walletService.isUserWallet(user, walletId);
+      walletProvider.isUserWallet(user, walletId);
       return TransactionMapper.toDto(transactionService.getTransaction(transactionId));
    }
 
    public TransactionDto editTransaction(Principal principal, Long walletId, TransactionDto transactionDto) {
       User user = userService.getUser(principal);
-      walletService.isUserWallet(user, walletId);
+      walletProvider.isUserWallet(user, walletId);
 
       Transaction transaction = transactionService.getTransaction(transactionDto.getId());
       transaction.setDescription(transactionDto.getDescription());
@@ -95,7 +95,7 @@ class TransactionController {
 
    public TransactionDto switchIsFinished(Principal principal, Long walletId, Long transactionId) {
       User user = userService.getUser(principal);
-      walletService.isUserWallet(user, walletId);
+      walletProvider.isUserWallet(user, walletId);
       Transaction transaction = transactionService.getTransaction(transactionId);
       if (transaction.getIsFinished() == null)
          throw new SuchTransactionDoNotHavePropertyIsFinshed("This transaction do not have property is finished");

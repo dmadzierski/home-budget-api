@@ -1,6 +1,5 @@
 package pl.wallet;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.exception.EntityNotFoundException;
@@ -12,9 +11,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
-public class WalletService {
+public class WalletProvider {
 
    private final WalletRepository walletRepository;
 
@@ -30,7 +29,7 @@ public class WalletService {
       walletRepository.deleteById(walletId);
    }
 
-   Wallet getUserWallet(Long walletId) {
+   private Wallet getUserWallet(Long walletId) {
       return walletRepository.getById(walletId).orElseThrow(() -> new EntityNotFoundException(walletId, Wallet.class));
    }
 
@@ -52,15 +51,14 @@ public class WalletService {
       return saveWallet(defaultWallet);
    }
 
+   public Optional<Wallet> getUserWallet(User user, Long walletId) {
+      return walletRepository.getByIdAndUser(walletId, user);
+   }
+
    private Wallet createDefaultWallet() {
       Wallet wallet = new Wallet();
       wallet.setName("Wallet");
       wallet.setBalance(BigDecimal.ZERO);
       return wallet;
    }
-
-   public Optional<Wallet> getUserWallet(User user, Long walletId) {
-      return walletRepository.getByIdAndUser(walletId, user);
-   }
-
 }
