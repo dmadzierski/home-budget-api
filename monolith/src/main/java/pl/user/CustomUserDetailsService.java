@@ -18,14 +18,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 class CustomUserDetailsService implements UserDetailsService {
 
-   private final UserProvider userProvider;
+   private final UserFacade userFacade;
 
 
    @Override
    public UserDetails loadUserByUsername(String username) {
       User user;
       try {
-         user = userProvider.getUserByEmail(username);
+         user = userFacade.getUserByEmail(username);
       } catch (UserException e) {
          throw new UsernameNotFoundException("User not found");
       }

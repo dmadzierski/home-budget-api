@@ -10,7 +10,6 @@ import pl.wallet.category.Category;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -81,12 +80,12 @@ public class User {
       this.categories = categories;
    }
 
-   void setId(Long id) {
-      this.id = id;
-   }
-
    Long getId() {
       return id;
+   }
+
+   void setId(Long id) {
+      this.id = id;
    }
 
    String getEmail() {

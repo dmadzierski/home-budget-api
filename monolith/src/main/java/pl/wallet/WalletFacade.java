@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Service
-public class WalletProvider {
+public class WalletFacade {
 
    private final WalletRepository walletRepository;
 

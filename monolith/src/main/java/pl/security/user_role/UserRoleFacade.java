@@ -7,7 +7,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class UserRoleProvider {
+public class UserRoleFacade {
 
    private final UserRoleRepository userRoleRepository;
 

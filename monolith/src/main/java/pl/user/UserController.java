@@ -3,10 +3,10 @@ package pl.user;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import pl.security.user_role.UserRoleProvider;
+import pl.security.user_role.UserRoleFacade;
 import pl.wallet.Wallet;
-import pl.wallet.WalletProvider;
-import pl.wallet.category.CategoryProvider;
+import pl.wallet.WalletFacade;
+import pl.wallet.category.CategoryFacade;
 
 import java.security.Principal;
 
@@ -15,10 +15,10 @@ import java.security.Principal;
 class UserController {
 
    private final UserService userService;
-   private final UserRoleProvider userRoleProvider;
+   private final UserRoleFacade userRoleFacade;
    private final PasswordEncoder passwordEncoder;
-   private final WalletProvider walletProvider;
-   private final CategoryProvider categoryProvider;
+   private final WalletFacade walletFacade;
+   private final CategoryFacade categoryFacade;
 
    UserDto addUserWithDefaultsResources(UserDto userDto) {
       User user = UserMapper.toEntity(userDto);
@@ -26,16 +26,16 @@ class UserController {
       addDefaultRoles(user);
       User savedUser = userService.saveUser(user);
       addDefaultCategories(user);
-      Wallet wallet = walletProvider.saveDefaultWallet(user);
+      Wallet wallet = walletFacade.saveDefaultWallet(user);
       return UserMapper.toDto(userService.setFavoriteWallet(savedUser, wallet.getId()));
    }
 
    private void addDefaultCategories(User user) {
-      categoryProvider.getDefaultCategories().forEach(user::addCategory);
+      categoryFacade.getDefaultCategories().forEach(user::addCategory);
    }
 
    private void addDefaultRoles(User user) {
-      userRoleProvider.findDefaultRoles().forEach(user::addRole);
+      userRoleFacade.findDefaultRoles().forEach(user::addRole);
    }
 
 

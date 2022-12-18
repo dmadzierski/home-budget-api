@@ -1,6 +1,9 @@
 package pl.wallet.transaction;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.wallet.Wallet;
 import pl.wallet.category.Category;
 
@@ -52,76 +55,76 @@ public class Transaction {
       this.transactionIdReference = transactionIdReference;
    }
 
-    BigDecimal getPrice() {
+   BigDecimal getPrice() {
       return price;
    }
 
-    Long getId() {
-      return id;
-   }
-
-    String getName() {
-      return name;
-   }
-
-    String getDescription() {
-      return description;
-   }
-
-    Wallet getWallet() {
-      return wallet;
-   }
-
-    LocalDateTime getDateOfPurchase() {
-      return dateOfPurchase;
-   }
-
-    void setId(Long id) {
-      this.id = id;
-   }
-
-    void setName(String name) {
-      this.name = name;
-   }
-
-    void setDescription(String description) {
-      this.description = description;
-   }
-
-    void setPrice(BigDecimal price) {
+   void setPrice(BigDecimal price) {
       this.price = price;
    }
 
-    void setTransactionIdReference(Long transactionIdReference) {
-      this.transactionIdReference = transactionIdReference;
+   Long getId() {
+      return id;
    }
 
-    void setCategory(Category category) {
-      this.category = category;
+   void setId(Long id) {
+      this.id = id;
+   }
+
+   String getName() {
+      return name;
+   }
+
+   void setName(String name) {
+      this.name = name;
+   }
+
+   String getDescription() {
+      return description;
+   }
+
+   void setDescription(String description) {
+      this.description = description;
+   }
+
+   Wallet getWallet() {
+      return wallet;
    }
 
    void setWallet(Wallet wallet) {
       this.wallet = wallet;
    }
 
-    void setDateOfPurchase(LocalDateTime dateOfPurchase) {
-      this.dateOfPurchase = dateOfPurchase;
+   LocalDateTime getDateOfPurchase() {
+      return dateOfPurchase;
    }
 
-    void setFinished(Boolean finished) {
-      isFinished = finished;
+   void setDateOfPurchase(LocalDateTime dateOfPurchase) {
+      this.dateOfPurchase = dateOfPurchase;
    }
 
    Boolean getFinished() {
       return isFinished;
    }
 
-    Long getTransactionIdReference() {
+   void setFinished(Boolean finished) {
+      isFinished = finished;
+   }
+
+   Long getTransactionIdReference() {
       return transactionIdReference;
+   }
+
+   void setTransactionIdReference(Long transactionIdReference) {
+      this.transactionIdReference = transactionIdReference;
    }
 
    public Category getCategory() {
       return category;
+   }
+
+   void setCategory(Category category) {
+      this.category = category;
    }
 }
 

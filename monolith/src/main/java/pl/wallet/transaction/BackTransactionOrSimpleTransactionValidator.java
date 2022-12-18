@@ -3,9 +3,9 @@ package pl.wallet.transaction;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.user.User;
-import pl.user.UserProvider;
+import pl.user.UserFacade;
 import pl.wallet.category.Category;
-import pl.wallet.category.CategoryProvider;
+import pl.wallet.category.CategoryFacade;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -17,16 +17,16 @@ import java.security.Principal;
 @AllArgsConstructor
 @SupportedValidationTarget(ValidationTarget.PARAMETERS)
 class BackTransactionOrSimpleTransactionValidator implements ConstraintValidator<BackTransactionOrSimpleTransaction, Object[]> {
-   private CategoryProvider categoryProvider;
-   private UserProvider userProvider;
+   private CategoryFacade categoryFacade;
+   private UserFacade userFacade;
 
    public void initialize(BackTransactionOrSimpleTransaction backTransactionOrSimpleTransaction) {
       backTransactionOrSimpleTransaction.message();
    }
 
    public boolean isValid(Object[] objs, ConstraintValidatorContext context) {
-      User user = userProvider.getUser((Principal) objs[0]);
-      Category category = categoryProvider.getCategory(user, (Long) objs[1]);
+      User user = userFacade.getUser((Principal) objs[0]);
+      Category category = categoryFacade.getCategory(user, (Long) objs[1]);
       return (category.getTransactionType().ordinal() == 4 || category.getTransactionType().ordinal() == 5) == (((TransactionDto) objs[3]).getTransactionIdReference() != null);
    }
 }

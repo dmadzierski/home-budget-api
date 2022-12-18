@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Service
 @AllArgsConstructor
-public class CategoryProvider {
+public class CategoryFacade {
    private final CategoryRepository categoryRepository;
 
    public Category getCategory(User user, Long categoryId) {

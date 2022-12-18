@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
-public class TransactionProvider {
+public class TransactionFacade {
    private TransactionRepository transactionRepository;
 
    public void removeWalletTransactions(Long walletId) {

@@ -7,7 +7,7 @@ import java.security.Principal;
 
 @Service
 @AllArgsConstructor
-public class UserProvider {
+public class UserFacade {
    private final UserRepository userRepository;
 
    public User getUserByEmail(String email) {

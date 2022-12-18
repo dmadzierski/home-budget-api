@@ -5,12 +5,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import pl.user.User;
-import pl.user.UserProvider;
+import pl.user.UserFacade;
 import pl.wallet.UserWallet;
 import pl.wallet.Wallet;
-import pl.wallet.WalletProvider;
+import pl.wallet.WalletFacade;
 import pl.wallet.category.Category;
-import pl.wallet.category.CategoryProvider;
+import pl.wallet.category.CategoryFacade;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -21,14 +21,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 class TransactionController {
    private final TransactionService transactionService;
-   private final UserProvider userProvider;
-   private final WalletProvider walletProvider;
-   private final CategoryProvider categoryProvider;
+   private final UserFacade userFacade;
+   private final WalletFacade walletFacade;
+   private final CategoryFacade categoryFacade;
 
 
    TransactionDto addTransaction(Principal principal, Long walletId, Long categoryId, TransactionDto transactionDto) {
       if (transactionDto.getId() != null) throw new TransactionException(TransactionError.CAN_NOT_HAVE_ID);
-      User user = userProvider.getUserByEmail(principal.getName());
+      User user = userFacade.getUserByEmail(principal.getName());
       Wallet wallet = getWallet(user, walletId);
       Category category = getCategory(user, categoryId);
       Transaction transaction = TransactionMapper.toEntity(transactionDto);
@@ -42,43 +42,43 @@ class TransactionController {
 
       transaction.setWallet(wallet);
       transaction.setCategory(category);
-      walletProvider.addTransaction(wallet, transaction);
+      walletFacade.addTransaction(wallet, transaction);
       transaction = transactionService.save(transaction);
       return TransactionMapper.toDto(transaction);
    }
 
    private Category getCategory(User user, Long categoryId) {
-      return categoryProvider.getCategory(user, categoryId);
+      return categoryFacade.getCategory(user, categoryId);
    }
 
    private Wallet getWallet(User user, Long walletId) {
-      return walletProvider.isUserWallet(user, walletId);
+      return walletFacade.isUserWallet(user, walletId);
    }
 
    void removeTransaction(Principal principal, Long walletId, Long transactionId) {
-      User user = userProvider.getUserByEmail(principal.getName());
+      User user = userFacade.getUserByEmail(principal.getName());
       Wallet wallet = getWallet(user, walletId);
       Transaction transaction = transactionService.getTransaction(transactionId);
       wallet.removeTransaction(transaction);
       transactionService.removeTransaction(transactionId);
-      walletProvider.saveWallet(wallet);
+      walletFacade.saveWallet(wallet);
    }
 
    public List<TransactionDto> getWalletTransactions(Principal principal, Long walletId, Pageable pageable, Specification<Transaction> transactionSpecification) {
-      User user = userProvider.getUser(principal);
+      User user = userFacade.getUser(principal);
       transactionSpecification.and(new UserWallet(user));
       return transactionService.getTransactionsByWalletId(pageable, transactionSpecification).stream().map(TransactionMapper::toDto).collect(Collectors.toList());
    }
 
    public TransactionDto getTransaction(Principal principal, Long walletId, Long transactionId) {
-      User user = userProvider.getUser(principal);
-      walletProvider.isUserWallet(user, walletId);
+      User user = userFacade.getUser(principal);
+      walletFacade.isUserWallet(user, walletId);
       return TransactionMapper.toDto(transactionService.getTransaction(transactionId));
    }
 
    public TransactionDto editTransaction(Principal principal, Long walletId, TransactionDto transactionDto) {
-      User user = userProvider.getUser(principal);
-      walletProvider.isUserWallet(user, walletId);
+      User user = userFacade.getUser(principal);
+      walletFacade.isUserWallet(user, walletId);
 
       Transaction transaction = transactionService.getTransaction(transactionDto.getId());
       transaction.setDescription(transactionDto.getDescription());
@@ -91,8 +91,8 @@ class TransactionController {
    }
 
    public TransactionDto switchIsFinished(Principal principal, Long walletId, Long transactionId) {
-      User user = userProvider.getUser(principal);
-      walletProvider.isUserWallet(user, walletId);
+      User user = userFacade.getUser(principal);
+      walletFacade.isUserWallet(user, walletId);
       Transaction transaction = transactionService.getTransaction(transactionId);
       if (transaction.getFinished() == null)
          throw new TransactionException(TransactionError.CAN_NOT_SET_FINISHED);
