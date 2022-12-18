@@ -1,6 +1,7 @@
 package pl.wallet.transaction;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
-@ToString
+@EqualsAndHashCode
 public class TransactionDto {
 
    private final Long id;
@@ -33,7 +34,7 @@ public class TransactionDto {
 
    private final Boolean isFinished;
 
-   @Builder
+   @Builder(toBuilder = true)
    TransactionDto(Long id,
                   @NotNull(message = "Transaction should have name") @Length(min = 1, message = "Transaction should have name") String name,
                   String description,

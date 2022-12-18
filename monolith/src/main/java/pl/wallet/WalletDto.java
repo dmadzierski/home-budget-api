@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
-@ToString
 @Getter
 @EqualsAndHashCode
 public class WalletDto {
@@ -29,7 +28,7 @@ public class WalletDto {
 
    private final UserDto user;
 
-   @Builder
+   @Builder(toBuilder = true)
    WalletDto(Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<TransactionDto> transactions, UserDto user) {
       this.id = id;
       this.name = name;

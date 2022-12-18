@@ -17,7 +17,7 @@ public class UserRoleDto {
 
    private String description;
 
-   @Builder
+   @Builder(toBuilder = true)
    UserRoleDto(Long id, String name, String description) {
       this.id = id;
       this.name = name;
