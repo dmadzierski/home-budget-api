@@ -23,7 +23,7 @@ class TransactionService {
       return transactionRepository.findById(transactionId).orElseThrow(() -> new TransactionException(TransactionError.NOT_FOUND));
    }
 
-   List<Transaction> getTransactionsByWalletId(Pageable pageable, Specification<Transaction> transactionSpecification) {
+   List<TransactionDto> getTransactionsByWalletId(Pageable pageable, Specification<Transaction> transactionSpecification) {
       return transactionQueryRepository.findAll(transactionSpecification, pageable);
    }
 

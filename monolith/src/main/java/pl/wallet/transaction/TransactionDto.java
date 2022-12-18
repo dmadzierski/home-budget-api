@@ -1,4 +1,4 @@
-package pl.wallet.transaction.dto;
+package pl.wallet.transaction;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

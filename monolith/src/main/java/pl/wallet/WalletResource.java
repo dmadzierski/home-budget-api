@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
+import java.util.Set;
 
 @Validated
 @RestController
@@ -27,7 +27,7 @@ class WalletResource {
    }
 
    @GetMapping()
-   public ResponseEntity<List<WalletDto>> getWallets(Principal principal) {
+   public ResponseEntity<Set<WalletDto>> getWallets(Principal principal) {
       return ResponseEntity.ok(walletController.getWallets(principal));
    }
 

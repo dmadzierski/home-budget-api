@@ -6,8 +6,8 @@ import pl.user.User;
 import pl.wallet.transaction.Transaction;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @AllArgsConstructor
 @Service
@@ -20,7 +20,7 @@ public class WalletFacade {
       return walletRepository.save(wallet);
    }
 
-   List<Wallet> getWalletsByUser(User user) {
+   Set<WalletDto> getWalletsByUser(User user) {
       return walletQueryRepository.getByUser(user);
    }
 
@@ -51,7 +51,7 @@ public class WalletFacade {
    }
 
    public Optional<Wallet> getUserWallet(User user, Long walletId) {
-      return walletQueryRepository.getByIdAndUser(walletId, user);
+      return walletRepository.getByIdAndUser(walletId, user);
    }
 
    private Wallet createDefaultWallet() {

@@ -7,8 +7,7 @@ import pl.user.UserFacade;
 import pl.wallet.transaction.TransactionFacade;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -26,9 +25,9 @@ class WalletController {
       return WalletMapper.toDto(wallet);
    }
 
-   List<WalletDto> getWallets(Principal principal) {
+   Set<WalletDto> getWallets(Principal principal) {
       User user = userFacade.getUser(principal);
-      return walletFacade.getWalletsByUser(user).stream().map(WalletMapper::toDto).collect(Collectors.toList());
+      return walletFacade.getWalletsByUser(user);
    }
 
    private void isUserWallet(Principal principal, Long walletId) {
@@ -44,8 +43,7 @@ class WalletController {
 
    WalletDto getWallet(Principal principal, Long walletId) {
       User user = this.userFacade.getUser(principal);
-      Wallet wallet = walletFacade.getUserWallet(user, walletId).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
-      return WalletMapper.toDto(wallet);
+      return WalletMapper.toDto(walletFacade.getUserWallet(user, walletId).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND)));
    }
 
    WalletDto editWallet(Principal principal, WalletDto walletDto) {

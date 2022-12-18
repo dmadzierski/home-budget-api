@@ -18,7 +18,7 @@ class UserService {
    }
 
    boolean emailIsExist(String email) {
-      return userQueryRepository.findByEmail(email).isPresent();
+      return userRepository.findByEmail(email).isPresent();
    }
 
    User getUser(Principal principal) {
@@ -26,7 +26,7 @@ class UserService {
    }
 
    User getUserByEmail(String email) {
-      return userQueryRepository.findByEmail(email).orElseThrow();
+      return userRepository.findByEmail(email).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
    }
 
    User setFavoriteWallet(User user, Long walletId) {

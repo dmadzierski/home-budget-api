@@ -8,9 +8,9 @@ import pl.user.User;
 @Service
 public class UserRoleFacade {
 
-   private final UserRoleQueryRepository userRoleQueryRepository;
+   private final UserRoleRepository userRoleRepository;
 
    public void addDefaultRolesToUser(User user) {
-      userRoleQueryRepository.getDefaultRoles().forEach(user::addRole);
+      userRoleRepository.getDefaultRoles().forEach(user::addRole);
    }
 }

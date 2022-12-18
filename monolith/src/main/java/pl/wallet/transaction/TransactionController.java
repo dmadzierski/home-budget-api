@@ -11,12 +11,10 @@ import pl.wallet.Wallet;
 import pl.wallet.WalletFacade;
 import pl.wallet.category.CategoryDto;
 import pl.wallet.category.CategoryFacade;
-import pl.wallet.transaction.dto.TransactionDto;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -69,7 +67,7 @@ class TransactionController {
    public List<TransactionDto> getWalletTransactions(Principal principal, Long walletId, Pageable pageable, Specification<Transaction> transactionSpecification) {
       User user = userFacade.getUser(principal);
       transactionSpecification.and(new UserWallet(user));
-      return transactionService.getTransactionsByWalletId(pageable, transactionSpecification).stream().map(TransactionMapper::toDto).collect(Collectors.toList());
+      return transactionService.getTransactionsByWalletId(pageable, transactionSpecification);
    }
 
    public TransactionDto getTransaction(Principal principal, Long walletId, Long transactionId) {
