@@ -44,13 +44,13 @@ class WalletController {
 
    WalletDto getWallet(Principal principal, Long walletId) {
       User user = this.userProvider.getUser(principal);
-      Wallet wallet = walletProvider.getUserWallet(user, walletId).orElseThrow(()->new WalletException(WalletError.NOT_FOUND));
+      Wallet wallet = walletProvider.getUserWallet(user, walletId).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
       return WalletMapper.toDto(wallet);
    }
 
    WalletDto editWallet(Principal principal, WalletDto walletDto) {
       User user = this.userProvider.getUser(principal);
-      Wallet wallet = walletProvider.getUserWallet(user, walletDto.getId()).orElseThrow(()->new WalletException(WalletError.NOT_FOUND));
+      Wallet wallet = walletProvider.getUserWallet(user, walletDto.getId()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
       wallet.setName(walletDto.getName());
       Wallet updateWallet = walletProvider.saveWallet(wallet);
       return WalletMapper.toDto(updateWallet);

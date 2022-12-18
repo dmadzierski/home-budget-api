@@ -7,9 +7,8 @@ import pl.exception.AppError;
 
 @AllArgsConstructor
 @Getter
-public enum CategoryError implements AppError {
-   NOT_FOUND("Category not found",HttpStatus.NOT_FOUND)
-   ;;
+enum CategoryError implements AppError {
+   NOT_FOUND("Category not found", HttpStatus.NOT_FOUND);;
    private final String message;
    private final HttpStatus status;
 }

@@ -8,7 +8,7 @@ import java.security.Principal;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-public class UserService {
+class UserService {
 
    private final UserRepository userRepository;
 

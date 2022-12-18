@@ -7,7 +7,7 @@ import pl.exception.AppError;
 
 @Getter
 @AllArgsConstructor
- class UserError implements AppError {
+class UserError implements AppError {
    ;
 
    private final String message;
