@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.security.user_role.UserRole;
+import pl.user.user_role.UserRole;
 
 import java.util.Collection;
 import java.util.Set;
@@ -18,14 +18,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 class CustomUserDetailsService implements UserDetailsService {
 
-   private final UserFacade userFacade;
+   private final UserService userService;
 
 
    @Override
    public UserDetails loadUserByUsername(String username) {
       User user;
       try {
-         user = userFacade.getUserByEmail(username);
+         user = userService.getUserByEmail(username);
       } catch (UserException e) {
          throw new UsernameNotFoundException("User not found");
       }

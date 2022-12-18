@@ -1,4 +1,4 @@
-package pl.security.user_role;
+package pl.user.user_role;
 
 class UserRoleMapper {
 

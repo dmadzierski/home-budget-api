@@ -13,6 +13,7 @@ import java.util.List;
 class TransactionService {
 
    private final TransactionRepository transactionRepository;
+   private final TransactionQueryRepository transactionQueryRepository;
 
    Transaction save(Transaction transaction) {
       return transactionRepository.save(transaction);
@@ -23,7 +24,7 @@ class TransactionService {
    }
 
    List<Transaction> getTransactionsByWalletId(Pageable pageable, Specification<Transaction> transactionSpecification) {
-      return transactionRepository.findAll(transactionSpecification, pageable);
+      return transactionQueryRepository.findAll(transactionSpecification, pageable);
    }
 
    void removeTransaction(Long transactionId) {

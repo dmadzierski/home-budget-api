@@ -3,7 +3,6 @@ package pl.wallet.transaction;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import pl.wallet.category.CategoryDto;
 
@@ -42,7 +41,6 @@ public class TransactionDto {
                   @NotNull(message = "Transaction must have price") BigDecimal price, LocalDateTime dateOfPurchase,
                   Long transactionIdReference,
                   Boolean isFinished) {
-      this.isFinished = isFinished;
       this.id = id;
       this.name = name;
       this.description = description;
@@ -50,5 +48,6 @@ public class TransactionDto {
       this.price = price;
       this.dateOfPurchase = dateOfPurchase;
       this.transactionIdReference = transactionIdReference;
+      this.isFinished = isFinished;
    }
 }

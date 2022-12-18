@@ -11,6 +11,7 @@ import java.util.Set;
 class CategoryService {
 
    private final CategoryRepository categoryRepository;
+   private final CategoryQueryRepository categoryQueryRepository;
 
 
    Category saveCategory(Category category) {
@@ -18,11 +19,11 @@ class CategoryService {
    }
 
    Set<Category> getCategoriesByUser(User user) {
-      return categoryRepository.findByUsers(user);
+      return categoryQueryRepository.findByUsers(user);
    }
 
    public Set<Category> getDefaultCategories() {
-      return categoryRepository.getDefaultCategories();
+      return categoryQueryRepository.getDefaultCategories();
    }
 
 }

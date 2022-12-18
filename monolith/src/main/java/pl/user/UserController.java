@@ -3,7 +3,7 @@ package pl.user;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import pl.security.user_role.UserRoleFacade;
+import pl.user.user_role.UserRoleFacade;
 import pl.wallet.Wallet;
 import pl.wallet.WalletFacade;
 import pl.wallet.category.CategoryFacade;
@@ -31,11 +31,11 @@ class UserController {
    }
 
    private void addDefaultCategories(User user) {
-      categoryFacade.getDefaultCategories().forEach(user::addCategory);
+      categoryFacade.addDefaultCategoriesToUser(user);
    }
 
    private void addDefaultRoles(User user) {
-      userRoleFacade.findDefaultRoles().forEach(user::addRole);
+      userRoleFacade.addDefaultRolesToUser(user);
    }
 
 

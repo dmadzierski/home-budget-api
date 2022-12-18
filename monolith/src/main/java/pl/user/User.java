@@ -3,7 +3,7 @@ package pl.user;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import pl.security.user_role.UserRole;
+import pl.user.user_role.UserRole;
 import pl.wallet.Wallet;
 import pl.wallet.category.Category;
 
@@ -52,7 +52,7 @@ public class User {
    }
 
 
-   void addRole(UserRole userRole) {
+   public void addRole(UserRole userRole) {
       if (roles == null)
          roles = new HashSet<>();
       roles.add(userRole);

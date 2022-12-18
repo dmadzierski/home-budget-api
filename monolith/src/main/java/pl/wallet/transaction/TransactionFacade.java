@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @Service
 public class TransactionFacade {
-   private TransactionRepository transactionRepository;
+   private final TransactionQueryRepository transactionQueryRepository;
+   private final TransactionRepository transactionRepository;
 
    public void removeWalletTransactions(Long walletId) {
-      transactionRepository.getTransactionsByWalletId(walletId).forEach(transaction -> this.removeTransaction(transaction.getId()));
+      transactionQueryRepository.getTransactionsByWalletId(walletId).forEach(transaction -> this.removeTransaction(transaction.getId()));
    }
 
    void removeTransaction(Long transactionId) {

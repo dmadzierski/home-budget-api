@@ -3,7 +3,7 @@ package pl.user;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import pl.security.user_role.UserRoleDto;
+import pl.user.user_role.UserRoleDto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;

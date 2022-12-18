@@ -9,9 +9,10 @@ import java.security.Principal;
 @AllArgsConstructor
 public class UserFacade {
    private final UserRepository userRepository;
+   private final UserQueryRepository userQueryRepository;
 
    public User getUserByEmail(String email) {
-      return userRepository.findByEmail(email).orElseThrow();
+      return userQueryRepository.findByEmail(email).orElseThrow();
    }
 
    public User getUser(Principal principal) {

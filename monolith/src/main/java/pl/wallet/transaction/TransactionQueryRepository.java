@@ -10,7 +10,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-interface TransactionRepository extends JpaRepository<Transaction, Long> {
+public interface TransactionQueryRepository extends JpaRepository<Transaction, Long> {
+   List<Transaction> findAll(Specification<Transaction> transactionSpecification, Pageable pageable);
 
+
+   @Query("SELECT t FROM Transaction t INNER JOIN Wallet w ON t.wallet = w WHERE w.id = :walletId")
+   List<Transaction> getTransactionsByWalletId(@Param("walletId") Long walletId);
 
 }

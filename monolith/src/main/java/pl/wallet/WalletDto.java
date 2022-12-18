@@ -3,7 +3,6 @@ package pl.wallet;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 import pl.user.UserDto;
 import pl.wallet.transaction.TransactionDto;
 

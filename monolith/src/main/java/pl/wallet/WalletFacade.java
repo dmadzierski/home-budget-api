@@ -14,13 +14,14 @@ import java.util.Optional;
 public class WalletFacade {
 
    private final WalletRepository walletRepository;
+   private final WalletQueryRepository walletQueryRepository;
 
    public Wallet saveWallet(Wallet wallet) {
       return walletRepository.save(wallet);
    }
 
    List<Wallet> getWalletsByUser(User user) {
-      return walletRepository.getByUser(user);
+      return walletQueryRepository.getByUser(user);
    }
 
    void removeWallet(Long walletId) {
@@ -50,7 +51,7 @@ public class WalletFacade {
    }
 
    public Optional<Wallet> getUserWallet(User user, Long walletId) {
-      return walletRepository.getByIdAndUser(walletId, user);
+      return walletQueryRepository.getByIdAndUser(walletId, user);
    }
 
    private Wallet createDefaultWallet() {
