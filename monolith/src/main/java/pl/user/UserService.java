@@ -3,7 +3,6 @@ package pl.user;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.exception.EntityNotFoundException;
 
 import java.security.Principal;
 
@@ -11,22 +10,22 @@ import java.security.Principal;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class UserService {
 
-   private UserRepository userRepository;
+   private final UserRepository userRepository;
 
-   public User getUserByEmail(String email) {
-      return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException(email, email.getClass()));
-   }
-
-   public User getUser(Principal principal) {
-      return getUserByEmail(principal.getName());
+   public User saveUser(User user) {
+      return userRepository.save(user);
    }
 
    boolean emailIsExist(String email) {
       return userRepository.findByEmail(email).isPresent();
    }
 
-   public User saveUser(User user) {
-      return userRepository.save(user);
+   User getUser(Principal principal) {
+      return getUserByEmail(principal.getName());
+   }
+
+   private User getUserByEmail(String email) {
+      return userRepository.findByEmail(email).orElseThrow();
    }
 
    User setFavoriteWallet(User user, Long walletId) {

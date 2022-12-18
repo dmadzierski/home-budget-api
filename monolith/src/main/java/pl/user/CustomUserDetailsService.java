@@ -1,4 +1,4 @@
-package pl.security;
+package pl.user;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,10 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.exception.EntityNotFoundException;
 import pl.security.user_role.UserRole;
-import pl.user.User;
-import pl.user.UserService;
 
 import java.util.Collection;
 import java.util.Set;
@@ -21,15 +18,15 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 class CustomUserDetailsService implements UserDetailsService {
 
-   private final UserService userService;
+   private final UserProvider userProvider;
 
 
    @Override
    public UserDetails loadUserByUsername(String username) {
       User user;
       try {
-         user = userService.getUserByEmail(username);
-      } catch (EntityNotFoundException e) {
+         user = userProvider.getUserByEmail(username);
+      } catch (UserException e) {
          throw new UsernameNotFoundException("User not found");
       }
       return new org.springframework.security.core.userdetails.User(

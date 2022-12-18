@@ -18,26 +18,31 @@ import java.util.stream.Collectors;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @ControllerAdvice
-class CustomExceptionHandler extends ResponseEntityExceptionHandler {
+ class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
-   @ExceptionHandler(RuntimeException.class)
-   ResponseEntity handleAllExceptions(Exception exception, WebRequest request) {
-      return ResponseEntity.status(BAD_REQUEST)
-         .body(new ErrorsResponse(Map.of("Server Error", Collections.singletonList(exception.getLocalizedMessage().replace("addTransaction.<cross-parameter>: ", "")))).getErrors());
-   }
+    @ExceptionHandler(AppRuntimeException.class)
+     ResponseEntity handleAllExceptions(AppRuntimeException exception, WebRequest request) {
+        return ResponseEntity.status(exception.getStatus())
+          .body(Collections.singletonMap("Error", exception.getMessage()));
+    }
 
-   @Override
-   public ResponseEntity handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
-      return ResponseEntity
-         .status(BAD_REQUEST)
-         .body(new ErrorsResponse(exception.getBindingResult().getFieldErrors().stream()
+    @ExceptionHandler(Exception.class)
+     ResponseEntity handleAllExceptions(Exception exception, WebRequest request) {
+        return ResponseEntity.status(BAD_REQUEST)
+          .body(Collections.singletonMap("Server Error", Collections.singletonList(exception.getLocalizedMessage().replace("addTransaction.<cross-parameter>: ", ""))));
+    }
+
+    @Override
+    public ResponseEntity handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return ResponseEntity
+          .status(BAD_REQUEST)
+          .body(exception.getBindingResult().getFieldErrors().stream()
             .collect(Collectors.groupingBy(FieldError::getField))
             .entrySet().stream()
             .collect(Collectors.toMap(Map.Entry::getKey, fieldError -> fieldError.getValue()
-               .stream()
-               .map(ObjectError::getDefaultMessage)
-               .map(message -> message.replace("addTransaction.<cross-parameter>:", ""))
-               .collect(Collectors.toList())))));
-   }
+              .stream()
+              .map(ObjectError::getDefaultMessage)
+              .collect(Collectors.toList()))));
+    }
 }
 

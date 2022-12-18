@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import pl.exception.ThereIsNoYourPropertyException;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ class TransactionService {
    }
 
    Transaction getTransaction(Long transactionId) {
-      return transactionRepository.findById(transactionId).orElseThrow(ThereIsNoYourPropertyException::new);
+      return transactionRepository.findById(transactionId).orElseThrow(() -> new TransactionException(TransactionError.NOT_FOUND));
    }
 
    List<Transaction> getTransactionsByWalletId(Pageable pageable, Specification<Transaction> transactionSpecification) {

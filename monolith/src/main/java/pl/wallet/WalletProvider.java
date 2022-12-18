@@ -2,8 +2,6 @@ package pl.wallet;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.exception.EntityNotFoundException;
-import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.wallet.transaction.Transaction;
 
@@ -30,13 +28,13 @@ public class WalletProvider {
    }
 
    private Wallet getUserWallet(Long walletId) {
-      return walletRepository.getById(walletId).orElseThrow(() -> new EntityNotFoundException(walletId, Wallet.class));
+      return walletRepository.getById(walletId).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
    }
 
    public Wallet isUserWallet(User user, Long walletId) {
       if (this.getWalletsByUser(user).stream().anyMatch(userWallet -> userWallet.getId().equals(walletId)))
          return getUserWallet(walletId);
-      throw new ThereIsNoYourPropertyException();
+      throw new WalletException(WalletError.NOT_FOUND);
    }
 
 

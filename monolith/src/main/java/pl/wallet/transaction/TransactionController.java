@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
-import pl.exception.SavedEntityCanNotHaveIdException;
-import pl.exception.SuchTransactionDoNotHavePropertyIsFinshed;
 import pl.user.User;
-import pl.user.UserService;
+import pl.user.UserProvider;
 import pl.wallet.UserWallet;
 import pl.wallet.Wallet;
 import pl.wallet.WalletProvider;
@@ -23,14 +21,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 class TransactionController {
    private final TransactionService transactionService;
-   private final UserService userService;
+   private final UserProvider userProvider;
    private final WalletProvider walletProvider;
    private final CategoryProvider categoryProvider;
 
 
    TransactionDto addTransaction(Principal principal, Long walletId, Long categoryId, TransactionDto transactionDto) {
-      if (transactionDto.getId() != null) throw new SavedEntityCanNotHaveIdException();
-      User user = userService.getUserByEmail(principal.getName());
+      if (transactionDto.getId() != null) throw new TransactionException(TransactionError.CAN_NOT_HAVE_ID);
+      User user = userProvider.getUserByEmail(principal.getName());
       Wallet wallet = getWallet(user, walletId);
       Category category = getCategory(user, categoryId);
       Transaction transaction = TransactionMapper.toEntity(transactionDto);
@@ -58,7 +56,7 @@ class TransactionController {
    }
 
    void removeTransaction(Principal principal, Long walletId, Long transactionId) {
-      User user = userService.getUserByEmail(principal.getName());
+      User user = userProvider.getUserByEmail(principal.getName());
       Wallet wallet = getWallet(user, walletId);
       Transaction transaction = transactionService.getTransaction(transactionId);
       wallet.removeTransaction(transaction);
@@ -67,20 +65,19 @@ class TransactionController {
    }
 
    public List<TransactionDto> getWalletTransactions(Principal principal, Long walletId, Pageable pageable, Specification<Transaction> transactionSpecification) {
-      User user = userService.getUser(principal);
-//    walletService.isUserWallet(user, walletId);
+      User user = userProvider.getUser(principal);
       transactionSpecification.and(new UserWallet(user));
       return transactionService.getTransactionsByWalletId(pageable, transactionSpecification).stream().map(TransactionMapper::toDto).collect(Collectors.toList());
    }
 
    public TransactionDto getTransaction(Principal principal, Long walletId, Long transactionId) {
-      User user = userService.getUser(principal);
+      User user = userProvider.getUser(principal);
       walletProvider.isUserWallet(user, walletId);
       return TransactionMapper.toDto(transactionService.getTransaction(transactionId));
    }
 
    public TransactionDto editTransaction(Principal principal, Long walletId, TransactionDto transactionDto) {
-      User user = userService.getUser(principal);
+      User user = userProvider.getUser(principal);
       walletProvider.isUserWallet(user, walletId);
 
       Transaction transaction = transactionService.getTransaction(transactionDto.getId());
@@ -94,11 +91,11 @@ class TransactionController {
    }
 
    public TransactionDto switchIsFinished(Principal principal, Long walletId, Long transactionId) {
-      User user = userService.getUser(principal);
+      User user = userProvider.getUser(principal);
       walletProvider.isUserWallet(user, walletId);
       Transaction transaction = transactionService.getTransaction(transactionId);
       if (transaction.getIsFinished() == null)
-         throw new SuchTransactionDoNotHavePropertyIsFinshed("This transaction do not have property is finished");
+         throw new TransactionException(TransactionError.CAN_NOT_SET_FINISHED);
       transaction.setIsFinished(!transaction.getIsFinished());
       Transaction updateTransaction = transactionService.save(transaction);
       return TransactionMapper.toDto(updateTransaction);
