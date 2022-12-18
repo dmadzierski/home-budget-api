@@ -20,7 +20,7 @@ public class CategoryFacade {
       return categoryRepository.getDefaultCategories();
    }
 
-   public void setCategory(User user,Transaction transaction, Long categoryId) {
+   public void setCategory(User user, Transaction transaction, Long categoryId) {
       transaction.setCategory(categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND)));
    }
 }

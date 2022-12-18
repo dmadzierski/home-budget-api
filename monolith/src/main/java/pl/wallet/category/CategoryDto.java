@@ -27,7 +27,7 @@ public class CategoryDto {
 
 
    @Builder
-   public CategoryDto(Long id, @NotEmpty(message = "Category must have name") String name, String description, @NotNull(message = "Category must have transaction type") TransactionType transactionType) {
+   CategoryDto(Long id, @NotEmpty(message = "Category must have name") String name, String description, @NotNull(message = "Category must have transaction type") TransactionType transactionType) {
       this.id = id;
       this.name = name;
       this.description = description;

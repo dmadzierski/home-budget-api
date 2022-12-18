@@ -44,7 +44,7 @@ public class Transaction {
    private Long transactionIdReference;
 
    @Builder
-   public Transaction(String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase, Boolean isFinished, Long transactionIdReference) {
+   Transaction(String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase, Boolean isFinished, Long transactionIdReference) {
       this.name = name;
       this.description = description;
       this.category = category;
@@ -122,6 +122,7 @@ public class Transaction {
    public Category getCategory() {
       return category;
    }
+
    public void setCategory(Category category) {
       this.category = category;
    }

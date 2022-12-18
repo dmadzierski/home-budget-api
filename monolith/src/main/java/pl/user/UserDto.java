@@ -32,7 +32,7 @@ public class UserDto {
    private final Long favoriteWalletId;
 
    @Builder
-   public UserDto(@Null(message = "New user can not have id") Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, Set<UserRoleDto> roles, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, Long favoriteWalletId) {
+   UserDto(@Null(message = "New user can not have id") Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, Set<UserRoleDto> roles, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, Long favoriteWalletId) {
       this.id = id;
       this.email = email;
       this.roles = roles;

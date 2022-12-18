@@ -30,7 +30,7 @@ public class WalletDto {
    private final UserDto user;
 
    @Builder
-   public WalletDto(Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<TransactionDto> transactions, UserDto user) {
+   WalletDto(Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<TransactionDto> transactions, UserDto user) {
       this.id = id;
       this.name = name;
       this.balance = balance;

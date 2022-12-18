@@ -34,13 +34,13 @@ public class TransactionDto {
    private final Boolean isFinished;
 
    @Builder
-   public TransactionDto(Long id,
-                         @NotNull(message = "Transaction should have name") @Length(min = 1, message = "Transaction should have name") String name,
-                         String description,
-                         CategoryDto category,
-                         @NotNull(message = "Transaction must have price") BigDecimal price, LocalDateTime dateOfPurchase,
-                         Long transactionIdReference,
-                         Boolean isFinished) {
+   TransactionDto(Long id,
+                  @NotNull(message = "Transaction should have name") @Length(min = 1, message = "Transaction should have name") String name,
+                  String description,
+                  CategoryDto category,
+                  @NotNull(message = "Transaction must have price") BigDecimal price, LocalDateTime dateOfPurchase,
+                  Long transactionIdReference,
+                  Boolean isFinished) {
       this.isFinished = isFinished;
       this.id = id;
       this.name = name;
