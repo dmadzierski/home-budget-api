@@ -9,7 +9,7 @@ import pl.user.UserFacade;
 import pl.wallet.UserWallet;
 import pl.wallet.Wallet;
 import pl.wallet.WalletFacade;
-import pl.wallet.category.Category;
+import pl.wallet.category.CategoryDto;
 import pl.wallet.category.CategoryFacade;
 
 import java.security.Principal;
@@ -30,10 +30,10 @@ class TransactionController {
       if (transactionDto.getId() != null) throw new TransactionException(TransactionError.CAN_NOT_HAVE_ID);
       User user = userFacade.getUserByEmail(principal.getName());
       Wallet wallet = getWallet(user, walletId);
-      Category category = getCategory(user, categoryId);
+      CategoryDto categoryDto = getCategory(user, categoryId);
       Transaction transaction = TransactionMapper.toEntity(transactionDto);
 
-      if (category.getTransactionType().ordinal() == 2 || category.getTransactionType().ordinal() == 3)
+      if (categoryDto.getTransactionType().ordinal() == 2 || categoryDto.getTransactionType().ordinal() == 3)
          transaction.setFinished(false);
       else transaction.setFinished(true);
 
@@ -41,13 +41,13 @@ class TransactionController {
          transaction.setDateOfPurchase(LocalDateTime.now());
 
       transaction.setWallet(wallet);
-      transaction.setCategory(category);
+      categoryFacade.setCategory(user, transaction, categoryId);
       walletFacade.addTransaction(wallet, transaction);
       transaction = transactionService.save(transaction);
       return TransactionMapper.toDto(transaction);
    }
 
-   private Category getCategory(User user, Long categoryId) {
+   private CategoryDto getCategory(User user, Long categoryId) {
       return categoryFacade.getCategory(user, categoryId);
    }
 

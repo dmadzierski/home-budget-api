@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "category")
-public class Category {
+public  class Category {
 
    private Boolean isDefault = false;
 

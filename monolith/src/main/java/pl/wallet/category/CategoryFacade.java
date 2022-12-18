@@ -3,6 +3,7 @@ package pl.wallet.category;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.user.User;
+import pl.wallet.transaction.Transaction;
 
 import java.util.Set;
 
@@ -11,20 +12,15 @@ import java.util.Set;
 public class CategoryFacade {
    private final CategoryRepository categoryRepository;
 
-   public Category getCategory(User user, Long categoryId) {
-      return categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND));
+   public CategoryDto getCategory(User user, Long categoryId) {
+      return CategoryMapper.toDto(categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND)));
    }
 
    public Set<Category> getDefaultCategories() {
       return categoryRepository.getDefaultCategories();
    }
 
-   Category saveCategory(Category category) {
-      return categoryRepository.save(category);
+   public void setCategory(User user,Transaction transaction, Long categoryId) {
+      transaction.setCategory(categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND)));
    }
-
-   Set<Category> getCategoriesByUser(User user) {
-      return categoryRepository.findByUsers(user);
-   }
-
 }

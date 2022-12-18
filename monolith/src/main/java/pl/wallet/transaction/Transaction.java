@@ -122,8 +122,7 @@ public class Transaction {
    public Category getCategory() {
       return category;
    }
-
-   void setCategory(Category category) {
+   public void setCategory(Category category) {
       this.category = category;
    }
 }

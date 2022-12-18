@@ -15,15 +15,15 @@ import javax.validation.constraints.NotNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoryDto {
 
-   private Long id;
+   private final Long id;
 
    @NotEmpty(message = "Category must have name")
-   private String name;
+   private final String name;
 
-   private String description;
+   private final String description;
 
    @NotNull(message = "Category must have transaction type")
-   private TransactionType transactionType;
+   private final TransactionType transactionType;
 
 
    @Builder

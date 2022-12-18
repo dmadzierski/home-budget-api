@@ -14,24 +14,24 @@ import java.time.LocalDateTime;
 @ToString
 public class TransactionDto {
 
-   private Long id;
+   private final Long id;
 
    @Length(min = 1, message = "Transaction should have name")
    @NotNull(message = "Transaction must have name")
-   private String name;
+   private final String name;
 
-   private String description;
+   private final String description;
 
-   private CategoryDto category;
+   private final CategoryDto category;
 
    @NotNull(message = "Transaction must have price")
-   private BigDecimal price;
+   private final BigDecimal price;
 
-   private LocalDateTime dateOfPurchase;
+   private final LocalDateTime dateOfPurchase;
 
-   private Long transactionIdReference;
+   private final Long transactionIdReference;
 
-   private Boolean isFinished;
+   private final Boolean isFinished;
 
    @Builder
    public TransactionDto(Long id,

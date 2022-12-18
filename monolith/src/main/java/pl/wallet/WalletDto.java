@@ -17,17 +17,17 @@ import java.util.List;
 @EqualsAndHashCode
 public class WalletDto {
 
-   private Long id;
+   private final Long id;
 
    @NotEmpty(message = "Wallet must have name")
-   private String name;
+   private final String name;
 
    @NotNull(message = "Wallet must have balance")
-   private BigDecimal balance;
+   private final BigDecimal balance;
 
-   private List<TransactionDto> transactions;
+   private final List<TransactionDto> transactions;
 
-   private UserDto user;
+   private final UserDto user;
 
    @Builder
    public WalletDto(Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<TransactionDto> transactions, UserDto user) {
