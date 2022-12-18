@@ -1,5 +1,6 @@
 package pl.wallet.category;
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import pl.user.User;
 import pl.wallet.transaction.TransactionType;
@@ -34,54 +35,39 @@ public class Category {
    private List<User> users;
 
 
+   @Builder(toBuilder = true)
+   private Category(Boolean isDefault, Long id, String name, String description, TransactionType transactionType, List<User> users) {
+      this.isDefault = isDefault;
+      this.id = id;
+      this.name = name;
+      this.description = description;
+      this.transactionType = transactionType;
+      this.users = users;
+   }
+
    public void addUser(User user) {
       if (users == null)
          this.users = new ArrayList<>();
       users.add(user);
    }
 
-
    public TransactionType getTransactionType() {
       return transactionType;
    }
 
-   public void setTransactionType(TransactionType transactionType) {
-      this.transactionType = transactionType;
-   }
-
-   public Boolean getDefault() {
-      return isDefault;
-   }
-
-   void setDefault(Boolean aDefault) {
-      isDefault = aDefault;
-   }
 
    public Long getId() {
       return id;
    }
 
-   void setId(Long id) {
-      this.id = id;
-   }
 
    String getName() {
       return name;
    }
 
-   void setName(String name) {
-      this.name = name;
-   }
 
    String getDescription() {
       return description;
    }
 
-   void setDescription(String description) {
-      this.description = description;
-   }
-
-   void setUsers(List<User> users) {
-      this.users = List.copyOf(users);
-   }
 }

@@ -1,6 +1,5 @@
 package pl.wallet.category;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.user.User;
@@ -8,7 +7,7 @@ import pl.user.User;
 import java.util.Optional;
 import java.util.Set;
 
-public interface CategoryQueryRepository extends JpaRepository<Category,Long> {
+public interface CategoryQueryRepository extends org.springframework.data.repository.Repository<Category, Long> {
 
    @Query("SELECT c FROM Category c JOIN c.users u WHERE u = :user")
    Set<Category> findByUsers(@Param("user") User user);

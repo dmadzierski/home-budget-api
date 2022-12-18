@@ -1,5 +1,6 @@
 package pl.user.user_role;
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -20,6 +21,8 @@ public class UserRole {
    private String description;
 
    private Boolean isDefault;
+
+   @Builder(toBuilder = true)
 
    public UserRole(String roleName, String description) {
       this.roleName = roleName;

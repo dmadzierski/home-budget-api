@@ -1,6 +1,7 @@
 package pl.wallet.transaction;
 
 import pl.wallet.category.CategoryMapper;
+import pl.wallet.transaction.dto.TransactionDto;
 
 class TransactionMapper {
 

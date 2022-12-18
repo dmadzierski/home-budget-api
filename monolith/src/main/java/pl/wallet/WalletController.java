@@ -21,7 +21,7 @@ class WalletController {
       if (walletDto.getId() != null) throw new WalletException(WalletError.CAN_NOT_HAVE_ID);
       User user = userFacade.getUser(principal);
       Wallet wallet = WalletMapper.toEntity(walletDto);
-      wallet.setUser(user);
+      wallet = wallet.toBuilder().user(user).build();
       wallet = walletFacade.saveWallet(wallet);
       return WalletMapper.toDto(wallet);
    }
@@ -51,7 +51,7 @@ class WalletController {
    WalletDto editWallet(Principal principal, WalletDto walletDto) {
       User user = this.userFacade.getUser(principal);
       Wallet wallet = walletFacade.getUserWallet(user, walletDto.getId()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
-      wallet.setName(walletDto.getName());
+      wallet = wallet.toBuilder().name(walletDto.getName()).build();
       Wallet updateWallet = walletFacade.saveWallet(wallet);
       return WalletMapper.toDto(updateWallet);
    }

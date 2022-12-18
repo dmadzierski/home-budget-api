@@ -11,6 +11,7 @@ import pl.wallet.Wallet;
 import pl.wallet.WalletFacade;
 import pl.wallet.category.CategoryDto;
 import pl.wallet.category.CategoryFacade;
+import pl.wallet.transaction.dto.TransactionDto;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -34,14 +35,15 @@ class TransactionController {
       Transaction transaction = TransactionMapper.toEntity(transactionDto);
 
       if (categoryDto.getTransactionType().ordinal() == 2 || categoryDto.getTransactionType().ordinal() == 3)
-         transaction.setFinished(false);
-      else transaction.setFinished(true);
+         transaction = transaction.toBuilder().isFinished(false).build();
+      else
+         transaction = transaction.toBuilder().isFinished(true).build();
 
       if (transaction.getDateOfPurchase() == null)
-         transaction.setDateOfPurchase(LocalDateTime.now());
+         transaction = transaction.toBuilder().dateOfPurchase(LocalDateTime.now()).build();
 
-      transaction.setWallet(wallet);
-      categoryFacade.setCategory(user, transaction, categoryId);
+      transaction = transaction.toBuilder().wallet(wallet).build();
+      transaction = categoryFacade.setCategory(user, transaction, categoryId);
       walletFacade.addTransaction(wallet, transaction);
       transaction = transactionService.save(transaction);
       return TransactionMapper.toDto(transaction);
@@ -81,10 +83,11 @@ class TransactionController {
       walletFacade.isUserWallet(user, walletId);
 
       Transaction transaction = transactionService.getTransaction(transactionDto.getId());
-      transaction.setDescription(transactionDto.getDescription());
-      transaction.setName(transactionDto.getName());
-      transaction.setDateOfPurchase(transactionDto.getDateOfPurchase());
-      transaction.setPrice(transactionDto.getPrice());
+      transaction = transaction.toBuilder()
+         .description(transactionDto.getDescription())
+         .name(transactionDto.getName())
+         .dateOfPurchase(transactionDto.getDateOfPurchase())
+         .price(transactionDto.getPrice()).build();
 
       transactionService.save(transaction);
       return TransactionMapper.toDto(transaction);
@@ -96,7 +99,7 @@ class TransactionController {
       Transaction transaction = transactionService.getTransaction(transactionId);
       if (transaction.getFinished() == null)
          throw new TransactionException(TransactionError.CAN_NOT_SET_FINISHED);
-      transaction.setFinished(!transaction.getFinished());
+      transaction = transaction.toBuilder().isFinished(transaction.getFinished()).build();
       Transaction updateTransaction = transactionService.save(transaction);
       return TransactionMapper.toDto(updateTransaction);
 

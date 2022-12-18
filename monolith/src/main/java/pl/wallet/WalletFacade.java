@@ -46,7 +46,7 @@ public class WalletFacade {
 
    public Wallet saveDefaultWallet(User user) {
       Wallet defaultWallet = createDefaultWallet();
-      defaultWallet.setUser(user);
+      defaultWallet = defaultWallet.toBuilder().user(user).build();
       return saveWallet(defaultWallet);
    }
 
@@ -55,9 +55,6 @@ public class WalletFacade {
    }
 
    private Wallet createDefaultWallet() {
-      Wallet wallet = new Wallet();
-      wallet.setName("Wallet");
-      wallet.setBalance(BigDecimal.ZERO);
-      return wallet;
+      return Wallet.builder().name("Wallet").balance(BigDecimal.ZERO).build();
    }
 }

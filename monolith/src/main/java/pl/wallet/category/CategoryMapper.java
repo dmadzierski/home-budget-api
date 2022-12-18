@@ -3,11 +3,11 @@ package pl.wallet.category;
 public class CategoryMapper {
 
    public static Category toEntity(CategoryDto categoryDto) {
-      Category category = new Category();
-      category.setName(categoryDto.getName());
-      category.setDescription(categoryDto.getDescription());
-      category.setTransactionType(categoryDto.getTransactionType());
-      return category;
+      return Category.builder()
+         .name(categoryDto.getName())
+         .description(categoryDto.getDescription())
+         .transactionType(categoryDto.getTransactionType())
+         .build();
    }
 
    public static CategoryDto toDto(Category category) {

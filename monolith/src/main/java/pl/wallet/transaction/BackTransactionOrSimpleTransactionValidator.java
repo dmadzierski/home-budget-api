@@ -6,6 +6,7 @@ import pl.user.User;
 import pl.user.UserFacade;
 import pl.wallet.category.CategoryDto;
 import pl.wallet.category.CategoryFacade;
+import pl.wallet.transaction.dto.TransactionDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

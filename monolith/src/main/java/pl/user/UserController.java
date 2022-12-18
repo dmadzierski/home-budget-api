@@ -39,8 +39,8 @@ class UserController {
    }
 
 
-   private void encodePassword(User user) {
-      user.setPassword(passwordEncoder.encode(user.getPassword()));
+   private User encodePassword(User user) {
+      return user.toBuilder().password(passwordEncoder.encode(user.getPassword())).build();
    }
 
    UserDto getUserByPrincipal(Principal principal) {

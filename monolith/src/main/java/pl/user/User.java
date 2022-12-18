@@ -1,5 +1,6 @@
 package pl.user;
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import pl.wallet.category.Category;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -45,6 +47,17 @@ public class User {
 
    private Long favoriteWalletId;
 
+   @Builder(toBuilder = true)
+   public User(Long id, String email, String password, Set<UserRole> roles, Set<Wallet> wallets, Set<Category> categories, Long favoriteWalletId) {
+      this.id = id;
+      this.email = email;
+      this.password = password;
+      this.roles = roles;
+      this.wallets = wallets;
+      this.categories = categories;
+      this.favoriteWalletId = favoriteWalletId;
+   }
+
    public void addCategory(Category category) {
       if (this.categories == null)
          categories = new HashSet<>();
@@ -59,7 +72,7 @@ public class User {
    }
 
    public Set<UserRole> getRoles() {
-      return Set.copyOf(roles);
+      return Collections.unmodifiableSet(roles);
    }
 
    void addWallet(Wallet wallet) {
@@ -72,44 +85,32 @@ public class User {
       this.setCategories(this.categories.stream().filter(c -> !c.getId().equals(categoryId)).collect(Collectors.toSet()));
    }
 
+   public Set<Wallet> getWallets() {
+      return Collections.unmodifiableSet(wallets);
+   }
+
    public Set<Category> getCategories() {
-      return categories;
+      return Collections.unmodifiableSet(categories);
    }
 
    public void setCategories(Set<Category> categories) {
       this.categories = categories;
    }
 
-   Long getId() {
-      return id;
-   }
-
-   void setId(Long id) {
-      this.id = id;
-   }
 
    String getEmail() {
       return email;
    }
 
-   void setEmail(String email) {
-      this.email = email;
-   }
 
    String getPassword() {
       return password;
    }
 
-   void setPassword(String password) {
-      this.password = password;
-   }
 
    Long getFavoriteWalletId() {
       return favoriteWalletId;
    }
 
-   void setFavoriteWalletId(Long favoriteWalletId) {
-      this.favoriteWalletId = favoriteWalletId;
-   }
 
 }

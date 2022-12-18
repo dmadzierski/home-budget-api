@@ -11,7 +11,6 @@ import java.security.Principal;
 class UserService {
 
    private final UserRepository userRepository;
-
    private final UserQueryRepository userQueryRepository;
 
    public User saveUser(User user) {
@@ -26,12 +25,11 @@ class UserService {
       return getUserByEmail(principal.getName());
    }
 
-    User getUserByEmail(String email) {
+   User getUserByEmail(String email) {
       return userQueryRepository.findByEmail(email).orElseThrow();
    }
 
    User setFavoriteWallet(User user, Long walletId) {
-      user.setFavoriteWalletId(walletId);
-      return saveUser(user);
+      return saveUser(user.toBuilder().favoriteWalletId(walletId).build());
    }
 }

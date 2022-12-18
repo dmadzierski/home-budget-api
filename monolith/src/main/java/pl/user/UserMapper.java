@@ -15,9 +15,6 @@ class UserMapper {
 
 
    public static User toEntity(UserDto userDto) {
-      User user = new User();
-      user.setPassword(userDto.getPassword());
-      user.setEmail(userDto.getEmail());
-      return user;
+      return User.builder().password(userDto.getPassword()).email(userDto.getEmail()).build();
    }
 }

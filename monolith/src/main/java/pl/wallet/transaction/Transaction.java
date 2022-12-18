@@ -43,8 +43,8 @@ public class Transaction {
 
    private Long transactionIdReference;
 
-   @Builder
-   Transaction(String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase, Boolean isFinished, Long transactionIdReference) {
+   @Builder(toBuilder = true)
+   private Transaction(String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase, Boolean isFinished, Long transactionIdReference) {
       this.name = name;
       this.description = description;
       this.category = category;
@@ -59,72 +59,39 @@ public class Transaction {
       return price;
    }
 
-   void setPrice(BigDecimal price) {
-      this.price = price;
-   }
-
    Long getId() {
       return id;
    }
 
-   void setId(Long id) {
-      this.id = id;
-   }
 
    String getName() {
       return name;
    }
 
-   void setName(String name) {
-      this.name = name;
-   }
 
    String getDescription() {
       return description;
    }
 
-   void setDescription(String description) {
-      this.description = description;
-   }
-
-   Wallet getWallet() {
-      return wallet;
-   }
-
-   void setWallet(Wallet wallet) {
-      this.wallet = wallet;
-   }
 
    LocalDateTime getDateOfPurchase() {
       return dateOfPurchase;
    }
 
-   void setDateOfPurchase(LocalDateTime dateOfPurchase) {
-      this.dateOfPurchase = dateOfPurchase;
-   }
 
    Boolean getFinished() {
       return isFinished;
    }
 
-   void setFinished(Boolean finished) {
-      isFinished = finished;
-   }
 
    Long getTransactionIdReference() {
       return transactionIdReference;
    }
 
-   void setTransactionIdReference(Long transactionIdReference) {
-      this.transactionIdReference = transactionIdReference;
-   }
 
    public Category getCategory() {
       return category;
    }
 
-   public void setCategory(Category category) {
-      this.category = category;
-   }
 }
 

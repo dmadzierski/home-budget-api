@@ -11,10 +11,10 @@ class WalletMapper {
    }
 
    public static Wallet toEntity(WalletDto walletDto) {
-      Wallet wallet = new Wallet();
-      wallet.setName(walletDto.getName());
-      wallet.setBalance(walletDto.getBalance());
-      return wallet;
+      return Wallet.builder()
+         .name(walletDto.getName())
+         .balance(walletDto.getBalance())
+         .build();
    }
 
 }

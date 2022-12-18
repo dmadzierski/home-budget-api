@@ -1,5 +1,6 @@
 package pl.wallet;
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.user.User;
@@ -7,7 +8,8 @@ import pl.wallet.transaction.Transaction;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
 
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -27,10 +29,19 @@ public class Wallet {
    private BigDecimal balance;
 
    @OneToMany(mappedBy = "wallet")
-   private List<Transaction> transactions;
+   private Set<Transaction> transactions;
 
    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
    private User user;
+
+   @Builder(toBuilder = true)
+   private Wallet(Long id, String name, BigDecimal balance, Set<Transaction> transactions, User user) {
+      this.id = id;
+      this.name = name;
+      this.balance = balance;
+      this.transactions = transactions;
+      this.user = user;
+   }
 
    public void addTransaction(Transaction transaction) {
       this.balance = transaction.getCategory().getTransactionType().countBalance(this, transaction);
@@ -45,39 +56,24 @@ public class Wallet {
       return id;
    }
 
-   void setId(Long id) {
-      this.id = id;
-   }
 
    String getName() {
       return name;
    }
 
-   void setName(String name) {
-      this.name = name;
-   }
 
    public BigDecimal getBalance() {
       return balance;
    }
 
-   void setBalance(BigDecimal balance) {
-      this.balance = balance;
+
+   Set<Transaction> getTransactions() {
+      return Collections.unmodifiableSet(transactions);
    }
 
-   List<Transaction> getTransactions() {
-      return transactions;
-   }
-
-   void setTransactions(List<Transaction> transactions) {
-      this.transactions = transactions;
-   }
 
    User getUser() {
       return user;
    }
 
-   void setUser(User user) {
-      this.user = user;
-   }
 }
