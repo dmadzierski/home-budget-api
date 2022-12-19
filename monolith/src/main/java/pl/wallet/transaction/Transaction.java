@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@EqualsAndHashCode
 @NoArgsConstructor
 @Entity
 @Table(name = "transaction")
