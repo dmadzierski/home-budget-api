@@ -1,11 +1,15 @@
 package pl.wallet;
 
-import pl.user.User;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
 import java.util.Set;
 
-interface WalletQueryRepository extends org.springframework.data.repository.Repository<Wallet, Long> {
+public interface WalletQueryRepository extends org.springframework.data.repository.Repository<Wallet, Long> {
 
-   Set<WalletDto> getByUser(User user);
+   @Query("SELECT w FROM Wallet w JOIN w.user u WHERE u.email = :email")
+   Set<WalletDto> getAllByUser_Email(String  email);
 
+
+   Optional<WalletDto> findByIdAndUser_Email(Long id, String email);
 }

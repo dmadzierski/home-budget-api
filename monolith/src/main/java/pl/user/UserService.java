@@ -11,7 +11,6 @@ import java.security.Principal;
 class UserService {
 
    private final UserRepository userRepository;
-   private final UserQueryRepository userQueryRepository;
 
    public User saveUser(User user) {
       return userRepository.save(user);
@@ -32,4 +31,6 @@ class UserService {
    User setFavoriteWallet(User user, Long walletId) {
       return saveUser(user.toBuilder().favoriteWalletId(walletId).build());
    }
+
+
 }

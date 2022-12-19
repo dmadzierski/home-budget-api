@@ -5,12 +5,16 @@ import org.springframework.stereotype.Repository;
 import pl.user.User;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 interface WalletRepository extends JpaRepository<Wallet, Long> {
 
    Optional<Wallet> getById(Long id);
 
-   Optional<Wallet> getByIdAndUser(Long walletId, User user);
+
+   Optional<Wallet> findByIdAndUser_Email(Long walletId, String email);
+
+   Set<Wallet> getByUser(User user);
 
 }

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import pl.user.user_role.UserRoleFacade;
-import pl.wallet.Wallet;
+import pl.wallet.WalletDto;
 import pl.wallet.WalletFacade;
 import pl.wallet.category.CategoryFacade;
 
@@ -24,14 +24,14 @@ class UserController {
       User user = UserMapper.toEntity(userDto);
       encodePassword(user);
       addDefaultRoles(user);
-      User savedUser = userService.saveUser(user);
+      userService.saveUser(user);
       addDefaultCategories(user);
-      Wallet wallet = walletFacade.saveDefaultWallet(user);
-      return UserMapper.toDto(userService.setFavoriteWallet(savedUser, wallet.getId()));
+      WalletDto wallet = walletFacade.saveDefaultWallet(user);
+      return UserMapper.toDto(userService.setFavoriteWallet(user, wallet.getId()));
    }
 
    private void addDefaultCategories(User user) {
-      categoryFacade.addDefaultCategoriesToUser(user);
+      categoryFacade.addDefaultCategoriesToUser(user.getEmail());
    }
 
    private void addDefaultRoles(User user) {

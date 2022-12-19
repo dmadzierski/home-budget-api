@@ -2,10 +2,11 @@ package pl.wallet.transaction;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.user.User;
-import pl.user.UserFacade;
+import pl.user.*;
 import pl.wallet.category.CategoryDto;
-import pl.wallet.category.CategoryFacade;
+import pl.wallet.category.CategoryError;
+import pl.wallet.category.CategoryException;
+import pl.wallet.category.CategoryQueryRepository;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -17,7 +18,8 @@ import java.security.Principal;
 @AllArgsConstructor
 @SupportedValidationTarget(ValidationTarget.PARAMETERS)
 class BackTransactionOrSimpleTransactionValidator implements ConstraintValidator<BackTransactionOrSimpleTransaction, Object[]> {
-   private CategoryFacade categoryFacade;
+   private CategoryQueryRepository categoryQueryRepository;
+   private UserQueryRepository userQueryRepository;
    private UserFacade userFacade;
 
    public void initialize(BackTransactionOrSimpleTransaction backTransactionOrSimpleTransaction) {
@@ -25,8 +27,8 @@ class BackTransactionOrSimpleTransactionValidator implements ConstraintValidator
    }
 
    public boolean isValid(Object[] objs, ConstraintValidatorContext context) {
-      User user = userFacade.getUser((Principal) objs[0]);
-      CategoryDto category = categoryFacade.getCategory(user, (Long) objs[1]);
+      UserDto user = userQueryRepository.findByEmail(((Principal) objs[0]).getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
+      CategoryDto category = categoryQueryRepository.findByIdAndUserEmail((Long) objs[1], ((Principal) objs[0]).getName()).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND));
       return (category.getTransactionType().ordinal() == 4 || category.getTransactionType().ordinal() == 5) == (((TransactionDto) objs[3]).getTransactionIdReference() != null);
    }
 }

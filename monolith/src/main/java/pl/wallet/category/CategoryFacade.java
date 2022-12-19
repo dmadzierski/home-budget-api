@@ -2,23 +2,31 @@ package pl.wallet.category;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.user.User;
+import pl.user.UserDto;
+import pl.user.UserFacade;
+import pl.user.UserQueryRepository;
 import pl.wallet.transaction.Transaction;
 
 @Service
 @AllArgsConstructor
 public class CategoryFacade {
-   private final CategoryQueryRepository categoryQueryRepository;
+   private final CategoryRepository categoryRepository;
 
-   public CategoryDto getCategory(User user, Long categoryId) {
-      return CategoryMapper.toDto(categoryQueryRepository.findByIdAndUsers(categoryId, user).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND)));
+   private final UserQueryRepository userQueryRepository;
+
+   private final UserFacade userFacade;
+
+   public Transaction setCategory(String email, Transaction transaction, Long categoryId) {
+      return transaction.toBuilder().category(categoryRepository.findByIdAndUserEmail(categoryId, email).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND))).build();
    }
 
-   public Transaction setCategory(User user, Transaction transaction, Long categoryId) {
-      return transaction.toBuilder().category(categoryQueryRepository.findByIdAndUsers(categoryId, user).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND))).build();
+   public void addDefaultCategoriesToUser(String email) {
+      UserDto user = userQueryRepository.findByEmail(email).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND));
+      userFacade.addCategoriesToUserAndSave(email, categoryRepository.getDefaultCategories());
    }
 
-   public void addDefaultCategoriesToUser(User user) {
-      categoryQueryRepository.getDefaultCategories().forEach(user::addCategory);
+   Category saveCategory(Category category) {
+      return categoryRepository.save(category);
    }
+
 }

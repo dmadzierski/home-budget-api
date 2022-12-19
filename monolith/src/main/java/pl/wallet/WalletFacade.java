@@ -6,55 +6,40 @@ import pl.user.User;
 import pl.wallet.transaction.Transaction;
 
 import java.math.BigDecimal;
-import java.util.Optional;
-import java.util.Set;
 
 @AllArgsConstructor
 @Service
 public class WalletFacade {
 
    private final WalletRepository walletRepository;
-   private final WalletQueryRepository walletQueryRepository;
 
-   public Wallet saveWallet(Wallet wallet) {
-      return walletRepository.save(wallet);
+
+   public Wallet getByIdAndUser(Long walletId, String email) {
+      return walletRepository.findByIdAndUser_Email(walletId, email).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
    }
 
-   Set<WalletDto> getWalletsByUser(User user) {
-      return walletQueryRepository.getByUser(user);
+   public Transaction addWalletToTransaction(Transaction transaction, Long walletId) {
+      Wallet wallet = walletRepository.findById(walletId).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
+      return transaction.toBuilder().wallet(wallet).build();
    }
 
-   void removeWallet(Long walletId) {
-      walletRepository.deleteById(walletId);
+   public WalletDto saveWallet(Wallet wallet) {
+      return WalletMapper.toDto(walletRepository.save(wallet));
    }
 
-   private Wallet getUserWallet(Long walletId) {
-      return walletRepository.getById(walletId).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
-   }
-
-   public Wallet isUserWallet(User user, Long walletId) {
-      if (this.getWalletsByUser(user).stream().anyMatch(userWallet -> userWallet.getId().equals(walletId)))
-         return getUserWallet(walletId);
-      throw new WalletException(WalletError.NOT_FOUND);
-   }
-
-
-   public Wallet addTransaction(Wallet wallet, Transaction transaction) {
-      wallet.addTransaction(transaction);
-      return saveWallet(wallet);
-   }
-
-   public Wallet saveDefaultWallet(User user) {
+   public WalletDto saveDefaultWallet(User user) {
       Wallet defaultWallet = createDefaultWallet();
       defaultWallet = defaultWallet.toBuilder().user(user).build();
       return saveWallet(defaultWallet);
    }
 
-   public Optional<Wallet> getUserWallet(User user, Long walletId) {
-      return walletRepository.getByIdAndUser(walletId, user);
-   }
-
    private Wallet createDefaultWallet() {
       return Wallet.builder().name("Wallet").balance(BigDecimal.ZERO).build();
+   }
+
+   public void removeTransactionFromWalletAndSave(Long walletId, Transaction transaction) {
+      Wallet wallet = walletRepository.findById(walletId).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
+      wallet.removeTransaction(transaction);
+      walletRepository.save(wallet);
    }
 }
