@@ -23,7 +23,6 @@ public class UserRole {
    private Boolean isDefault;
 
    @Builder(toBuilder = true)
-
    public UserRole(String roleName, String description) {
       this.roleName = roleName;
       this.description = description;
@@ -41,24 +40,15 @@ public class UserRole {
       return roleName;
    }
 
-   void setRoleName(String roleName) {
-      this.roleName = roleName;
-   }
 
    String getDescription() {
       return description;
    }
 
-   void setDescription(String description) {
-      this.description = description;
-   }
 
    Boolean getDefault() {
       return isDefault;
    }
 
-   void setDefault(Boolean aDefault) {
-      isDefault = aDefault;
-   }
 }
 

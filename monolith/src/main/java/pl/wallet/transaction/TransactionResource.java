@@ -80,6 +80,7 @@ class TransactionResource {
    ResponseEntity<TransactionDto> switchIsFinished(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
       return ResponseEntity.ok(this.transactionController.switchIsFinished(principal, walletId, transactionId));
    }
+
    @GetMapping("/types")
    public ResponseEntity<List<TransactionType>> getTransactionsType() {
       return ResponseEntity.ok(Arrays.stream(TransactionType.values()).collect(Collectors.toList()));

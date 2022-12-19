@@ -1,7 +1,6 @@
 package pl.wallet;
 
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.user.User;
 import pl.wallet.transaction.Transaction;

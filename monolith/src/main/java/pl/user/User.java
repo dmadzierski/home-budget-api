@@ -1,7 +1,6 @@
 package pl.user;
 
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.user.user_role.UserRole;
