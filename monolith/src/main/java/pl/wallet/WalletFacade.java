@@ -14,10 +14,6 @@ public class WalletFacade {
    private final WalletRepository walletRepository;
 
 
-   public Wallet getByIdAndUser(Long walletId, String email) {
-      return walletRepository.findByIdAndUser_Email(walletId, email).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
-   }
-
    public Transaction addWalletToTransaction(Transaction transaction, Long walletId) {
       Wallet wallet = walletRepository.findById(walletId).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
       return transaction.toBuilder().wallet(wallet).build();

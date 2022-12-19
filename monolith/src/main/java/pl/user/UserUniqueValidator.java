@@ -10,7 +10,7 @@ import javax.validation.ConstraintValidatorContext;
 @AllArgsConstructor
 class UserUniqueValidator implements ConstraintValidator<UniqueUserEmail, String> {
 
-   private final UserService userService;
+   private final UserRepository userRepository;
 
    @Override
    public void initialize(UniqueUserEmail uniqueUserEmail) {
@@ -19,6 +19,6 @@ class UserUniqueValidator implements ConstraintValidator<UniqueUserEmail, String
 
    @Override
    public boolean isValid(String email, ConstraintValidatorContext context) {
-      return !userService.emailIsExist(email);
+      return !userRepository.findByEmail(email).isPresent();
    }
 }

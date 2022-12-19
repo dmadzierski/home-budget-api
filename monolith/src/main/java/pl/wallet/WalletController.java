@@ -11,7 +11,7 @@ import java.util.Set;
 @Controller
 @AllArgsConstructor
 class WalletController {
-   private final WalletService walletService;
+   private final WalletRepository walletRepository;
    private final TransactionFacade transactionFacade;
 
    private final WalletQueryRepository walletQueryRepository;
@@ -24,7 +24,7 @@ class WalletController {
       userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       Wallet wallet = WalletMapper.toEntity(walletDto);
       wallet = userFacade.addUserToWallet(wallet,principal.getName());
-      wallet = walletService.saveWallet(wallet);
+      wallet = walletRepository.save(wallet);
       return WalletMapper.toDto(wallet);
    }
 
@@ -41,7 +41,7 @@ class WalletController {
    void removeWallet(Principal principal, Long walletId) {
       isUserWallet(principal, walletId);
       transactionFacade.removeWalletTransactions(walletId);
-      walletService.removeWallet(walletId);
+      walletRepository.deleteById(walletId);
    }
 
    WalletDto getWallet(Principal principal, Long walletId) {
@@ -51,9 +51,9 @@ class WalletController {
 
    WalletDto editWallet(Principal principal, WalletDto walletDto) {
       UserDto user = userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
-      Wallet wallet = walletService.getUserWallet(principal.getName(), walletDto.getId());
+      Wallet wallet = walletRepository.findByIdAndUser_Email(walletDto.getId(), principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
       wallet = wallet.toBuilder().name(walletDto.getName()).build();
-      Wallet updateWallet = walletService.saveWallet(wallet);
+      Wallet updateWallet = walletRepository.save(wallet);
       return WalletMapper.toDto(updateWallet);
    }
 }

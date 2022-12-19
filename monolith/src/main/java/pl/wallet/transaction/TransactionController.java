@@ -15,7 +15,7 @@ import java.util.Set;
 @Controller
 @AllArgsConstructor
 class TransactionController {
-   private final TransactionService transactionService;
+   private final TransactionRepository transactionRepository;
 
    private final UserFacade userFacade;
    private final WalletFacade walletFacade;
@@ -44,7 +44,7 @@ class TransactionController {
       transaction = walletFacade.addWalletToTransaction(transaction, walletId);
       transaction = categoryFacade.setCategory(principal.getName(), transaction, categoryId);
       transaction = walletFacade.addWalletToTransaction(transaction, walletId);
-      transaction = transactionService.save(transaction);
+      transaction = transactionRepository.save(transaction);
       return TransactionMapper.toDto(transaction);
    }
 
@@ -55,9 +55,9 @@ class TransactionController {
    void removeTransaction(Principal principal, Long walletId, Long transactionId) {
       UserDto userDto = userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       WalletDto walletDto = walletQueryRepository.findByIdAndUser_Email(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
-      Transaction transaction = transactionService.getTransactionByTransactionIdWallet(transactionId, walletId);
+      Transaction transaction = transactionRepository.findByIdAndWallet_Id(transactionId, walletId).orElseThrow(() -> new TransactionException(TransactionError.NOT_FOUND));
       walletFacade.removeTransactionFromWalletAndSave(walletId, transaction);
-      transactionService.removeTransaction(transactionId);
+      transactionRepository.deleteById(transactionId);
    }
 
    public Set<TransactionDto> getWalletTransactions(Principal principal, Long walletId, Pageable pageable, Specification<Transaction> transactionSpecification) {
@@ -83,7 +83,7 @@ class TransactionController {
          .dateOfPurchase(transactionDto.getDateOfPurchase())
          .price(transactionDto.getPrice()).build();
 
-      transactionService.save(transaction);
+      transactionRepository.save(transaction);
       return TransactionMapper.toDto(transaction);
    }
 
@@ -94,7 +94,7 @@ class TransactionController {
       if (transaction.getFinished() == null)
          throw new TransactionException(TransactionError.CAN_NOT_SET_FINISHED);
       transaction = transaction.toBuilder().isFinished(transaction.getFinished()).build();
-      Transaction updateTransaction = transactionService.save(transaction);
+      Transaction updateTransaction = transactionRepository.save(transaction);
       return TransactionMapper.toDto(updateTransaction);
 
    }

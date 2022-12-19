@@ -18,14 +18,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 class CustomUserDetailsService implements UserDetailsService {
 
-   private final UserService userService;
+   private final UserRepository userRepository;
 
 
    @Override
    public UserDetails loadUserByUsername(String username) {
       User user;
       try {
-         user = userService.getUserByEmail(username);
+         user = userRepository.findByEmail(username).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       } catch (UserException e) {
          throw new UsernameNotFoundException("User not found");
       }

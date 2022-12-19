@@ -14,7 +14,7 @@ import java.security.Principal;
 @AllArgsConstructor
 class UserController {
 
-   private final UserService userService;
+   private final UserRepository userRepository;
    private final UserRoleFacade userRoleFacade;
    private final PasswordEncoder passwordEncoder;
    private final WalletFacade walletFacade;
@@ -24,10 +24,10 @@ class UserController {
       User user = UserMapper.toEntity(userDto);
       encodePassword(user);
       addDefaultRoles(user);
-      userService.saveUser(user);
+      userRepository.save(user);
       addDefaultCategories(user);
       WalletDto wallet = walletFacade.saveDefaultWallet(user);
-      return UserMapper.toDto(userService.setFavoriteWallet(user, wallet.getId()));
+      return UserMapper.toDto(userRepository.save(user.toBuilder().favoriteWalletId(wallet.getId()).build()));
    }
 
    private void addDefaultCategories(User user) {
@@ -44,12 +44,12 @@ class UserController {
    }
 
    UserDto getUserByPrincipal(Principal principal) {
-      return UserMapper.toDto(userService.getUser(principal));
+      return UserMapper.toDto(userRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND)));
    }
 
    UserDto setFavoriteWallet(Principal principal, Long walletId) {
-      User user = userService.getUser(principal);
-      return UserMapper.toDto(userService.setFavoriteWallet(user, walletId));
+      User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
+      return UserMapper.toDto(userRepository.save(user.toBuilder().favoriteWalletId(walletId).build()));
    }
 
 
