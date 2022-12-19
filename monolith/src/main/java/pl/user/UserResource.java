@@ -15,6 +15,7 @@ import java.security.Principal;
 @RestController
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @CrossOrigin(origins = "${cors.allowed-origins}")
+@RequestMapping("/api/v1")
 class UserResource {
 
    private final UserController userController;

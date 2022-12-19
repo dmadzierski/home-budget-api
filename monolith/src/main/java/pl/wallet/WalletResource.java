@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Validated
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/wallet")
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/api/v1/wallet")
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @CrossOrigin("${cors.allowed-origins}")
 class WalletResource {

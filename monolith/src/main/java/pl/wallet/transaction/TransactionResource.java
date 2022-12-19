@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Validated
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, path = "/wallet/{walletId}")
+@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, path = "/api/v1/wallet/{walletId}")
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @CrossOrigin("${cors.allowed-origins}")
 class TransactionResource {
@@ -78,5 +80,8 @@ class TransactionResource {
    ResponseEntity<TransactionDto> switchIsFinished(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
       return ResponseEntity.ok(this.transactionController.switchIsFinished(principal, walletId, transactionId));
    }
-
+   @GetMapping("/types")
+   public ResponseEntity<List<TransactionType>> getTransactionsType() {
+      return ResponseEntity.ok(Arrays.stream(TransactionType.values()).collect(Collectors.toList()));
+   }
 }
