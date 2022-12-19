@@ -37,7 +37,7 @@ class CategoryController {
       return categoryQueryRepository.findByUser_Email(principal.getName());
    }
 
-   public Set<CategoryDto> restoreDefaultCategories(Principal principal) {
+   Set<CategoryDto> restoreDefaultCategories(Principal principal) {
       userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       Set<Category> defaultCategories =  categoryRepository.getDefaultCategories();
       userFacade.addCategoriesToUserAndSave(principal.getName(), defaultCategories);

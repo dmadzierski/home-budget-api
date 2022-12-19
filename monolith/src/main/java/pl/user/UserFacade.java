@@ -15,10 +15,6 @@ public class UserFacade {
    private final UserRepository userRepository;
 
 
-   public User saveUser(User user) {
-      return userRepository.save(user);
-   }
-
    public void addFilterByUser(Specification<Transaction> transactionSpecification, String name) {
       User user = userRepository.findByEmail(name).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       transactionSpecification.and(new UserWallet(user));

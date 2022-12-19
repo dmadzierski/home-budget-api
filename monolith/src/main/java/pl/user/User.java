@@ -73,22 +73,9 @@ public class User {
       return Collections.unmodifiableSet(roles);
    }
 
-   void addWallet(Wallet wallet) {
-      if (wallets == null)
-         wallets = new HashSet<>();
-      wallets.add(wallet);
-   }
 
    public void removeCategory(Long categoryId) {
       this.setCategories(this.categories.stream().filter(c -> !c.getId().equals(categoryId)).collect(Collectors.toSet()));
-   }
-
-   public Set<Wallet> getWallets() {
-      return Collections.unmodifiableSet(wallets);
-   }
-
-   public Set<Category> getCategories() {
-      return Collections.unmodifiableSet(categories);
    }
 
    public void setCategories(Set<Category> categories) {

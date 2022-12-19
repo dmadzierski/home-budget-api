@@ -21,12 +21,9 @@ public class CategoryFacade {
    }
 
    public void addDefaultCategoriesToUser(String email) {
-      UserDto user = userQueryRepository.findByEmail(email).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND));
+      userQueryRepository.findByEmail(email).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND));
       userFacade.addCategoriesToUserAndSave(email, categoryRepository.getDefaultCategories());
    }
 
-   Category saveCategory(Category category) {
-      return categoryRepository.save(category);
-   }
 
 }

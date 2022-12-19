@@ -41,10 +41,6 @@ public class Wallet {
       this.user = user;
    }
 
-   public void addTransaction(Transaction transaction) {
-      this.balance = transaction.getCategory().getTransactionType().countBalance(this, transaction);
-   }
-
    public void removeTransaction(Transaction transaction) {
       this.balance = transaction.getCategory().getTransactionType().undoCountBalance(this, transaction);
 
@@ -64,14 +60,5 @@ public class Wallet {
       return balance;
    }
 
-
-   Set<Transaction> getTransactions() {
-      return Collections.unmodifiableSet(transactions);
-   }
-
-
-   User getUser() {
-      return user;
-   }
 
 }

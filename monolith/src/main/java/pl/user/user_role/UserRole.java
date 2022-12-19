@@ -28,14 +28,6 @@ public class UserRole {
       this.description = description;
    }
 
-   Long getId() {
-      return id;
-   }
-
-   void setId(Long id) {
-      this.id = id;
-   }
-
    public String getRoleName() {
       return roleName;
    }
@@ -46,9 +38,7 @@ public class UserRole {
    }
 
 
-   Boolean getDefault() {
-      return isDefault;
-   }
+
 
 }
 

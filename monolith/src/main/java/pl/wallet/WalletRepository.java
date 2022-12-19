@@ -10,11 +10,7 @@ import java.util.Set;
 @Repository
 interface WalletRepository extends JpaRepository<Wallet, Long> {
 
-   Optional<Wallet> getById(Long id);
-
 
    Optional<Wallet> findByIdAndUser_Email(Long walletId, String email);
-
-   Set<Wallet> getByUser(User user);
 
 }
