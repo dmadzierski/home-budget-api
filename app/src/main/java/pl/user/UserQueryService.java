@@ -1,12 +1,8 @@
 package pl.user;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import pl.user.UserError;
-import pl.user.UserException;
 
 
-@Service
 @AllArgsConstructor
 public class UserQueryService {
    private final UserQueryRepository userQueryRepository;

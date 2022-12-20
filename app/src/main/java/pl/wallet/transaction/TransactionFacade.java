@@ -1,10 +1,8 @@
 package pl.wallet.transaction;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
-@Service
 public class TransactionFacade {
    private final TransactionRepository transactionRepository;
 

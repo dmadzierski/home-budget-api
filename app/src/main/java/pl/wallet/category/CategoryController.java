@@ -1,7 +1,6 @@
 package pl.wallet.category;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
 import pl.user.UserFacade;
 import pl.user.UserQueryService;
 
@@ -9,7 +8,6 @@ import java.security.Principal;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Controller
 @AllArgsConstructor
 class CategoryController {
    private final UserFacade userFacade;

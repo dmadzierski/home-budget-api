@@ -1,13 +1,11 @@
 package pl.wallet;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 import pl.wallet.transaction.SimpleTransactionQueryDto;
 
 import java.math.BigDecimal;
 
 @AllArgsConstructor
-@Service
 public class WalletFacade {
 
    private final WalletRepository walletRepository;

@@ -2,7 +2,6 @@ package pl.user;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import pl.user.user_role.UserRoleFacade;
 import pl.wallet.SimpleWalletQueryDto;
 import pl.wallet.WalletFacade;
@@ -10,7 +9,6 @@ import pl.wallet.category.CategoryFacade;
 
 import java.security.Principal;
 
-@Controller
 @AllArgsConstructor
 class UserController {
 

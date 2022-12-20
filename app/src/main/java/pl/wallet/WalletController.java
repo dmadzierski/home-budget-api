@@ -1,17 +1,13 @@
 package pl.wallet;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
 import pl.user.UserFacade;
 import pl.user.UserQueryService;
-import pl.wallet.Wallet;
-import pl.wallet.WalletRepository;
 import pl.wallet.transaction.TransactionFacade;
 
 import java.security.Principal;
 import java.util.Set;
 
-@Controller
 @AllArgsConstructor
 class WalletController {
    private final WalletRepository walletRepository;

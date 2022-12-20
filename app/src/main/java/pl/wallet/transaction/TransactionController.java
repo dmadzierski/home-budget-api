@@ -3,7 +3,6 @@ package pl.wallet.transaction;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Controller;
 import pl.user.UserFacade;
 import pl.user.UserQueryService;
 import pl.wallet.SimpleWalletQueryDto;
@@ -18,7 +17,6 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Controller
 @AllArgsConstructor
 class TransactionController {
    private final TransactionRepository transactionRepository;

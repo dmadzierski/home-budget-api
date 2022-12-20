@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.user.SimpleUserQueryDto;
 
 @AllArgsConstructor
-@Service
 public class UserRoleFacade {
 
    private final UserRoleRepository userRoleRepository;

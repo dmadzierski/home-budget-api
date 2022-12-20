@@ -1,10 +1,8 @@
 package pl.wallet.category;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
 public class CategoryQueryService {
 
    private final CategoryQueryService categoryQueryService;

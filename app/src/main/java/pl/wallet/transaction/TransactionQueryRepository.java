@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-interface TransactionQueryRepository extends org.springframework.data.repository.Repository<Transaction, Long> {
+interface TransactionQueryRepository {
    Set<TransactionDto> findAll(Specification<SimpleTransactionQueryDto> transactionSpecification, Pageable pageable);
 
 
