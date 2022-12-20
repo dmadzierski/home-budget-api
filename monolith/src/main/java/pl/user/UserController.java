@@ -5,7 +5,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import pl.user.user_role.UserRoleFacade;
 import pl.wallet.SimpleWalletQueryDto;
-import pl.wallet.WalletDto;
 import pl.wallet.WalletFacade;
 import pl.wallet.category.CategoryFacade;
 

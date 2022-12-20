@@ -18,13 +18,13 @@ class WalletController {
 
    private final UserQueryRepository userQueryRepository;
 
-   private  final UserFacade userFacade;
+   private final UserFacade userFacade;
 
    WalletDto addWallet(Principal principal, WalletDto walletDto) {
       if (walletDto.getId() != null) throw new WalletException(WalletError.CAN_NOT_HAVE_ID);
       userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       Wallet wallet = WalletMapper.toEntity(walletDto);
-      wallet = userFacade.addUserToWallet(wallet,principal.getName());
+      wallet = userFacade.addUserToWallet(wallet, principal.getName());
       wallet = walletRepository.save(wallet);
       return WalletMapper.toDto(wallet);
    }
@@ -36,7 +36,7 @@ class WalletController {
 
    private void isUserWallet(Principal principal, Long walletId) {
       UserDto user = userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
-      walletQueryRepository.findByIdAndUser_Email(walletId,principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
+      walletQueryRepository.findByIdAndUser_Email(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
    }
 
    void removeWallet(Principal principal, Long walletId) {
@@ -46,7 +46,7 @@ class WalletController {
    }
 
    WalletDto getWallet(Principal principal, Long walletId) {
-       userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
+      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       return walletQueryRepository.findByIdAndUser_Email(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
    }
 

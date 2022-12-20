@@ -3,7 +3,6 @@ package pl.wallet;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.wallet.transaction.SimpleTransactionQueryDto;
-import pl.wallet.transaction.TransactionMapper;
 
 import java.math.BigDecimal;
 

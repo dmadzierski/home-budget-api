@@ -29,7 +29,7 @@ public class UserFacade {
       userRepository.findByEmail(email).orElseThrow(() -> new UserException(UserError.NOT_FOUND)).addCategory(simpleCategoryQueryDto);
    }
 
-   public void addUserToCategory(String email,SimpleCategoryQueryDto simpleCategoryQueryDto) {
+   public void addUserToCategory(String email, SimpleCategoryQueryDto simpleCategoryQueryDto) {
       User user = userRepository.findByEmail(email).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       simpleCategoryQueryDto.addUser(UserMapper.toQueryDto(user));
    }

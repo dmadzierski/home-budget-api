@@ -21,7 +21,6 @@ class CategoryController {
    private final CategoryQueryRepository categoryQueryRepository;
 
 
-
    CategoryDto addCategory(Principal principal, CategoryDto categoryDto) {
       userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       Category category = CategoryMapper.toEntity(categoryDto);
@@ -42,7 +41,7 @@ class CategoryController {
 
    Set<CategoryDto> restoreDefaultCategories(Principal principal) {
       userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
-      Set<SimpleCategoryQueryDto> defaultCategories =  categoryRepository.getDefaultCategories().stream().map(CategoryMapper::toQueryDto).collect(Collectors.toSet());
+      Set<SimpleCategoryQueryDto> defaultCategories = categoryRepository.getDefaultCategories().stream().map(CategoryMapper::toQueryDto).collect(Collectors.toSet());
       userFacade.addCategoriesToUserAndSave(principal.getName(), defaultCategories);
       return getCategories(principal);
    }
