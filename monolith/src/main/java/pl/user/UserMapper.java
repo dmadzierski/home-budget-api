@@ -1,7 +1,7 @@
 package pl.user;
 
 
-public class UserMapper {
+ class UserMapper {
 
    private UserMapper() {
    }

@@ -34,7 +34,7 @@ class TransactionResource {
    private final TransactionController transactionController;
 
    @BackTransactionOrSimpleTransaction(
-      message = "Back transaction should have reference to loan or borrow transation and transaction with set reference to another transaction should have set other transaction type")
+      message = "Back transaction should have reference to loan or borrow transaction and transaction with set reference to another transaction should have set other transaction type")
    @PutMapping("/category/{categoryId}/transaction/add")
    ResponseEntity<TransactionDto> addTransaction(Principal principal, @PathVariable Long categoryId, @PathVariable Long walletId, @Valid @RequestBody TransactionDto transactionDto) {
       return ResponseEntity.status(HttpStatus.CREATED).body(transactionController.addTransaction(principal, walletId, categoryId, transactionDto));

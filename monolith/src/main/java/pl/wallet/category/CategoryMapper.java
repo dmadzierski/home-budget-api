@@ -1,6 +1,6 @@
 package pl.wallet.category;
 
-public class CategoryMapper {
+ class CategoryMapper {
 
    public static Category toEntity(CategoryDto categoryDto) {
       return Category.builder()

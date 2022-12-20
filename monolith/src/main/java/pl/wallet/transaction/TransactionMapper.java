@@ -1,8 +1,7 @@
 package pl.wallet.transaction;
 
-import pl.wallet.category.CategoryMapper;
 
-public class TransactionMapper {
+ class TransactionMapper {
 
    static Transaction toEntity(TransactionDto transactionDto) {
       return Transaction.builder()
@@ -21,7 +20,6 @@ public class TransactionMapper {
          .name(transaction.getName())
          .description(transaction.getDescription())
          .price(transaction.getPrice())
-         .category(CategoryMapper.toDto(transaction.getCategory()))
          .dateOfPurchase(transaction.getDateOfPurchase())
          .isFinished(transaction.getFinished())
          .transactionIdReference(transaction.getTransactionIdReference())
