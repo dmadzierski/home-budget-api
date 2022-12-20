@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.user.user_role.UserRole;
+import pl.user.user_role.SimpleUserRoleQueryDto;
 
 import java.util.Collection;
 import java.util.Set;
@@ -35,7 +35,7 @@ class CustomUserDetailsService implements UserDetailsService {
          convertAuthorities(user.getRoles()));
    }
 
-   private Set<GrantedAuthority> convertAuthorities(Collection<UserRole> userRoles) {
+   private Set<GrantedAuthority> convertAuthorities(Collection<SimpleUserRoleQueryDto> userRoles) {
       return userRoles.stream().map(k -> new SimpleGrantedAuthority(k.getRoleName())).collect(Collectors.toSet());
    }
 }

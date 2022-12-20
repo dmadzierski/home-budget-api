@@ -19,6 +19,7 @@ class WalletController {
    private final UserQueryRepository userQueryRepository;
 
    private  final UserFacade userFacade;
+
    WalletDto addWallet(Principal principal, WalletDto walletDto) {
       if (walletDto.getId() != null) throw new WalletException(WalletError.CAN_NOT_HAVE_ID);
       userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));

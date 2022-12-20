@@ -18,4 +18,16 @@ public class CategoryMapper {
          .description(category.getDescription())
          .build();
    }
+
+   public static SimpleCategoryQueryDto toQueryDto(Category category) {
+      return SimpleCategoryQueryDto.builder()
+         .id(category.getId())
+         .build();
+   }
+
+   public static CategoryDto toDto(SimpleCategoryQueryDto simpleCategoryQueryDto) {
+      return CategoryDto.builder()
+         .id(simpleCategoryQueryDto.getId())
+         .build();
+   }
 }

@@ -41,9 +41,9 @@ class TransactionController {
       if (transaction.getDateOfPurchase() == null)
          transaction = transaction.toBuilder().dateOfPurchase(LocalDateTime.now()).build();
 
-      transaction = walletFacade.addWalletToTransaction(transaction, walletId);
-      transaction = categoryFacade.setCategory(principal.getName(), transaction, categoryId);
-      transaction = walletFacade.addWalletToTransaction(transaction, walletId);
+      SimpleWalletQueryDto simpleWalletQueryDto = walletFacade.addWalletToTransaction(TransactionMapper.toQueryDto(transaction), walletId);
+      SimpleCategoryQueryDto simpleCategoryQueryDto = categoryFacade.setCategory(principal.getName(), TransactionMapper.toQueryDto(transaction), categoryId);
+      transaction = transaction.toBuilder().wallet(simpleWalletQueryDto).category(simpleCategoryQueryDto).build();
       transaction = transactionRepository.save(transaction);
       return TransactionMapper.toDto(transaction);
    }
@@ -56,11 +56,11 @@ class TransactionController {
       userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       walletQueryRepository.findByIdAndUser_Email(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
       Transaction transaction = transactionRepository.findByIdAndWallet_Id(transactionId, walletId).orElseThrow(() -> new TransactionException(TransactionError.NOT_FOUND));
-      walletFacade.removeTransactionFromWalletAndSave(walletId, transaction);
+      walletFacade.removeTransactionFromWalletAndSave(walletId, TransactionMapper.toQueryDto(transaction));
       transactionRepository.deleteById(transactionId);
    }
 
-   public Set<TransactionDto> getWalletTransactions(Principal principal, Long walletId, Pageable pageable, Specification<Transaction> transactionSpecification) {
+   public Set<TransactionDto> getWalletTransactions(Principal principal, Long walletId, Pageable pageable, Specification<SimpleTransactionQueryDto> transactionSpecification) {
       userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       userFacade.addFilterByUser(transactionSpecification, principal.getName());
       return transactionQueryRepository.findAll(transactionSpecification, pageable);

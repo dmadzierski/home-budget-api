@@ -2,10 +2,14 @@ package pl.wallet.category;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import pl.user.*;
+import pl.user.UserError;
+import pl.user.UserException;
+import pl.user.UserFacade;
+import pl.user.UserQueryRepository;
 
 import java.security.Principal;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -21,9 +25,8 @@ class CategoryController {
    CategoryDto addCategory(Principal principal, CategoryDto categoryDto) {
       userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
       Category category = CategoryMapper.toEntity(categoryDto);
-      userFacade.addCategoryToUser(principal.getName(), category);
-      userFacade.addUserToCategory(principal.getName(), category);
-      category = categoryRepository.save(category);
+      userFacade.addCategoryToUser(principal.getName(), CategoryMapper.toQueryDto(category));
+      userFacade.addUserToCategory(principal.getName(), CategoryMapper.toQueryDto(category));
       return CategoryMapper.toDto(category);
    }
 
@@ -39,7 +42,7 @@ class CategoryController {
 
    Set<CategoryDto> restoreDefaultCategories(Principal principal) {
       userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
-      Set<Category> defaultCategories =  categoryRepository.getDefaultCategories();
+      Set<SimpleCategoryQueryDto> defaultCategories =  categoryRepository.getDefaultCategories().stream().map(CategoryMapper::toQueryDto).collect(Collectors.toSet());
       userFacade.addCategoriesToUserAndSave(principal.getName(), defaultCategories);
       return getCategories(principal);
    }

@@ -2,7 +2,7 @@ package pl.wallet.transaction;
 
 import pl.wallet.category.CategoryMapper;
 
-class TransactionMapper {
+public class TransactionMapper {
 
    static Transaction toEntity(TransactionDto transactionDto) {
       return Transaction.builder()
@@ -25,6 +25,13 @@ class TransactionMapper {
          .dateOfPurchase(transaction.getDateOfPurchase())
          .isFinished(transaction.getFinished())
          .transactionIdReference(transaction.getTransactionIdReference())
+         .build();
+   }
+
+   public static SimpleTransactionQueryDto toQueryDto(Transaction transaction) {
+      return SimpleTransactionQueryDto.builder()
+         .id(transaction.getId())
+         .price(transaction.getPrice())
          .build();
    }
 }

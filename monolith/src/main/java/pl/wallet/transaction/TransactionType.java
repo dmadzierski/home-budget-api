@@ -23,11 +23,11 @@ public enum TransactionType {
       this.changeBalanceWhenTransactionIsRemoving = changeBalanceWhenTransactionIsRemoving;
    }
 
-   public BigDecimal countBalance(Wallet wallet, Transaction transaction) {
+   public BigDecimal countBalance(Wallet wallet, SimpleTransactionQueryDto transaction) {
       return changeBalanceWhenTransactionIsAdding.apply(wallet.getBalance(), transaction.getPrice());
    }
 
-   public BigDecimal undoCountBalance(Wallet wallet, Transaction transaction) {
+   public BigDecimal undoCountBalance(Wallet wallet, SimpleTransactionQueryDto transaction) {
       return changeBalanceWhenTransactionIsRemoving.apply(wallet.getBalance(), transaction.getPrice());
    }
 }

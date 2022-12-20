@@ -3,9 +3,9 @@ package pl.user;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import pl.user.user_role.UserRole;
-import pl.wallet.Wallet;
-import pl.wallet.category.Category;
+import pl.user.user_role.SimpleUserRoleQueryDto;
+import pl.wallet.SimpleWalletQueryDto;
+import pl.wallet.category.SimpleCategoryQueryDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "\"user\"")
 @ToString
-public class User {
+class User {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,18 +35,18 @@ public class User {
 
    @Column(nullable = false)
    @ManyToMany(fetch = FetchType.EAGER)
-   private Set<UserRole> roles;
+   private Set<SimpleUserRoleQueryDto> roles;
 
    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "user")
-   private Set<Wallet> wallets;
+   private Set<SimpleWalletQueryDto> wallets;
 
    @ManyToMany
-   private Set<Category> categories;
+   private Set<SimpleCategoryQueryDto> categories;
 
    private Long favoriteWalletId;
 
    @Builder(toBuilder = true)
-   public User(Long id, String email, String password, Set<UserRole> roles, Set<Wallet> wallets, Set<Category> categories, Long favoriteWalletId) {
+   private User(Long id, String email, String password, Set<SimpleUserRoleQueryDto> roles, Set<SimpleWalletQueryDto> wallets, Set<SimpleCategoryQueryDto> categories, Long favoriteWalletId) {
       this.id = id;
       this.email = email;
       this.password = password;
@@ -56,29 +56,29 @@ public class User {
       this.favoriteWalletId = favoriteWalletId;
    }
 
-   public void addCategory(Category category) {
+   public void addCategory(SimpleCategoryQueryDto category) {
       if (this.categories == null)
          categories = new HashSet<>();
       categories.add(category);
    }
 
 
-   public void addRole(UserRole userRole) {
+   public void addRole(SimpleUserRoleQueryDto userRole) {
       if (roles == null)
          roles = new HashSet<>();
       roles.add(userRole);
    }
 
-   public Set<UserRole> getRoles() {
+   public Set<SimpleUserRoleQueryDto> getRoles() {
       return Collections.unmodifiableSet(roles);
    }
 
 
    public void removeCategory(Long categoryId) {
-      this.setCategories(this.categories.stream().filter(c -> !c.getId().equals(categoryId)).collect(Collectors.toSet()));
+      this.setCategories(categories.stream().filter(c -> !c.getId().equals(categoryId)).collect(Collectors.toSet()));
    }
 
-   public void setCategories(Set<Category> categories) {
+   public void setCategories(Set<SimpleCategoryQueryDto> categories) {
       this.categories = categories;
    }
 
@@ -97,5 +97,7 @@ public class User {
       return favoriteWalletId;
    }
 
-
+   public Long getId() {
+      return id;
+   }
 }

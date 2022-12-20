@@ -72,7 +72,7 @@ class TransactionResource {
                                                                 @Spec(path = "dateOfPurchase", params = "start", spec = GreaterThanOrEqual.class),
                                                                 @Spec(path = "dateOfPurchase", params = "end", spec = LessThanOrEqual.class)
                                                              })
-                                                             Specification<Transaction> transactionSpecification,
+                                                             Specification<SimpleTransactionQueryDto> transactionSpecification,
                                                              @PathVariable Long walletId) {
       return ResponseEntity.ok(transactionController.getWalletTransactions(principal, walletId, pageable, transactionSpecification));
    }

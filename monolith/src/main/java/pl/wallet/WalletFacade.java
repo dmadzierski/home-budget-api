@@ -2,8 +2,8 @@ package pl.wallet;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.user.User;
-import pl.wallet.transaction.Transaction;
+import pl.wallet.transaction.SimpleTransactionQueryDto;
+import pl.wallet.transaction.TransactionMapper;
 
 import java.math.BigDecimal;
 
@@ -14,26 +14,23 @@ public class WalletFacade {
    private final WalletRepository walletRepository;
 
 
-   public Transaction addWalletToTransaction(Transaction transaction, Long walletId) {
-      Wallet wallet = walletRepository.findById(walletId).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
-      return transaction.toBuilder().wallet(wallet).build();
+   public SimpleWalletQueryDto addWalletToTransaction(SimpleTransactionQueryDto transaction, Long walletId) {
+      return WalletMapper.toQueryDto(walletRepository.findById(walletId).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND)));
    }
 
-   public WalletDto saveWallet(Wallet wallet) {
-      return WalletMapper.toDto(walletRepository.save(wallet));
+   public Wallet saveWallet(Wallet wallet) {
+      return walletRepository.save(wallet);
    }
 
-   public WalletDto saveDefaultWallet(User user) {
-      Wallet defaultWallet = createDefaultWallet();
-      defaultWallet = defaultWallet.toBuilder().user(user).build();
-      return saveWallet(defaultWallet);
+   public SimpleWalletQueryDto getDefaultWallet() {
+      return WalletMapper.toQueryDto(saveWallet(createDefaultWallet()));
    }
 
    private Wallet createDefaultWallet() {
       return Wallet.builder().name("Wallet").balance(BigDecimal.ZERO).build();
    }
 
-   public void removeTransactionFromWalletAndSave(Long walletId, Transaction transaction) {
+   public void removeTransactionFromWalletAndSave(Long walletId, SimpleTransactionQueryDto transaction) {
       Wallet wallet = walletRepository.findById(walletId).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
       wallet.removeTransaction(transaction);
       walletRepository.save(wallet);

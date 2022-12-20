@@ -2,20 +2,18 @@ package pl.wallet.category;
 
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import pl.user.User;
+import pl.user.SimpleUserQueryDto;
 import pl.wallet.transaction.TransactionType;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
 @NoArgsConstructor
 @Entity
 @Table(name = "category")
-public class Category {
+class Category {
 
    private Boolean isDefault = false;
 
@@ -34,11 +32,11 @@ public class Category {
    private TransactionType transactionType;
 
    @ManyToMany(mappedBy = "categories")
-   private Set<User> users;
+   private Set<SimpleUserQueryDto> users;
 
 
    @Builder(toBuilder = true)
-   private Category(Boolean isDefault, Long id, String name, String description, TransactionType transactionType, Set<User> users) {
+   private Category(Boolean isDefault, Long id, String name, String description, TransactionType transactionType, Set<SimpleUserQueryDto> users) {
       this.isDefault = isDefault;
       this.id = id;
       this.name = name;
@@ -47,7 +45,7 @@ public class Category {
       this.users = users;
    }
 
-   public void addUser(User user) {
+   public void addUser(SimpleUserQueryDto user) {
       if (users == null)
          this.users = new HashSet<>();
       users.add(user);

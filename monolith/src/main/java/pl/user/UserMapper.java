@@ -1,7 +1,7 @@
 package pl.user;
 
 
-class UserMapper {
+public class UserMapper {
 
    private UserMapper() {
    }
@@ -18,6 +18,12 @@ class UserMapper {
       return User.builder()
          .password(userDto.getPassword())
          .email(userDto.getEmail())
+         .build();
+   }
+
+   public static SimpleUserQueryDto toQueryDto(User user) {
+      return SimpleUserQueryDto.builder()
+         .id(user.getId())
          .build();
    }
 }

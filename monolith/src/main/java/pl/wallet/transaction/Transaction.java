@@ -2,9 +2,8 @@ package pl.wallet.transaction;
 
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import pl.wallet.Wallet;
-import pl.wallet.category.Category;
+import pl.wallet.SimpleWalletQueryDto;
+import pl.wallet.category.SimpleCategoryQueryDto;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,8 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "transaction")
-@ToString
-public class Transaction {
+class Transaction {
 
    @Column(name = "transaction_id")
    @Id
@@ -27,13 +25,13 @@ public class Transaction {
    private String description;
 
    @OneToOne
-   private Category category;
+   private SimpleCategoryQueryDto category;
 
    @Column(nullable = false)
    private BigDecimal price;
 
    @ManyToOne
-   private Wallet wallet;
+   private SimpleWalletQueryDto wallet;
 
    private LocalDateTime dateOfPurchase;
 
@@ -42,7 +40,7 @@ public class Transaction {
    private Long transactionIdReference;
 
    @Builder(toBuilder = true)
-   private Transaction(String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase, Boolean isFinished, Long transactionIdReference) {
+   private Transaction(String name, String description, SimpleCategoryQueryDto category, BigDecimal price, SimpleWalletQueryDto wallet, LocalDateTime dateOfPurchase, Boolean isFinished, Long transactionIdReference) {
       this.name = name;
       this.description = description;
       this.category = category;
@@ -87,7 +85,7 @@ public class Transaction {
    }
 
 
-   public Category getCategory() {
+   public SimpleCategoryQueryDto getCategory() {
       return category;
    }
 

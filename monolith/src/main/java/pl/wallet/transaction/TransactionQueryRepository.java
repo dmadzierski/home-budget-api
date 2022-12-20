@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Repository
 public interface TransactionQueryRepository extends org.springframework.data.repository.Repository<Transaction, Long> {
-   Set<TransactionDto> findAll(Specification<Transaction> transactionSpecification, Pageable pageable);
+   Set<TransactionDto> findAll(Specification<SimpleTransactionQueryDto> transactionSpecification, Pageable pageable);
 
 
    @Query("SELECT t FROM Transaction t INNER JOIN Wallet w ON t.wallet = w WHERE w.id = :walletId")

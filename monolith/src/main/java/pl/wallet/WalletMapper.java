@@ -17,4 +17,9 @@ class WalletMapper {
          .build();
    }
 
+   public static SimpleWalletQueryDto toQueryDto(Wallet wallet) {
+      return SimpleWalletQueryDto
+
+         .builder().build();
+   }
 }

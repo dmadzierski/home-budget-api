@@ -1,40 +1,30 @@
 package pl.user.user_role;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Entity
 @Table(name = "user_role")
-class UserRole {
+@Getter
+@NoArgsConstructor
+public class SimpleUserRoleQueryDto {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column(name = "id_user_role")
    private Long id;
 
-   @Column(unique = true)
    private String roleName;
 
    private String description;
 
-   private Boolean isDefault;
-
    @Builder(toBuilder = true)
-   private UserRole(String roleName, String description) {
+   public SimpleUserRoleQueryDto(Long id, String roleName, String description) {
+      this.id = id;
       this.roleName = roleName;
       this.description = description;
    }
 
-   public String getRoleName() {
-      return roleName;
-   }
-
-
-   public Long getId() {
-      return id;
-   }
 }
-
