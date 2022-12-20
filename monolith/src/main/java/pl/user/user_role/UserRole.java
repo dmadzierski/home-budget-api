@@ -28,10 +28,6 @@ class UserRole {
       this.description = description;
    }
 
-   public String getRoleName() {
-      return roleName;
-   }
-
 
    public Long getId() {
       return id;

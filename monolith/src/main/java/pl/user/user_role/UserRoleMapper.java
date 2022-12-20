@@ -8,11 +8,4 @@ public class UserRoleMapper {
          .id(userRole.getId())
          .build();
    }
-
-   public static UserRole toEntity(SimpleUserRoleQueryDto simpleUserRoleQueryDto) {
-      return UserRole.builder()
-         .description(simpleUserRoleQueryDto.getDescription())
-         .roleName(simpleUserRoleQueryDto.getRoleName())
-         .build();
-   }
 }

@@ -14,9 +14,5 @@ public interface TransactionQueryRepository extends org.springframework.data.rep
    Set<TransactionDto> findAll(Specification<SimpleTransactionQueryDto> transactionSpecification, Pageable pageable);
 
 
-   @Query("SELECT t FROM Transaction t INNER JOIN Wallet w ON t.wallet = w WHERE w.id = :walletId")
-   List<TransactionDto> getTransactionsByWalletId(@Param("walletId") Long walletId);
-
-
    Transaction getTransactionById(Long transactionId);
 }

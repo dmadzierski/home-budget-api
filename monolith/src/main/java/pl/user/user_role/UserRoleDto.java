@@ -24,15 +24,4 @@ public class UserRoleDto {
       this.description = description;
    }
 
-   Long getId() {
-      return id;
-   }
-
-   String getName() {
-      return name;
-   }
-
-   String getDescription() {
-      return description;
-   }
 }

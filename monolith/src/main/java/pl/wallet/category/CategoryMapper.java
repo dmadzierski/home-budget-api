@@ -25,9 +25,4 @@ package pl.wallet.category;
          .build();
    }
 
-   public static CategoryDto toDto(SimpleCategoryQueryDto simpleCategoryQueryDto) {
-      return CategoryDto.builder()
-         .id(simpleCategoryQueryDto.getId())
-         .build();
-   }
 }
