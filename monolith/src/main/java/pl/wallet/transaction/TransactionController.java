@@ -4,9 +4,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
-import pl.user.*;
-import pl.wallet.*;
-import pl.wallet.category.*;
+import pl.user.UserFacade;
+import pl.user.UserQueryService;
+import pl.wallet.SimpleWalletQueryDto;
+import pl.wallet.WalletFacade;
+import pl.wallet.WalletQueryService;
+import pl.wallet.category.CategoryDto;
+import pl.wallet.category.CategoryFacade;
+import pl.wallet.category.CategoryQueryService;
+import pl.wallet.category.SimpleCategoryQueryDto;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -20,16 +26,16 @@ class TransactionController {
    private final UserFacade userFacade;
    private final WalletFacade walletFacade;
    private final CategoryFacade categoryFacade;
-   private final CategoryQueryRepository categoryQueryRepository;
+   private final CategoryQueryService categoryQueryService;
    private final TransactionQueryRepository transactionQueryRepository;
-   private final UserQueryRepository userQueryRepository;
-   private final WalletQueryRepository walletQueryRepository;
+   private final UserQueryService userQueryService;
+   private final WalletQueryService walletQueryService;
 
 
    TransactionDto addTransaction(Principal principal, Long walletId, Long categoryId, TransactionDto transactionDto) {
       if (transactionDto.getId() != null) throw new TransactionException(TransactionError.CAN_NOT_HAVE_ID);
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
-      walletQueryRepository.findByIdAndUser_Email(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
+      walletQueryService.findByIdAndUser_Email(walletId, principal.getName());
       CategoryDto categoryDto = getCategory(principal.getName(), categoryId);
       Transaction transaction = TransactionMapper.toEntity(transactionDto);
 
@@ -49,32 +55,32 @@ class TransactionController {
    }
 
    private CategoryDto getCategory(String email, Long categoryId) {
-      return categoryQueryRepository.findByIdAndUserEmail(categoryId, email).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND));
+      return categoryQueryService.findByIdAndUserEmail(categoryId, email);
    }
 
    void removeTransaction(Principal principal, Long walletId, Long transactionId) {
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
-      walletQueryRepository.findByIdAndUser_Email(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
+      walletQueryService.findByIdAndUser_Email(walletId, principal.getName());
       Transaction transaction = transactionRepository.findByIdAndWallet_Id(transactionId, walletId).orElseThrow(() -> new TransactionException(TransactionError.NOT_FOUND));
       walletFacade.removeTransactionFromWalletAndSave(walletId, TransactionMapper.toQueryDto(transaction));
       transactionRepository.deleteById(transactionId);
    }
 
    public Set<TransactionDto> getWalletTransactions(Principal principal, Long walletId, Pageable pageable, Specification<SimpleTransactionQueryDto> transactionSpecification) {
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
       userFacade.addFilterByUser(transactionSpecification, principal.getName());
       return transactionQueryRepository.findAll(transactionSpecification, pageable);
    }
 
    public TransactionDto getTransaction(Principal principal, Long walletId, Long transactionId) {
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
-      walletQueryRepository.findByIdAndUser_Email(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
+      walletQueryService.findByIdAndUser_Email(walletId, principal.getName());
       return TransactionMapper.toDto(transactionQueryRepository.getTransactionById(transactionId));
    }
 
    public TransactionDto editTransaction(Principal principal, Long walletId, TransactionDto transactionDto) {
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
-      walletQueryRepository.findByIdAndUser_Email(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
+      walletQueryService.findByIdAndUser_Email(walletId, principal.getName());
 
       Transaction transaction = transactionQueryRepository.getTransactionById(transactionDto.getId());
       transaction = transaction.toBuilder()
@@ -88,8 +94,8 @@ class TransactionController {
    }
 
    public TransactionDto switchIsFinished(Principal principal, Long walletId, Long transactionId) {
-      UserDto userDto = userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
-      walletQueryRepository.findByIdAndUser_Email(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
+      walletQueryService.findByIdAndUser_Email(walletId, principal.getName());
       Transaction transaction = transactionQueryRepository.getTransactionById(transactionId);
       if (transaction.getFinished() == null)
          throw new TransactionException(TransactionError.CAN_NOT_SET_FINISHED);

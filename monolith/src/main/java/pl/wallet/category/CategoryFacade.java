@@ -3,7 +3,7 @@ package pl.wallet.category;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.user.UserFacade;
-import pl.user.UserQueryRepository;
+import pl.user.UserQueryService;
 import pl.wallet.transaction.SimpleTransactionQueryDto;
 
 import java.util.stream.Collectors;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class CategoryFacade {
    private final CategoryRepository categoryRepository;
 
-   private final UserQueryRepository userQueryRepository;
+   private final UserQueryService userQueryService;
 
    private final UserFacade userFacade;
 
@@ -22,7 +22,7 @@ public class CategoryFacade {
    }
 
    public void addDefaultCategoriesToUser(String email) {
-      userQueryRepository.findByEmail(email).orElseThrow(() -> new CategoryException(CategoryError.NOT_FOUND));
+      userQueryService.findByEmail(email);
       userFacade.addCategoriesToUserAndSave(email, categoryRepository.getDefaultCategories().stream().map(CategoryMapper::toQueryDto).collect(Collectors.toSet()));
    }
 

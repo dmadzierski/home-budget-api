@@ -2,10 +2,8 @@ package pl.wallet.category;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import pl.user.UserError;
-import pl.user.UserException;
 import pl.user.UserFacade;
-import pl.user.UserQueryRepository;
+import pl.user.UserQueryService;
 
 import java.security.Principal;
 import java.util.Set;
@@ -17,12 +15,12 @@ class CategoryController {
    private final UserFacade userFacade;
 
    private final CategoryRepository categoryRepository;
-   private final UserQueryRepository userQueryRepository;
+   private final UserQueryService userQueryService;
    private final CategoryQueryRepository categoryQueryRepository;
 
 
    CategoryDto addCategory(Principal principal, CategoryDto categoryDto) {
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
       Category category = CategoryMapper.toEntity(categoryDto);
       userFacade.addCategoryToUser(principal.getName(), CategoryMapper.toQueryDto(category));
       userFacade.addUserToCategory(principal.getName(), CategoryMapper.toQueryDto(category));
@@ -30,17 +28,17 @@ class CategoryController {
    }
 
    void removeCategory(Principal principal, Long categoryId) {
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
       userFacade.removeCategoryFromUser(principal.getName(), categoryId);
    }
 
    Set<CategoryDto> getCategories(Principal principal) {
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
       return categoryQueryRepository.findByUser_Email(principal.getName());
    }
 
    Set<CategoryDto> restoreDefaultCategories(Principal principal) {
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
       Set<SimpleCategoryQueryDto> defaultCategories = categoryRepository.getDefaultCategories().stream().map(CategoryMapper::toQueryDto).collect(Collectors.toSet());
       userFacade.addCategoriesToUserAndSave(principal.getName(), defaultCategories);
       return getCategories(principal);

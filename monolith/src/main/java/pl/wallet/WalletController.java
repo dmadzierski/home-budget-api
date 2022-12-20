@@ -2,7 +2,8 @@ package pl.wallet;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import pl.user.*;
+import pl.user.UserFacade;
+import pl.user.UserQueryService;
 import pl.wallet.transaction.TransactionFacade;
 
 import java.security.Principal;
@@ -16,13 +17,13 @@ class WalletController {
 
    private final WalletQueryRepository walletQueryRepository;
 
-   private final UserQueryRepository userQueryRepository;
+   private final UserQueryService userQueryService;
 
    private final UserFacade userFacade;
 
    WalletDto addWallet(Principal principal, WalletDto walletDto) {
       if (walletDto.getId() != null) throw new WalletException(WalletError.CAN_NOT_HAVE_ID);
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
       Wallet wallet = WalletMapper.toEntity(walletDto);
       wallet = userFacade.addUserToWallet(wallet, principal.getName());
       wallet = walletRepository.save(wallet);
@@ -30,13 +31,13 @@ class WalletController {
    }
 
    Set<WalletDto> getWallets(Principal principal) {
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
       return walletQueryRepository.getAllByUser_Email(principal.getName());
    }
 
    private void isUserWallet(Principal principal, Long walletId) {
-      UserDto user = userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
-      walletQueryRepository.findByIdAndUser_Email(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
+      walletQueryRepository.findByIdAndUserEmail(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
    }
 
    void removeWallet(Principal principal, Long walletId) {
@@ -46,12 +47,12 @@ class WalletController {
    }
 
    WalletDto getWallet(Principal principal, Long walletId) {
-      userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
-      return walletQueryRepository.findByIdAndUser_Email(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
+      return walletQueryRepository.findByIdAndUserEmail(walletId, principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
    }
 
    WalletDto editWallet(Principal principal, WalletDto walletDto) {
-      UserDto user = userQueryRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
+      userQueryService.findByEmail(principal.getName());
       Wallet wallet = walletRepository.findByIdAndUser_Email(walletDto.getId(), principal.getName()).orElseThrow(() -> new WalletException(WalletError.NOT_FOUND));
       wallet = wallet.toBuilder().name(walletDto.getName()).build();
       Wallet updateWallet = walletRepository.save(wallet);

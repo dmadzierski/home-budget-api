@@ -7,7 +7,6 @@ import pl.exception.AppError;
 
 @Getter
 @AllArgsConstructor
-public
 enum UserError implements AppError {
    NOT_FOUND("User not found", HttpStatus.NOT_FOUND);
 
