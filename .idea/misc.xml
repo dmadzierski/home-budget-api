@@ -12,6 +12,8 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/monolith/pom.xml" />
+        <option value="$PROJECT_DIR$/java-clean-architecture/pom.xml" />
+        <option value="$PROJECT_DIR$/java-clean-architecture/domain/pom.xml" />
       </list>
     </option>
   </component>
